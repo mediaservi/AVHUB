@@ -30,6 +30,32 @@
         .module-1u::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px); pointer-events: none; }
         .module-1u:hover, .module-1u.active-sim { background: linear-gradient(to bottom, #1d1e20 0%, #151618 15%, #151618 85%, #08090a 100%); box-shadow: inset 0 0 20px var(--cyber-fuchsia-dim); }
         
+        #audio-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    padding: 12px 18px;
+    background: #101510;
+    color: #00ff04;
+    border: 1px solid #00ff04;
+    border-radius: 5px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 14px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    box-shadow: 0 0 12px rgba(0,255,4,.2);
+}
+
+#audio-toggle:hover {
+    background: rgba(0,255,4,.15);
+}
+
+#audio-toggle.playing {
+    background: rgba(0,255,4,.15);
+    box-shadow: 0 0 15px rgba(0,255,4,.4);
+}
+        
         /* HOME module always active & visible, non-clickable anchor style */
         #mod-home { background: linear-gradient(to bottom, #1d1e20 0%, #151618 15%, #151618 85%, #08090a 100%); box-shadow: inset 0 0 20px rgba(0, 255, 4, 0.08); cursor: default; pointer-events: none; grid-template-columns: 80px minmax(0, 1fr) 180px; }
         #mod-home .icon-zone svg { filter: drop-shadow(0 0 8px var(--icon-amber)); opacity: 1; stroke: #ffcc66; }
@@ -189,6 +215,15 @@
             <div>BY <a href="https://mediaservi.com" target="_blank" class="footer-link">MEDIASERVI.COM</a></div>
         </div>
     </div>
+    
+    <button id="audio-toggle" type="button" aria-label="Activar música">
+    ♫ AUDIO OFF
+</button>
+
+<audio id="bg-music"
+       src="assets/audio/music-digital-technology.mp3"
+       loop
+       preload="auto"></audio>
     
     <audio id="bg-music" src="assets/audio/music-digital-technology.mp3" loop></audio>
     
@@ -465,23 +500,33 @@
         }
         drawClubFX();
 
-        // --- SISTEMA DE AUDIO DE FONDO ---
-        const bgMusic = document.getElementById('bg-music');
-        let audioEnabled = false;
+// --- SISTEMA DE AUDIO AVHUB ---
+const bgMusic = document.getElementById('bg-music');
+const audioToggle = document.getElementById('audio-toggle');
 
-        // Inicializar el audio tras la primera interacción del usuario (Click o movimiento de ratón)
-        const initAudio = () => {
-            if (!audioEnabled) {
-                bgMusic.volume = 0.5; // Volumen moderado para no saturar
-                bgMusic.play().catch(e => console.log("Navegador previno el autoplay hasta hacer un click real."));
-                audioEnabled = true;
-            }
-            document.body.removeEventListener('click', initAudio);
-            document.body.removeEventListener('mousemove', initAudio);
-        };
-        
-        document.body.addEventListener('click', initAudio);
-        document.body.addEventListener('mousemove', initAudio);
+bgMusic.volume = 0.35;
+
+audioToggle.addEventListener('click', async () => {
+
+    if (bgMusic.paused) {
+        try {
+            await bgMusic.play();
+
+            audioToggle.textContent = '♫ AUDIO ON';
+            audioToggle.classList.add('playing');
+
+        } catch (error) {
+            console.error('Error reproduciendo audio:', error);
+            audioToggle.textContent = '♫ ERROR AUDIO';
+        }
+
+    } else {
+        bgMusic.pause();
+
+        audioToggle.textContent = '♫ AUDIO OFF';
+        audioToggle.classList.remove('playing');
+    }
+});
 
         // Lógica de cuenta atrás y actualización del DOM
         const targetDate = new Date('2027-05-07T00:00:00').getTime();
