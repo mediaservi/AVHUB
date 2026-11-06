@@ -1,2 +1,2 @@
 # AVHUB
-AVHUB is your assesor for AV projectects on a easy helpful handy APP
+AVHUB is your assessor for AV projects in an easy, helpful, and handy APP.
