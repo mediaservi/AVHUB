@@ -1,741 +1,510 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AVHUB - Pro-AV Rack Control System</title>
-  
-  <!-- Fuentes de Google: Inter, Doto, Share Tech Mono -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Doto:wght@600;800;900&family=Inter:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  
-  <!-- Tailwind CSS para utilidades complejas de diseño -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <style>
-    /* VARIABLES DE COLOR Y ESTILOS GLOBALES */
-    :root {
-      --color-green-electric: #00ff04;
-      --color-green-dim: rgba(0, 255, 4, 0.15);
-      --color-green-glow: rgba(0, 255, 4, 0.6);
-      --color-violet-cyber: #9900ff;
-      --color-violet-glow: rgba(153, 0, 255, 0.7);
-      --color-hw-base: #242528;
-      --color-hw-dark: #131415;
-      --color-hw-panel: #1a1b1e;
-      --color-screws: #3a3b40;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVHUB - Pro-AV Rack Simulator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Doto:wght@400;700&family=Inter:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-green: #00ff04;
+            --neon-green-dim: rgba(0, 255, 4, 0.15);
+            --cyber-fuchsia: #9900ff;
+            --cyber-fuchsia-dim: rgba(153, 0, 255, 0.3);
+            --metal-base: #242528;
+            --metal-dark: #131415;
+            --metal-light: #3a3c40;
+            --icon-amber: #ffaa00;
+            --bg-dark: #050507;
+            --neon-orange: #ff9900;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body, html { width: 100%; height: 100%; background-color: var(--bg-dark); font-family: 'Inter', sans-serif; overflow-x: hidden; display: flex; justify-content: center; align-items: flex-end; color: #fff; }
+        #fx-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+        .rack-container { position: relative; z-index: 10; width: 60%; max-width: 950px; min-width: 800px; margin-top: auto; background: linear-gradient(to bottom, #1a1a1c, #0a0a0c); border-radius: 8px 8px 0 0; box-shadow: 0 0 50px rgba(0,0,0,0.8), inset 0 0 2px rgba(255,255,255,0.2), inset 0 0 10px black; border: 1px solid #000; border-bottom: none; padding: 10px 0 0 0; display: flex; flex-direction: column; gap: 4px; }
+        .rack-ear { width: 30px; height: 100%; background: linear-gradient(to right, #111, #222, #111); position: absolute; top: 0; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; border-right: 1px solid #000; border-left: 1px solid #000; }
+        .rack-ear.left { left: 0; } .rack-ear.right { right: 0; }
+        .screw { width: 12px; height: 12px; background: radial-gradient(circle, #555, #111); border-radius: 50%; box-shadow: inset 1px 1px 2px rgba(255,255,255,0.3), 1px 1px 3px black; position: relative; }
+        .screw::after { content: '⊕'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 10px; color: #000; line-height: 1; }
+        .module-1u { position: relative; height: 90px; margin: 0 35px; background: linear-gradient(to bottom, var(--metal-light) 0%, var(--metal-base) 15%, var(--metal-base) 85%, var(--metal-dark) 100%); border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 2px solid #000; display: grid; grid-template-columns: 80px 220px 1fr; align-items: center; padding: 0 15px; transition: all 0.3s ease; text-decoration: none; color: inherit; overflow: hidden; }
+        .module-1u::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px); pointer-events: none; }
+        .module-1u:hover, .module-1u.active-sim { background: linear-gradient(to bottom, #1d1e20 0%, #151618 15%, #151618 85%, #08090a 100%); box-shadow: inset 0 0 20px var(--cyber-fuchsia-dim); }
+        
+        /* HOME module always active & visible, non-clickable anchor style */
+        #mod-home { background: linear-gradient(to bottom, #1d1e20 0%, #151618 15%, #151618 85%, #08090a 100%); box-shadow: inset 0 0 20px rgba(0, 255, 4, 0.08); cursor: default; pointer-events: none; grid-template-columns: 80px minmax(0, 1fr) 180px; }
+        #mod-home .icon-zone svg { filter: drop-shadow(0 0 8px var(--icon-amber)); opacity: 1; stroke: #ffcc66; }
+        #mod-home .lcd-text, #mod-home .lcd-marquee-content { color: var(--neon-green); text-shadow: 0 0 10px var(--neon-green), 0 0 3px var(--neon-green); }
+        #mod-home .lcd-led { background: var(--neon-green); box-shadow: 0 0 10px var(--neon-green), inset -1px -1px 2px rgba(0,0,0,0.5); }
+        
+        .icon-zone { display: flex; justify-content: center; align-items: center; }
+        .icon-zone svg { width: 36px; height: 36px; stroke: var(--icon-amber); filter: drop-shadow(0 0 2px var(--icon-amber)); opacity: 0.5; transition: all 0.3s ease; }
+        .module-1u:hover .icon-zone svg, .module-1u.active-sim .icon-zone svg { filter: drop-shadow(0 0 8px var(--icon-amber)); opacity: 1; stroke: #ffcc66; }
+        
+        .lcd-screen { background: #080a08; border: 2px solid #000; border-radius: 4px; height: 50px; padding: 5px 15px; display: flex; align-items: center; box-shadow: inset 0 0 10px rgba(0,0,0,1), 0 1px 1px rgba(255,255,255,0.1); position: relative; overflow: hidden; }
+        /* Light bleed / halo effect from behind the LCD */
+        .lcd-screen::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, rgba(0,255,4,0.12) 0%, transparent 80%); pointer-events: none; mix-blend-mode: screen; }
+        
+        .lcd-text { font-family: 'Doto', monospace; font-size: 22px; color: var(--neon-green-dim); text-shadow: none; letter-spacing: 2px; transition: all 0.3s ease; z-index: 2; }
+        .lcd-led { width: 8px; height: 8px; border-radius: 50%; background: #113311; margin-right: 15px; box-shadow: inset 1px 1px 2px #000; transition: all 0.3s ease; z-index: 2; }
+        .module-1u:hover .lcd-text, .module-1u.active-sim .lcd-text { color: var(--neon-green); text-shadow: 0 0 8px var(--neon-green), 0 0 2px var(--neon-green); }
+        .module-1u:hover .lcd-led, .module-1u.active-sim .lcd-led { background: var(--neon-green); box-shadow: 0 0 10px var(--neon-green), inset -1px -1px 2px rgba(0,0,0,0.5); }
+        .shimmer { position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent); transform: skewX(-20deg); z-index: 1; pointer-events: none; }
+        .module-1u.active-sim .shimmer { animation: shimmerSweep 1s ease-in-out; }
+        @keyframes shimmerSweep { 0% { left: -100%; } 100% { left: 200%; } }
+        .hw-zone { display: flex; justify-content: flex-end; align-items: center; gap: 20px; padding-right: 15px; height: 100%; }
+        .matrix-group { background: #18191b; border-radius: 6px; padding: 8px; border: 1px solid #0d0e0f; box-shadow: inset 2px 2px 5px black, 0 1px 1px rgba(255,255,255,0.1); display: flex; gap: 6px; }
+        .modern-btn { width: 24px; height: 24px; background: linear-gradient(to bottom, #333, #111); border: 1px solid #000; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.2); position: relative; transition: all 0.2s; }
+        .modern-btn::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 6px; height: 6px; border-radius: 50%; background: #222; }
+        .module-1u:hover .modern-btn::after, .module-1u.active-sim .modern-btn::after { background: var(--cyber-fuchsia); box-shadow: 0 0 5px var(--cyber-fuchsia); }
+        .rotary-knob { width: 46px; height: 46px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #444, #111); border: 2px solid #0a0a0c; box-shadow: 0 4px 6px rgba(0,0,0,0.8), inset 0 -2px 5px rgba(0,0,0,0.5); position: relative; }
+        .rotary-knob::before { content: ''; position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 4px; height: 10px; background: #222; border-radius: 2px; transition: background 0.3s; }
+        .module-1u:hover .rotary-knob::before, .module-1u.active-sim .rotary-knob::before { background: var(--neon-green); box-shadow: 0 0 5px var(--neon-green); }
+        .led-meter-box { display: flex; gap: 4px; background: #080a08; padding: 5px; border: 2px solid #000; border-radius: 4px; box-shadow: inset 0 0 10px black; }
+        .led-bar { display: flex; flex-direction: column-reverse; gap: 2px; }
+        .led-segment { width: 12px; height: 4px; background: #113311; border-radius: 1px; transition: all 0.1s; }
+        .module-1u:hover .led-bar .led-segment:nth-child(-n+4), .module-1u.active-sim .led-bar .led-segment:nth-child(-n+4) { background: var(--neon-green); box-shadow: 0 0 4px var(--neon-green); }
+        .module-1u:hover .led-bar .led-segment:nth-child(5), .module-1u.active-sim .led-bar .led-segment:nth-child(5) { background: var(--icon-amber); box-shadow: 0 0 4px var(--icon-amber); }
+        .module-1u.active-sim .led-bar:nth-child(2) .led-segment:nth-child(6) { background: #ff0000; box-shadow: 0 0 4px #ff0000; }
+        .screen-cvs { width: 60px; height: 35px; background: #111; border: 2px solid #000; opacity: 0.3; transition: opacity 0.3s; }
+        .module-1u:hover .screen-cvs, .module-1u.active-sim .screen-cvs { opacity: 1; }
+        .vj-monitor { width: 140px; height: 60px; background: #000; border: 2px solid #222; position: relative; overflow: hidden; }
+        .vj-canvas { width: 100%; height: 100%; opacity: 0.2; transition: opacity 0.3s; }
+        .module-1u:hover .vj-canvas, .module-1u.active-sim .vj-canvas { opacity: 1; }
+        .arcade-screen { width: 140px; height: 60px; background: #051105; border: 2px solid #000; display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden; }
+        .pong-canvas { width: 100%; height: 100%; opacity: 0.2; transition: opacity 0.3s; }
+        .module-1u:hover .pong-canvas, .module-1u.active-sim .pong-canvas { opacity: 1; box-shadow: 0 0 10px var(--neon-green-dim); }
+        .d-pad { display: grid; grid-template-columns: 12px 12px 12px; grid-template-rows: 12px 12px 12px; gap: 1px; background: #111; padding: 2px; border-radius: 50%; border: 1px solid #000; }
+        .d-btn { background: #333; border: 1px solid #000; }
+        .d-btn:nth-child(2), .d-btn:nth-child(4), .d-btn:nth-child(6), .d-btn:nth-child(8) { background: #444; }
+        .module-1u:hover .d-btn, .module-1u.active-sim .d-btn { background: var(--cyber-fuchsia); }
+        .port-group { display: flex; gap: 12px; align-items: center; }
+        .hdmi-port { width: 30px; height: 18px; background: #000; border: 1px solid #555; border-bottom-width: 3px; border-radius: 2px 2px 6px 6px; position: relative; }
+        .hdmi-port::after { content: ''; position: absolute; bottom: 2px; left: 2px; right: 2px; height: 3px; background: #b8860b; }
+        .usb-port { width: 22px; height: 14px; background: #000; border: 1px solid #555; position: relative; }
+        .usb-port::after { content: ''; position: absolute; top: 1px; left: 1px; right: 1px; height: 4px; background: #0055ff; }
+        .rack-header, .rack-footer { height: 60px; margin: 0 35px; background: #18191b; display: flex; justify-content: center; align-items: center; border-top: 1px solid #333; border-bottom: 2px solid #000; position: relative; }
+        .logo-avhub { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 28px; color: #fff; letter-spacing: 5px; animation: breathing 4s infinite alternate; }
+        @keyframes breathing { 0% { opacity: 0.7; text-shadow: 0 0 10px rgba(255,255,255,0.1); } 100% { opacity: 1; text-shadow: 0 0 20px rgba(255,255,255,0.6), 0 0 5px #fff; } }
+        .rack-footer { justify-content: space-between; padding: 0 20px; font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #666; height: 90px; flex-direction: row; align-items: center; }
+        .footer-led { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--neon-orange); box-shadow: 0 0 8px var(--neon-orange), 0 0 2px var(--neon-orange); margin-right: 10px; animation: blink 2s infinite; }
+        @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0.3; } }
+        .footer-link { color: #666; text-decoration: none; transition: color 0.3s; }
+        .footer-link:hover { color: #fff; }
+        
+        /* --- ESTILOS HOME LCD Y RELOJ DIGITAL FIJO --- */
+        .lcd-marquee-wrapper { width: 100%; overflow: hidden; white-space: nowrap; position: relative; display: flex; align-items: center; mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%); -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%); }
+        .lcd-marquee-content { display: inline-block; padding-left: 100%; animation: scroll-left 160s linear infinite; font-family: 'Doto', monospace; font-size: 20px; font-weight: 700; color: var(--neon-green); text-shadow: 0 0 10px var(--neon-green), 0 0 3px var(--neon-green); letter-spacing: 1px; }
+        @keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-    body {
-      background-color: #050507;
-      font-family: 'Inter', sans-serif;
-      color: #e2e8f0;
-      overflow-x: hidden;
-      min-height: 100vh;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    /* 1. FONDO DE ESCENA INMERSIVO CON DESTELLO Y MICROESTRELLAS */
-    .immersive-bg {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      background: #050507;
-      background-image: 
-        radial-gradient(circle at 50% 50%, rgba(153, 0, 255, 0.12) 0%, rgba(0, 255, 4, 0.05) 30%, rgba(5, 5, 7, 0.95) 70%, #050507 100%);
-      pointer-events: none;
-    }
-
-    /* Manto de estrellas tridimensional centelleante */
-    .stars-container {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-    }
-
-    .star {
-      position: absolute;
-      background-color: #ffffff;
-      border-radius: 50%;
-      opacity: 0.3;
-      animation: twinkle var(--duration, 4s) infinite ease-in-out var(--delay, 0s);
-    }
-
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.2; transform: scale(0.8); }
-      50% { opacity: 0.9; transform: scale(1.3); box-shadow: 0 0 6px rgba(255, 255, 255, 0.8); }
-    }
-
-    /* TÚNEL Y REJILLA DE DESTELLO CENTRAL */
-    .tunnel-glow {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 90vw;
-      height: 90vh;
-      background: radial-gradient(ellipse at center, rgba(0, 255, 4, 0.08) 0%, rgba(153, 0, 255, 0.06) 40%, transparent 75%);
-      filter: blur(40px);
-      pointer-events: none;
-    }
-
-    /* 2. CHASSIS PRINCIPAL DE RACK 4K */
-    .rack-cabinet {
-      position: relative;
-      z-index: 10;
-      width: 100%;
-      max-width: 1100px;
-      margin: 20px;
-      background: linear-gradient(180deg, #2a2b2f 0%, #17181a 100%);
-      border-radius: 12px;
-      box-shadow: 
-        0 30px 60px rgba(0, 0, 0, 0.9),
-        0 0 40px rgba(153, 0, 255, 0.15),
-        inset 0 1px 1px rgba(255, 255, 255, 0.15),
-        inset 0 -1px 2px rgba(0, 0, 0, 0.8);
-      border: 1px solid #333438;
-      padding: 16px;
-      box-sizing: border-box;
-    }
-
-    /* RIELES LATERALES METÁLICOS */
-    .rack-rails {
-      position: relative;
-      background: radial-gradient(circle at 50% 0%, #2c2d32 0%, #121315 100%);
-      border: 1px solid #101113;
-      border-radius: 8px;
-      padding: 8px;
-      box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
-    }
-
-    /* UNIDAD DE RACK (1U STANDARD) */
-    .rack-unit {
-      position: relative;
-      height: 76px;
-      background: linear-gradient(180deg, #27282c 0%, #1c1d20 50%, #151618 100%);
-      border: 1px solid #35363b;
-      border-bottom-color: #0d0e0f;
-      border-top-color: #404147;
-      margin-bottom: 8px;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 16px;
-      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      overflow: hidden;
-      cursor: pointer;
-      text-decoration: none;
-    }
-
-    .rack-unit:last-child {
-      margin-bottom: 0;
-    }
-
-    /* TORNILLOS DE FIJACIÓN "⊕" */
-    .screw {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #55565c 0%, #1a1b1d 80%);
-      border: 1px solid #111214;
-      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3), 0 1px 3px rgba(0,0,0,0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #0f1011;
-      font-size: 13px;
-      font-weight: bold;
-      user-select: none;
-      text-shadow: 0 1px 0 rgba(255,255,255,0.2);
-      flex-shrink: 0;
-    }
-
-    /* CABEZAL SUPERIOR (1U HEADER LOGO) */
-    .rack-header {
-      background: linear-gradient(180deg, #1f2023 0%, #111214 100%);
-      border-bottom: 2px solid #00ff04;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    }
-
-    /* ANIMACIÓN BREATHING PARA LOGO AVHUB */
-    .avhub-logo {
-      font-weight: 900;
-      letter-spacing: 0.15em;
-      color: #ffffff;
-      text-shadow: 0 0 10px rgba(0, 255, 4, 0.3);
-      animation: logoBreathing 4s infinite ease-in-out;
-      position: relative;
-    }
-
-    @keyframes logoBreathing {
-      0%, 100% {
-        opacity: 0.75;
-        text-shadow: 0 0 8px rgba(0, 255, 4, 0.2), 0 0 20px rgba(153, 0, 255, 0.1);
-        transform: scale(1);
-      }
-      50% {
-        opacity: 1;
-        text-shadow: 0 0 18px rgba(0, 255, 4, 0.8), 0 0 30px rgba(153, 0, 255, 0.5), 0 0 40px rgba(255, 255, 255, 0.4);
-        transform: scale(1.02);
-      }
-    }
-
-    /* SUBTÍTULO TÉCNICO */
-    .technical-subtitle {
-      font-family: 'Inter', sans-serif;
-      font-weight: 400;
-      font-size: 0.65rem;
-      letter-spacing: 0.08em;
-      color: #94a3b8;
-      text-transform: uppercase;
-      opacity: 0.8;
-    }
-
-    /* 4. PANTALLAS LCD (ZONA IZQUIERDA) */
-    .lcd-display {
-      background: #090a0c;
-      border: 2px solid #232428;
-      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9), 0 1px 0 rgba(255, 255, 255, 0.05);
-      border-radius: 4px;
-      padding: 6px 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 240px;
-      height: 46px;
-      transition: all 0.3s ease;
-    }
-
-    .lcd-text {
-      font-family: 'Doto', sans-serif;
-      font-size: 1.2rem;
-      font-weight: 800;
-      letter-spacing: 0.05em;
-      color: rgba(0, 255, 4, 0.22);
-      text-transform: uppercase;
-      transition: all 0.3s ease;
-      text-shadow: none;
-      white-space: nowrap;
-    }
-
-    /* LED PILOTO DE SEÑAL */
-    .led-signal {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background-color: #1a331a;
-      border: 1px solid #0a170a;
-      transition: all 0.3s ease;
-      box-shadow: inset 0 1px 1px rgba(0,0,0,0.8);
-    }
-
-    /* CONTROLES ANALÓGICOS DE HARDWARE (DERECHA) */
-    .analog-controls {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    /* POTENCIÓMETRO (RUEDA GIRATORIA) */
-    .knob {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 40% 40%, #44454b 0%, #18191c 70%, #0d0e10 100%);
-      border: 1px solid #33343a;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.2);
-      position: relative;
-      transition: transform 0.4s ease;
-    }
-
-    .knob::after {
-      content: '';
-      position: absolute;
-      top: 4px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 3px;
-      height: 8px;
-      background-color: #ffffff;
-      border-radius: 2px;
-      box-shadow: 0 0 3px rgba(255,255,255,0.8);
-    }
-
-    /* VU-METERS DE LEDS */
-    .vu-meter {
-      display: flex;
-      gap: 3px;
-      align-items: flex-end;
-      background: #0a0b0d;
-      padding: 4px 6px;
-      border-radius: 3px;
-      border: 1px solid #222327;
-    }
-
-    .vu-bar {
-      width: 5px;
-      height: 18px;
-      background-color: #142414;
-      border-radius: 1px;
-      transition: all 0.2s ease;
-    }
-
-    /* BOTONES PULSADORES CUADRADOS */
-    .square-button {
-      width: 24px;
-      height: 24px;
-      background: linear-gradient(180deg, #323338 0%, #1a1b1e 100%);
-      border: 1px solid #45464d;
-      border-bottom-color: #121315;
-      border-radius: 3px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-      transition: all 0.3s ease;
-      position: relative;
-    }
-
-    .square-button::before {
-      content: '';
-      position: absolute;
-      inset: 4px;
-      background-color: #151619;
-      border-radius: 1px;
-      transition: all 0.3s ease;
-    }
-
-    /* ICONOS LOCALES Y FALLBACK SVG */
-    .app-icon-container {
-      width: 38px;
-      height: 38px;
-      border-radius: 6px;
-      background: #111215;
-      border: 1px solid #2c2d33;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 6px;
-      box-shadow: inset 0 0 6px rgba(0,0,0,0.7);
-    }
-
-    .app-icon {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      filter: drop-shadow(0 0 2px rgba(255,255,255,0.2));
-      transition: filter 0.3s ease;
-    }
-
-    /* 5. HOVER MANUAL Y ACTIVACIÓN DE ESTADOS ON */
-    .rack-unit:hover, .rack-unit.active-auto {
-      background: linear-gradient(180deg, #1d1e22 0%, #121315 100%);
-      border-color: #4f5058;
-      box-shadow: 
-        inset 0 0 15px rgba(0, 0, 0, 0.9),
-        0 4px 20px rgba(0, 255, 4, 0.15);
-    }
-
-    .rack-unit:hover .lcd-display, .rack-unit.active-auto .lcd-display {
-      border-color: var(--color-green-electric);
-      box-shadow: inset 0 0 12px rgba(0, 255, 4, 0.2), 0 0 10px rgba(0, 255, 4, 0.3);
-    }
-
-    .rack-unit:hover .lcd-text, .rack-unit.active-auto .lcd-text {
-      color: var(--color-green-electric);
-      text-shadow: 
-        0 0 8px var(--color-green-glow),
-        0 0 18px var(--color-green-glow);
-    }
-
-    .rack-unit:hover .led-signal, .rack-unit.active-auto .led-signal {
-      background-color: var(--color-green-electric);
-      box-shadow: 0 0 10px var(--color-green-electric), 0 0 15px var(--color-green-electric);
-    }
-
-    /* BOTONES ACCIONADOS RETROILUMINADOS EN FUCSIA/CYBER VIOLETA */
-    .rack-unit:hover .square-button, .rack-unit.active-auto .square-button {
-      border-color: var(--color-violet-cyber);
-      box-shadow: 0 0 8px var(--color-violet-glow);
-    }
-
-    .rack-unit:hover .square-button::before, .rack-unit.active-auto .square-button::before {
-      background-color: var(--color-violet-cyber);
-      box-shadow: 0 0 8px var(--color-violet-cyber);
-    }
-
-    /* VU METERS Llenos en Verde */
-    .rack-unit:hover .vu-bar, .rack-unit.active-auto .vu-bar {
-      background-color: var(--color-green-electric);
-      box-shadow: 0 0 6px var(--color-green-glow);
-    }
-
-    /* GIRO DE POTENCIÓMETROS AL ACTIVAR */
-    .rack-unit:hover .knob-1, .rack-unit.active-auto .knob-1 { transform: rotate(45deg); }
-    .rack-unit:hover .knob-2, .rack-unit.active-auto .knob-2 { transform: rotate(135deg); }
-    .rack-unit:hover .knob-3, .rack-unit.active-auto .knob-3 { transform: rotate(-90deg); }
-
-    /* BARRIDO METÁLICO (SHIMMER SWEEP) HORIZONTAL */
-    .shimmer-sweep {
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 60%;
-      height: 100%;
-      background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.03) 30%,
-        rgba(0, 255, 4, 0.18) 50%,
-        rgba(153, 0, 255, 0.15) 70%,
-        transparent 100%
-      );
-      transform: skewX(-25deg);
-      pointer-events: none;
-    }
-
-    .rack-unit.sweep-animation .shimmer-sweep {
-      animation: sweepMove 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-
-    @keyframes sweepMove {
-      0% { left: -100%; }
-      100% { left: 200%; }
-    }
-
-    /* 6. CIERRE INFERIOR DE RACK (FOOTER TERMINAL) */
-    .rack-footer {
-      font-family: 'Share Tech Mono', monospace;
-      background: #0c0d0e;
-      border-top: 1px solid #28292e;
-      color: #00ff04;
-      font-size: 0.85rem;
-      letter-spacing: 0.05em;
-    }
-
-    .footer-link {
-      color: #00ff04;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      position: relative;
-    }
-
-    .footer-link:hover {
-      color: #9900ff;
-      text-shadow: 0 0 8px rgba(153, 0, 255, 0.8);
-    }
-  </style>
+        .digital-clock-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; align-items: flex-start; gap: 6px; font-family: 'Doto', monospace; font-size: 26px; font-weight: 700; color: var(--icon-amber); background: #050505; padding: 6px 14px; border-radius: 6px; border: 2px solid #000; box-shadow: inset 0 0 15px #000, 0 2px 5px rgba(0,0,0,0.5); text-shadow: 0 0 10px var(--icon-amber), 0 0 2px var(--icon-amber); letter-spacing: 2px; }
+        .digital-clock-container::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%); pointer-events: none; }
+        .led-sep { position: relative; top: -2px; color: var(--icon-amber); text-shadow: 0 0 10px var(--icon-amber); }
+        .time-block { display: flex; flex-direction: column; align-items: center; }
+        .time-label { font-family: 'Inter', sans-serif; font-size: 7px; font-weight: 700; color: #666; letter-spacing: 0.5px; margin-top: 2px; text-shadow: none; line-height: 1; }
+    </style>
 </head>
 <body>
+    <!-- Background Immersive Effects -->
+    <canvas id="fx-canvas"></canvas>
 
-  <!-- ENTORNO INMERSIVO TRIDIMENSIONAL -->
-  <div class="immersive-bg">
-    <div class="stars-container" id="stars-container"></div>
-    <div class="tunnel-glow"></div>
-  </div>
-
-  <!-- CHASSIS PRINCIPAL DE RACK PRO-AV -->
-  <main class="rack-cabinet">
-    <div class="rack-rails">
-
-      <!-- 1U SUPERIOR: CABEZAL CON LOGO AVHUB Y ANIMACIÓN BREATHING -->
-      <header class="rack-unit rack-header">
-        <div class="screw">⊕</div>
-        
-        <div class="flex-1 flex items-center justify-between px-6">
-          <div class="w-24"></div> <!-- Espaciador equilibrado -->
-          
-          <div class="flex flex-col items-center">
-            <h1 class="avhub-logo text-3xl md:text-4xl">AVHUB</h1>
-          </div>
-
-          <div class="text-right">
-            <span class="technical-subtitle">Tools for AV Professionals</span>
-          </div>
+    <div class="rack-container">
+        <!-- Rack Ears -->
+        <div class="rack-ear left">
+            <div class="screw"></div><div class="screw"></div><div class="screw"></div><div class="screw"></div><div class="screw"></div><div class="screw"></div>
+        </div>
+        <div class="rack-ear right">
+            <div class="screw"></div><div class="screw"></div><div class="screw"></div><div class="screw"></div><div class="screw"></div><div class="screw"></div>
         </div>
 
-        <div class="screw">⊕</div>
-      </header>
+        <!-- HEADER -->
+        <div class="rack-header">
+            <div class="logo-avhub">AVHUB</div>
+        </div>
 
-      <!-- LISTA DE MÓDULOS DE RACK NAVEGABLES (1U POR APARTADO) -->
-      <nav id="rack-modules-list" class="apps-list flex flex-col">
-
-        <!-- UNIDAD 1: Home AVHUB -->
-        <a href="#home" class="rack-unit" data-app="Home AVHUB">
-          <div class="shimmer-sweep"></div>
-          <div class="screw">⊕</div>
-          
-          <!-- ZONA IZQUIERDA: PANTALLA LCD -->
-          <div class="lcd-display">
-            <div class="led-signal"></div>
-            <span class="lcd-text">AVHUB</span>
-          </div>
-
-          <!-- ZONA DERECHA: CONTROLES ANALÓGICOS + ICONO -->
-          <div class="analog-controls">
-            <div class="knob knob-1"></div>
-            <div class="vu-meter">
-              <div class="vu-bar"></div>
-              <div class="vu-bar"></div>
-              <div class="vu-bar"></div>
-              <div class="vu-bar"></div>
+        <!-- MODULES -->
+        <nav id="rack-modules-list" class="apps-list">
+            <div class="module-1u" id="mod-home">
+                <div class="icon-zone"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+                <div class="lcd-screen">
+                    <div class="lcd-led"></div>
+                    <div class="lcd-marquee-wrapper">
+                        <div class="lcd-marquee-content">TOOLS FOR PROFESSIONALS &nbsp;&bull;&nbsp; AVHUB : EL PUNTO DE ENCUENTRO DE LAS AV TOOLS. &nbsp;&bull;&nbsp; SCREEN : CALCULADOR DE PANTALLAS DESDE UNA HASTA UNA COMPLETA SALA INMERSIVA CON LED O PROYECCIÓN. &nbsp;&bull;&nbsp; HARDWARE : TE ASISTIRÁ A CONFIGURAR MONTAJES INTERCONECTADOS DE LOS EQUIPOS QUE NECESITAS PARA TU PRÓXIMO PROYECTO. &nbsp;&bull;&nbsp; NEWS : LA ZONA DONDE APARECERÁN NOVEDADES IMPORTANTES, PRÓXIMOS CURSOS DE FORMACIÓN, OFERTAS, ETC… &nbsp;&bull;&nbsp; VJSHOW: GENERADOR DE VISUALES REACTIVOS AL AUDIO PARA SESIONES DE VJ. &nbsp;&bull;&nbsp; MSGAME: MEDIASERVI GAME SYSTEM SON VIDEOJUEGOS EN CARTUCHOS QUE PERMITEN JUGAR EN UNA PANTALLA O MÚLTIPLES DE FORMA INTERACTIVA CON TU MÓVIL COMO MANDO.</div>
+                    </div>
+                    <div class="shimmer"></div>
+                </div>
+                <div class="hw-zone"><div class="rotary-knob"></div><div class="led-meter-box"><div class="led-bar"><div class="led-segment"></div><div class="led-segment"></div><div class="led-segment"></div><div class="led-segment"></div><div class="led-segment"></div><div class="led-segment"></div></div><div class="led-bar"><div class="led-segment"></div><div class="led-segment"></div><div class="led-segment"></div><div class="led-segment"></div><div class="led-segment"></div><div class="led-segment"></div></div></div></div>
             </div>
-            <div class="flex gap-1.5">
-              <div class="square-button"></div>
-              <div class="square-button"></div>
-            </div>
-            <div class="app-icon-container">
-              <img src="assets/icons/icon-home.svg" alt="Home" class="app-icon" 
-                   onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'%2300ff04\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'m3 12 2-2m0 0 7-7 7 7M5 10v10a1 1 0 0 0 1 1h3m10-11 2 2m-2-2v10a1 1 0 0 1-1 1h-3m-6 0a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1m-6 0h6\'/></svg>';">
-            </div>
-          </div>
-
-          <div class="screw">⊕</div>
-        </a>
-
-        <!-- UNIDAD 2: SCREEN -->
-        <a href="#screen" class="rack-unit" data-app="SCREEN">
-          <div class="shimmer-sweep"></div>
-          <div class="screw">⊕</div>
-          
-          <div class="lcd-display">
-            <div class="led-signal"></div>
-            <span class="lcd-text">SCREEN</span>
-          </div>
-
-          <div class="analog-controls">
-            <div class="knob knob-2"></div>
-            <div class="vu-meter">
-              <div class="vu-bar"></div>
-              <div class="vu-bar"></div>
-              <div class="vu-bar"></div>
-              <div class="vu-bar"></div>
-            </div>
-            <div class="flex gap-1.5">
-              <div class="square-button"></div>
-              <div class="square-button"></div>
-            </div>
-            <div class="app-icon-container">
-              <img src="assets/icons/icon-screen.svg" alt="Screen" class="app-icon"
-                   onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'%2300ff04\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z\'/></svg>';">
-            </div>
-          </div>
-
-          <div class="screw">⊕</div>
-        </a>
-
-        <!-- UNIDAD 3: HARDWARE -->
-        <a href="#hardware" class="rack-unit" data-app="HARDWARE">
-          <div class="shimmer-sweep"></div>
-          <div class="screw">⊕</div>
-          
-          <div class="lcd-display">
-            <div class="led-signal"></div>
-            <span class="lcd-text">HARDWARE</span>
-          </div>
-
-          <div class="analog-controls">
-            <div class="knob knob-3"></div>
-            <div class="vu-meter">
-              <div class="vu-bar"></div>
-              <div class="vu-bar"></div>
-              <div class="vu-bar"></div>
-              <div class="vu-bar"></div>
-            </div>
-            <div class="flex gap-1.5">
-              <div class="square-button"></div>
-              <div class="square-button"></div>
-            </div>
-            <div class="app-icon-container">
-              <img src="assets/icons/icon-hardware.svg" alt="Hardware" class="app-icon"
-                   onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'%2300ff04\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M9 3v2m6-2v2M9 19v2m6-2v2M3 9h2m-2 6h2m14-6h2m-2 6h2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z\'/></svg>';">
-            </div>
-          </div>
-
-          <div class="screw">⊕</div>
-        </a>
-
-        <!-- UNIDAD 4: NEWS -->
-        <a href="#news" class="rack-unit" data-app="NEWS">
-          <div class="shimmer-sweep"></div>
-          <div class="screw">⊕</div>
-          
-          <div class="lcd-display">
-            <div class="led-signal"></div>
-            <span class="lcd-text">NEWS</span>
-          </div>
-
-          <div class="analog-controls">
-            <div class="knob knob-1"></div>
-            <div class="vu-meter">
-              <div class="vu-bar"></div>
-              <div class="vu-bar"></div>
-              <div class="vu-bar"></div>
-              <div class="vu-bar"></div>
-            </div>
-            <div class="flex gap-1.5">
-              <div class="square-button"></div>
-              <div class="square-button"></div>
-            </div>
-            <div class="app-icon-container">
-              <img src="assets/icons/icon-news.svg" alt="News" class="app-icon"
-                   onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'%2300ff04\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z\'/></svg>';">
-            </div>
-          </div>
-
-          <div class="screw">⊕</div>
-        </a>
-
-        <!-- UNIDAD 5: VJSHOW -->
-        <a href="#vjshow" class="rack-unit" data-app="VJSHOW">
-          <div class="shimmer-sweep"></div>
-          <div class="screw">⊕</div>
-          
-          <div class="lcd-display">
-            <div class="led-signal"></div>
-            <span class="lcd-text">VJSHOW</span>
-          </div>
-
-          <div class="analog-controls">
-            <div class="knob knob-2"></div>
-            <div class="vu-meter">
-              <div class="vu-bar"></div>
-              <div class="vu-bar"></div>
-              <div class="vu-bar"></div>
-              <div class="vu-bar"></div>
-            </div>
-            <div class="flex gap-1.5">
-              <div class="square-button"></div>
-              <div class="square-button"></div>
-            </div>
-            <div class="app-icon-container">
-              <img src="assets/icons/icon-vjshow.svg" alt="VJShow" class="app-icon"
-                   onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'%2300ff04\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z\'/></svg>';">
-            </div>
-          </div>
-
-          <div class="screw">⊕</div>
-        </a>
-
-        <!-- UNIDAD 6: MSGAME -->
-        <a href="#msgame" class="rack-unit" data-app="MSGAME">
-          <div class="shimmer-sweep"></div>
-          <div class="screw">⊕</div>
-          
-          <div class="lcd-display">
-            <div class="led-signal"></div>
-            <span class="lcd-text">MSGAME</span>
-          </div>
-
-          <div class="analog-controls">
-            <div class="knob knob-3"></div>
-            <div class="vu-meter">
-              <div class="vu-bar"></div>
-              <div class="vu-bar"></div>
-              <div class="vu-bar"></div>
-              <div class="vu-bar"></div>
-            </div>
-            <div class="flex gap-1.5">
-              <div class="square-button"></div>
-              <div class="square-button"></div>
-            </div>
-            <div class="app-icon-container">
-              <img src="assets/icons/icon-joystick.svg" alt="MSGame" class="app-icon"
-                   onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'%2300ff04\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2H5z\'/></svg>';">
-            </div>
-          </div>
-
-          <div class="screw">⊕</div>
-        </a>
-
-      </nav>
-
-      <!-- 6. CIERRE INFERIOR DE RACK (FOOTER TERMINAL) -->
-      <footer class="rack-unit rack-footer">
-        <div class="screw">⊕</div>
-        
-        <div class="flex-1 flex justify-between items-center px-6">
-          <div class="flex items-center gap-2">
-            <span class="inline-block w-2 h-2 rounded-full bg-[#00ff04] animate-ping"></span>
-            <span>WORK IN PROGRESS</span>
-          </div>
-          
-          <div>
-            <a href="https://mediaservi.com" target="_blank" rel="noopener noreferrer" class="footer-link">
-              BY MEDIASERVI.COM
+            <a href="https://screencalc.mediaservi.com" target="_blank" rel="noopener noreferrer" class="module-1u" id="mod-screen">
+                <div class="icon-zone"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg></div>
+                <div class="lcd-screen"><div class="lcd-led"></div><div class="lcd-text">SCREEN</div><div class="shimmer"></div></div>
+                <div class="hw-zone"><canvas class="screen-cvs" id="sc1"></canvas><canvas class="screen-cvs" id="sc2"></canvas><div class="rotary-knob" style="width: 30px; height: 30px;"></div></div>
             </a>
-          </div>
+            <a href="https://screencalc.mediaservi.com" target="_blank" rel="noopener noreferrer" class="module-1u" id="mod-hardware">
+                <div class="icon-zone"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg></div>
+                <div class="lcd-screen"><div class="lcd-led"></div><div class="lcd-text">HARDWARE</div><div class="shimmer"></div></div>
+                <div class="hw-zone"><div class="port-group"><div class="hdmi-port"></div><div class="hdmi-port"></div><div class="usb-port"></div><div class="usb-port"></div></div><div class="matrix-group"><div class="modern-btn"></div><div class="modern-btn"></div></div></div>
+            </a>
+            <a href="https://charmex.net/productos/esp/promociones" target="_blank" rel="noopener noreferrer" class="module-1u" id="mod-news">
+                <div class="icon-zone"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg></div>
+                <div class="lcd-screen"><div class="lcd-led"></div><div class="lcd-text">NEWS</div><div class="shimmer"></div></div>
+                <div class="hw-zone"><div class="matrix-group" id="news-matrix"></div><div class="rotary-knob" style="width: 36px; height: 36px;"></div></div>
+            </a>
+            <a href="https://vjshow.mediaservi.com" target="_blank" rel="noopener noreferrer" class="module-1u" id="mod-vjshow">
+                <div class="icon-zone"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></svg></div>
+                <div class="lcd-screen"><div class="lcd-led"></div><div class="lcd-text">VJSHOW</div><div class="shimmer"></div></div>
+                <div class="hw-zone"><div class="vj-monitor"><canvas class="vj-canvas" id="vj-cvs"></canvas></div><div class="matrix-group"><div class="modern-btn"></div></div></div>
+            </a>
+            <a href="https://vjshow.mediaservi.com" target="_blank" rel="noopener noreferrer" class="module-1u" id="mod-msgame">
+                <div class="icon-zone"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" x2="10" y1="12" y2="12"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="15" x2="15.01" y1="13" y2="13"/><line x1="18" x2="18.01" y1="11" y2="11"/><rect width="20" height="12" x="2" y="6" rx="2"/></svg></div>
+                <div class="lcd-screen"><div class="lcd-led"></div><div class="lcd-text">MSGAME</div><div class="shimmer"></div></div>
+                <div class="hw-zone"><div class="arcade-screen"><canvas class="pong-canvas" id="pong-cvs"></canvas></div><div class="d-pad"><div></div><div class="d-btn"></div><div></div><div class="d-btn"></div><div></div><div class="d-btn"></div><div></div><div class="d-btn"></div><div></div></div></div>
+            </a>
+        </nav>
+        <div class="rack-footer">
+            <div><span class="footer-led"></span>WORK IN PROGRESS</div>
+            
+            <!-- DIGITAL LED MATRIX CLOCK FIXED SEPARATORS -->
+            <div class="digital-clock-container">
+                <div class="time-block">
+                    <div id="fc-d">00</div>
+                    <div class="time-label">DAYS</div>
+                </div>
+                <span class="led-sep">:</span>
+                <div class="time-block">
+                    <div id="fc-h">00</div>
+                    <div class="time-label">HOURS</div>
+                </div>
+                <span class="led-sep">:</span>
+                <div class="time-block">
+                    <div id="fc-m">00</div>
+                    <div class="time-label">MINUTES</div>
+                </div>
+                <span class="led-sep">:</span>
+                <div class="time-block">
+                    <div id="fc-s">00</div>
+                    <div class="time-label">SECONDS</div>
+                </div>
+            </div>
+            
+            <div>BY <a href="https://mediaservi.com" target="_blank" class="footer-link">MEDIASERVI.COM</a></div>
         </div>
-
-        <div class="screw">⊕</div>
-      </footer>
-
     </div>
-  </main>
+    
+    <audio id="bg-music" src="assets/audio/music-digital-technology.mp3" loop></audio>
+    
+    <script>
+        const newsMatrix = document.getElementById('news-matrix');
+        const newsBtns = [];
+        for (let i = 0; i < 12; i++) {
+            const btn = document.createElement('div');
+            btn.className = 'modern-btn';
+            newsMatrix.appendChild(btn);
+            newsBtns.push(btn);
+        }
+        newsMatrix.style.display = 'grid';
+        newsMatrix.style.gridTemplateColumns = 'repeat(6, 1fr)';
+        setInterval(() => {
+            newsBtns.forEach(btn => btn.style.background = '');
+            const numBlinks = Math.floor(Math.random() * 3) + 1;
+            for(let i=0; i<numBlinks; i++) {
+                const r = Math.floor(Math.random() * newsBtns.length);
+                newsBtns[r].style.background = 'radial-gradient(circle, var(--icon-amber) 20%, #333 80%)';
+            }
+        }, 800);
 
-  <!-- LÓGICA INTERACTIVA EN SCRIPT -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // 1. GENERACIÓN DE MICROESTRELLAS PARA EL FONDO INMERSIVO
-      const starsContainer = document.getElementById('stars-container');
-      const starCount = 85;
+        // --- SISTEMA DE RUIDO DE SEÑAL PARA SCREEN ---
+        const sc1 = document.getElementById('sc1');
+        const sc2 = document.getElementById('sc2');
+        sc1.width = 60; sc1.height = 35;
+        sc2.width = 60; sc2.height = 35;
+        const ctx1 = sc1.getContext('2d');
+        const ctx2 = sc2.getContext('2d');
 
-      for (let i = 0; i < starCount; i++) {
-        const star = document.createElement('div');
-        star.classList.add('star');
+        // Carta de ajuste (Color Bars) estática para SC2
+        function drawColorBars() {
+            const colors = ['#C0C0C0', '#C0C000', '#00C0C0', '#00C000', '#C000C0', '#C00000', '#0000C0'];
+            const barW = 60 / colors.length;
+            for(let i=0; i<colors.length; i++) {
+                ctx2.fillStyle = colors[i];
+                ctx2.fillRect(i * barW, 0, barW, 25);
+            }
+            ctx2.fillStyle = '#0000C0'; ctx2.fillRect(0, 25, 10, 10);
+            ctx2.fillStyle = '#FFFFFF'; ctx2.fillRect(10, 25, 10, 10);
+            ctx2.fillStyle = '#32006A'; ctx2.fillRect(20, 25, 10, 10);
+            ctx2.fillStyle = '#111111'; ctx2.fillRect(30, 25, 30, 10);
+        }
+        drawColorBars();
+
+        // Ruido y Glitch para SC1
+        function drawStatic() {
+            const imgData = ctx1.createImageData(60, 35);
+            for (let i = 0; i < imgData.data.length; i += 4) {
+                const color = Math.random() * 255;
+                imgData.data[i] = imgData.data[i+1] = imgData.data[i+2] = color;
+                imgData.data[i+3] = 255; // Alpha
+            }
+            ctx1.putImageData(imgData, 0, 0);
+            if(Math.random() > 0.95) { // Glitch esporádico
+                ctx1.fillStyle = `hsla(${Math.random()*360}, 100%, 50%, 0.5)`;
+                ctx1.fillRect(0, Math.random()*35, 60, 10);
+            }
+            requestAnimationFrame(drawStatic);
+        }
+        drawStatic();
+
+        const vjCanvas = document.getElementById('vj-cvs');
+        const vCtx = vjCanvas.getContext('2d');
+        let phase = 0;
+        let vjMode = 0;
         
-        const x = Math.random() * 100;
-        const y = Math.random() * 100;
-        const size = Math.random() * 2.5 + 1;
-        const duration = Math.random() * 4 + 2;
-        const delay = Math.random() * 5;
+        // Simular playlist de videojockey que cambia cada 5 segundos
+        setInterval(() => vjMode = Math.floor(Math.random() * 3), 5000); 
 
-        star.style.left = `${x}%`;
-        star.style.top = `${y}%`;
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
-        star.style.setProperty('--duration', `${duration}s`);
-        star.style.setProperty('--delay', `${delay}s`);
+        function drawVJ() {
+            vCtx.fillStyle = 'rgba(0, 0, 0, 0.2)'; 
+            if(vjMode === 1) vCtx.fillStyle = 'rgba(0, 0, 0, 0.4)'; // Más contraste para círculos
+            vCtx.fillRect(0, 0, vjCanvas.width, vjCanvas.height);
+            
+            if (vjMode === 0) {
+                // MODO 0: Espectrograma y Onda de Audio
+                const bars = 8;
+                const w = vjCanvas.width / bars;
+                for(let i=0; i<bars; i++) {
+                    const h = Math.abs(Math.sin(phase + i)) * (vjCanvas.height * 0.8);
+                    vCtx.fillStyle = `hsl(${(i*40) + phase*50}, 100%, 50%)`;
+                    vCtx.fillRect(i*w + 1, vjCanvas.height - h, w-2, h);
+                }
+                vCtx.beginPath();
+                for(let x=0; x<vjCanvas.width; x++) {
+                    const y = Math.sin(x * 0.1 + phase * 2) * 10 + vjCanvas.height/2;
+                    if(x===0) vCtx.moveTo(x, y); else vCtx.lineTo(x, y);
+                }
+                vCtx.strokeStyle = '#00ff04';
+                vCtx.lineWidth = 2;
+                vCtx.stroke();
+            } else if (vjMode === 1) {
+                // MODO 1: Círculos Concéntricos Hipnóticos
+                const cx = vjCanvas.width / 2;
+                const cy = vjCanvas.height / 2;
+                for (let i = 5; i > 0; i--) {
+                    vCtx.beginPath();
+                    vCtx.arc(cx, cy, (i * 15 + (phase * 20) % 15), 0, Math.PI * 2);
+                    vCtx.strokeStyle = `hsl(${(phase * 100 + i * 40) % 360}, 100%, 50%)`;
+                    vCtx.lineWidth = 2;
+                    vCtx.stroke();
+                }
+            } else {
+                // MODO 2: Túnel Geométrico Giratorio
+                vCtx.save();
+                vCtx.translate(vjCanvas.width/2, vjCanvas.height/2);
+                vCtx.rotate(phase);
+                const size = 30 + Math.sin(phase*2)*10;
+                vCtx.strokeStyle = `hsl(${(phase * 80) % 360}, 100%, 50%)`;
+                vCtx.lineWidth = 2;
+                vCtx.strokeRect(-size/2, -size/2, size, size);
+                vCtx.rotate(-phase*2);
+                vCtx.strokeStyle = `hsl(${((phase * 80)+180) % 360}, 100%, 50%)`;
+                vCtx.strokeRect(-size/1.5, -size/1.5, size*1.33, size*1.33);
+                vCtx.restore();
+            }
 
-        starsContainer.appendChild(star);
-      }
+            phase += 0.1;
+            requestAnimationFrame(drawVJ);
+        }
+        drawVJ();
 
-      // 2. SECUENCIA AUTOMÁTICA ALEATORIA DE ATENCIÓN (CADA 3 SEGUNDOS)
-      const modules = document.querySelectorAll('#rack-modules-list .rack-unit');
-      let activeTimeout = null;
+        const pongCvs = document.getElementById('pong-cvs');
+        const pCtx = pongCvs.getContext('2d');
+        pongCvs.width = 140;
+        pongCvs.height = 60;
+        
+        let pongState = 0; // 0: 1P READY, 1: PLAY, 2: GAME OVER
+        let stateTimer = 0;
+        // Velocidades ajustadas para ritmo arcade realista
+        let ball = { x: 70, y: 30, dx: 1.5, dy: 1.0, size: 4 };
+        let padL = { y: 20, h: 20, score: 0 };
+        let padR = { y: 20, h: 20, score: 0 };
 
-      function triggerRandomActivation() {
-        // Limpiar activaciones automáticas previas
-        modules.forEach(mod => {
-          mod.classList.remove('active-auto', 'sweep-animation');
-        });
+        function drawPong() {
+            pCtx.fillStyle = '#051105';
+            pCtx.fillRect(0, 0, pongCvs.width, pongCvs.height);
+            
+            pCtx.fillStyle = '#00ff04';
+            pCtx.font = '12px Doto, monospace';
+            pCtx.textAlign = 'center';
+            pCtx.textBaseline = 'middle';
 
-        // Seleccionar un módulo aleatorio
-        const randomIndex = Math.floor(Math.random() * modules.length);
-        const selectedModule = modules[randomIndex];
+            stateTimer++;
 
-        // Aplicar clase de activación y disparar el barrido metálico (Shimmer Sweep)
-        selectedModule.classList.add('active-auto', 'sweep-animation');
+            if (pongState === 0) {
+                if (Math.floor(stateTimer / 20) % 2 === 0) {
+                    pCtx.fillText('1P READY', 70, 30);
+                }
+                if (stateTimer > 120) { pongState = 1; stateTimer = 0; ball.x=70; ball.y=30; ball.dx=1.5; ball.dy=1.0; padL.score=0; padR.score=0; }
+            } else if (pongState === 1) {
+                // Dashed net
+                pCtx.setLineDash([4, 4]);
+                pCtx.beginPath(); pCtx.moveTo(70, 0); pCtx.lineTo(70, 60);
+                pCtx.strokeStyle = 'rgba(0,255,4,0.3)'; pCtx.stroke();
+                pCtx.setLineDash([]);
 
-        // Retirar el efecto tras 2.2 segundos para permitir el ciclo suave
-        if (activeTimeout) clearTimeout(activeTimeout);
-        activeTimeout = setTimeout(() => {
-          selectedModule.classList.remove('active-auto', 'sweep-animation');
-        }, 2200);
-      }
+                // Paddles
+                pCtx.fillRect(5, padL.y, 4, padL.h);
+                pCtx.fillRect(131, padR.y, 4, padR.h);
+                
+                // Ball
+                pCtx.fillRect(ball.x - ball.size/2, ball.y - ball.size/2, ball.size, ball.size);
+                
+                // Scores
+                pCtx.font = '10px Doto';
+                pCtx.fillText(padL.score, 50, 10);
+                pCtx.fillText(padR.score, 90, 10);
 
-      // Iniciar el temporizador cíclico de 3 segundos
-      setInterval(triggerRandomActivation, 3000);
+                // Update Ball
+                ball.x += ball.dx;
+                ball.y += ball.dy;
 
-      // Limpiar animación automática al hacer hover manual para evitar conflictos visuales
-      modules.forEach(mod => {
-        mod.addEventListener('mouseenter', () => {
-          mod.classList.remove('active-auto');
-        });
-      });
-    });
-  </script>
+                if (ball.y < 0 || ball.y > 60) ball.dy *= -1;
+                
+                // Paddle Collision
+                if (ball.x < 11 && ball.y > padL.y && ball.y < padL.y + padL.h) { ball.dx *= -1; ball.x = 11; }
+                if (ball.x > 129 && ball.y > padR.y && ball.y < padR.y + padR.h) { ball.dx *= -1; ball.x = 129; }
+
+                // AI Movement (Ritmo lento y realista)
+                padL.y += (ball.y - (padL.y + padL.h/2)) * 0.05; 
+                padR.y += (ball.y - (padR.y + padR.h/2)) * 0.03; 
+
+                // Boundaries
+                padL.y = Math.max(0, Math.min(60 - padL.h, padL.y));
+                padR.y = Math.max(0, Math.min(60 - padR.h, padR.y));
+
+                // Point scored
+                if (ball.x < 0) { padR.score++; ball.x=70; ball.dx = 1.5; }
+                if (ball.x > 140) { padL.score++; ball.x=70; ball.dx = -1.5; }
+
+                if (padL.score > 2 || padR.score > 2) { pongState = 2; stateTimer = 0; }
+            } else if (pongState === 2) {
+                if (Math.floor(stateTimer / 30) % 2 === 0) {
+                    pCtx.fillText('GAME OVER', 70, 30);
+                }
+                if (stateTimer > 180) { pongState = 0; stateTimer = 0; }
+            }
+            
+            requestAnimationFrame(drawPong);
+        }
+        drawPong();
+
+        const modules = document.querySelectorAll('.module-1u');
+        setInterval(() => {
+            modules.forEach(m => m.classList.remove('active-sim'));
+            const randomIdx = Math.floor(Math.random() * modules.length);
+            modules[randomIdx].classList.add('active-sim');
+        }, 3000);
+
+        const fxCanvas = document.getElementById('fx-canvas');
+        const fxCtx = fxCanvas.getContext('2d');
+        let cw, ch;
+        function resizeFx() {
+            cw = fxCanvas.width = window.innerWidth;
+            ch = fxCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeFx);
+        resizeFx();
+
+        let time = 0;
+        function drawClubFX() {
+            fxCtx.fillStyle = 'rgba(5, 5, 7, 0.4)'; // Darker trail fade for higher contrast
+            fxCtx.fillRect(0, 0, cw, ch);
+            
+            // Fuego / Humo volumétrico magenta denso
+            for(let i=0; i<8; i++) {
+                const x = cw/2 + Math.sin(time*0.4 + i*1.5) * (cw * 0.3);
+                const y = ch/2 + Math.cos(time*0.2 + i*2.1) * (ch * 0.3);
+                const radius = 250 + Math.sin(time*1.2+i)*150;
+                const grad = fxCtx.createRadialGradient(x, y, 0, x, y, radius);
+                // Colores más densos y opacos para simular fuego/incendio magenta
+                grad.addColorStop(0, 'rgba(153, 0, 255, 0.25)'); 
+                grad.addColorStop(0.4, 'rgba(102, 0, 204, 0.1)');
+                grad.addColorStop(1, 'rgba(50, 0, 100, 0)');
+                
+                fxCtx.globalCompositeOperation = 'screen';
+                fxCtx.fillStyle = grad;
+                fxCtx.beginPath();
+                fxCtx.arc(x, y, radius, 0, Math.PI*2);
+                fxCtx.fill();
+            }
+            
+            fxCtx.globalCompositeOperation = 'source-over';
+
+            const originX = cw / 2;
+            const originY = ch / 2; // Lasers naciendo desde el centro de la pantalla
+            const numLasers = 6;
+            const strobe = Math.random() > 0.3 ? 1 : 0.2; 
+            fxCtx.lineWidth = 4;
+            fxCtx.lineCap = 'round';
+            for(let i=0; i<numLasers; i++) {
+                const angleOffset = Math.sin(time + i) * 0.5; 
+                const baseAngle = -Math.PI + (Math.PI / (numLasers + 1)) * (i + 1);
+                const finalAngle = baseAngle + angleOffset;
+                const length = Math.max(cw, ch) * 1.5;
+                const endX = originX + Math.cos(finalAngle) * length;
+                const endY = originY + Math.sin(finalAngle) * length;
+                const alpha = (Math.sin(time * 10 + i) * 0.5 + 0.5) * strobe;
+                fxCtx.beginPath();
+                fxCtx.moveTo(originX, originY);
+                fxCtx.lineTo(endX, endY);
+                fxCtx.strokeStyle = `rgba(0, 255, 4, ${alpha})`;
+                fxCtx.stroke();
+                fxCtx.lineWidth = 15;
+                fxCtx.strokeStyle = `rgba(0, 255, 4, ${alpha * 0.1})`;
+                fxCtx.stroke();
+                fxCtx.lineWidth = 4; 
+            }
+            time += 0.05;
+            requestAnimationFrame(drawClubFX);
+        }
+        drawClubFX();
+
+        // --- SISTEMA DE AUDIO DE FONDO ---
+        const bgMusic = document.getElementById('bg-music');
+        let audioEnabled = false;
+
+        // Inicializar el audio tras la primera interacción del usuario (Click o movimiento de ratón)
+        const initAudio = () => {
+            if (!audioEnabled) {
+                bgMusic.volume = 0.5; // Volumen moderado para no saturar
+                bgMusic.play().catch(e => console.log("Navegador previno el autoplay hasta hacer un click real."));
+                audioEnabled = true;
+            }
+            document.body.removeEventListener('click', initAudio);
+            document.body.removeEventListener('mousemove', initAudio);
+        };
+        
+        document.body.addEventListener('click', initAudio);
+        document.body.addEventListener('mousemove', initAudio);
+
+        // Lógica de cuenta atrás y actualización del DOM
+        const targetDate = new Date('2027-05-07T00:00:00').getTime();
+        
+        setInterval(() => {
+            const now = new Date().getTime();
+            let distance = targetDate - now;
+            
+            if (distance < 0) distance = 0; // Se detiene al llegar a 0
+            
+            const d = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            const s = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
+            
+            // Asigna valores directos al DOM
+            document.getElementById('fc-d').innerText = d;
+            document.getElementById('fc-h').innerText = h;
+            document.getElementById('fc-m').innerText = m;
+            document.getElementById('fc-s').innerText = s;
+            
+        }, 1000);
+
+    </script>
 </body>
 </html>
