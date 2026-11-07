@@ -77,15 +77,16 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 /* ================= CUENTA ATRÁS: mini paneles LED ámbar ================= */
 .count{margin-top:clamp(22px,3.6vh,34px);display:flex;gap:clamp(6px,1.6vw,14px);justify-content:center}
 .cell{display:flex;flex-direction:column;align-items:center;gap:8px}
-.panel-led{position:relative;min-width:clamp(66px,17vw,118px);padding:clamp(8px,1.4vw,14px) clamp(8px,1.4vw,14px);border-radius:8px;
-  background:
-    radial-gradient(circle,rgba(255,150,0,.13) 0 1.2px,transparent 1.7px) 0 0/6px 6px,
-    radial-gradient(ellipse at 50% 50%,rgba(255,140,0,.16),transparent 70%),
-    #0b0703;
-  border:1px solid #000;box-shadow:inset 0 0 18px rgba(0,0,0,.9),0 0 0 1px rgba(255,255,255,.05),0 10px 26px rgba(0,0,0,.55)}
-.panel-led::after{content:'';position:absolute;inset:0;border-radius:8px;background:linear-gradient(160deg,rgba(255,255,255,.07),transparent 40%);pointer-events:none}
-.num{position:relative;text-align:center;font:900 clamp(32px,7.2vw,68px)/1 'Doto',monospace;color:#ffb000;letter-spacing:.06em;font-variant-numeric:tabular-nums;
-  text-shadow:0 0 4px rgba(255,190,40,.95),0 0 16px rgba(255,140,0,.75),0 0 34px rgba(255,120,0,.35)}
+.panel-led{position:relative;min-width:clamp(66px,17vw,118px);padding:4px 6px;background:none;border:0}
+.num{position:relative;text-align:center;font:900 clamp(34px,7.6vw,72px)/1 'Doto',monospace;color:rgba(255,176,0,.92);letter-spacing:.06em;font-variant-numeric:tabular-nums;
+  text-shadow:0 0 4px rgba(255,190,40,.9),0 0 18px rgba(255,140,0,.65),0 0 40px rgba(255,120,0,.3)}
+.num::before,.num::after{content:attr(data-v);position:absolute;inset:0;pointer-events:none;opacity:0}
+.num::before{color:rgba(255,60,40,.55);text-shadow:none;animation:ghostA 5.3s steps(1) infinite}
+.num::after{color:rgba(255,220,120,.4);text-shadow:0 0 12px rgba(255,170,0,.6);animation:ghostB 7.1s steps(1) infinite}
+@keyframes ghostA{0%,88%,100%{opacity:0;transform:none;clip-path:none}89%{opacity:.8;transform:translate(-3px,1px);clip-path:inset(10% 0 55% 0)}91%{opacity:.6;transform:translate(4px,-1px);clip-path:inset(60% 0 8% 0)}93%{opacity:0}}
+@keyframes ghostB{0%,93%,100%{opacity:0;transform:none}94%{opacity:.55;transform:translate(2px,0) skewX(-8deg)}96%{opacity:.35;transform:translate(-5px,0)}97%{opacity:0}}
+.cell:nth-child(2) .num::before{animation-delay:-1.7s}.cell:nth-child(3) .num::before{animation-delay:-3.1s}.cell:nth-child(4) .num::before{animation-delay:-.6s}
+.cell:nth-child(2) .num::after{animation-delay:-2.4s}.cell:nth-child(3) .num::after{animation-delay:-4.9s}.cell:nth-child(4) .num::after{animation-delay:-.9s}
 .lab{font:600 clamp(9px,1.4vw,11px)/1 'Share Tech Mono',monospace;letter-spacing:.24em;color:#9c8f7a}
 .date{margin-top:14px;font:600 12px/1 'Share Tech Mono',monospace;letter-spacing:.3em;color:#8e8aa0}
 
@@ -122,6 +123,7 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 .go{flex:none;width:30px;height:auto;filter:grayscale(1) brightness(.85) drop-shadow(0 2px 2px rgba(0,0,0,.7));transition:filter .25s,transform .25s}
 .unit:hover .go,.unit.live .go{filter:grayscale(1) brightness(1.25) drop-shadow(0 0 6px rgba(255,255,255,.35));transform:scale(1.08)}
 .panel{flex:1;min-width:0;display:flex;align-items:center;justify-content:flex-end;gap:14px}
+.panel.al{justify-content:flex-start;gap:18px}
 
 .monitor{position:relative;flex:none;border-radius:4px;background:#000;border:2px solid #2a2930;box-shadow:inset 0 0 0 1px #000,0 0 0 1px rgba(255,255,255,.06),0 0 16px rgba(0,180,255,.12);overflow:hidden}
 .monitor canvas{width:100%;height:100%;display:block}
@@ -149,7 +151,7 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 .rj{width:16px;height:14px;background:#000;border:2px solid #a9adb4}
 .matrix{display:grid;grid-template-columns:repeat(4,14px);gap:4px}
 .matrix .btn{width:14px;height:11px}
-.dotlcd{flex:none;width:176px;height:54px;border-radius:4px;background:#030503;border:1px solid #000;box-shadow:inset 0 0 12px #000,0 1px 0 rgba(255,255,255,.06);padding:4px}
+.dotlcd{flex:none;width:176px;height:54px;border-radius:4px;background:#01030a;border:1px solid #000;box-shadow:inset 0 0 12px #000,0 1px 0 rgba(255,255,255,.06);padding:4px}
 .dotlcd canvas{width:100%;height:100%;display:block}
 .marquee{position:relative;flex:1;min-width:0;height:40px;overflow:hidden;border-radius:4px;background:#0b0700;border:1px solid #000;box-shadow:inset 0 0 10px #000;
   background-image:radial-gradient(circle,rgba(255,150,0,.08) 0 1px,transparent 1.4px);background-size:4px 4px}
@@ -252,7 +254,7 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
         <span class="ear l"><i></i><span class="handle"></span><i></i></span>
         <span class="lcd"><strong>VJSHOW</strong><em>:</em><span class="sc"><span style="--d:16s">Visuales reactivos al audio para sesiones de VJ y salas inmersivas</span></span></span>
         <img class="go" src="assets/logos/avhub-play.svg" alt="">
-        <span class="panel">
+        <span class="panel al">
           <span class="monitor m-md"><canvas id="mon-vj" width="288" height="162"></canvas></span>
           <span class="col"><span class="pads" id="pads"></span><span class="fader" id="fader"><i></i></span></span>
           <span class="meter" id="meter"><b></b><b></b><b></b><b></b><b></b></span>
@@ -264,7 +266,7 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
         <span class="ear l"><i></i><span class="handle"></span><i></i></span>
         <span class="lcd"><strong>MSGAME</strong><em>:</em><span class="sc"><span style="--d:16s">Juegos para salas inmersivas con tu móvil como mando</span></span></span>
         <img class="go" src="assets/logos/avhub-play.svg" alt="">
-        <span class="panel">
+        <span class="panel al">
           <span class="monitor m-md"><canvas id="mon-game" width="288" height="162"></canvas></span>
           <span class="col"><span class="slot"></span><span class="ports"><span class="port"><span class="usb3"></span>USB 3.0</span><span class="port"><span class="hdmi"></span>HDMI 2.1</span></span></span>
           <span class="dpad"></span>
@@ -295,121 +297,138 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
   const img = src => { const i = new Image(); i.src = src; return i; };
 
   /* ===================================================================
-     ESCENARIO: humo magenta volumétrico + haces de cabezas móviles (origen fuera de pantalla)
+     ESCENARIO: humo magenta con simulación de fluidos real (Navier-Stokes en GPU)
+     + haces de cabezas móviles y láseres calculados en el mismo shader,
+     iluminados por la densidad del humo (efecto volumétrico). Origen siempre fuera de pantalla.
      =================================================================== */
-  const cv = document.getElementById('fx'), cx = cv.getContext('2d');
-  const RES = .5;
-  const beamsCv = document.createElement('canvas'), bx = beamsCv.getContext('2d'), maskCv = document.createElement('canvas'), mk = maskCv.getContext('2d');
-  let W = 0, H = 0;
-
-  // Ruido fractal periódico con deformación de dominio → volutas de humo realistas
-  function makeNoise(seed) {
-    const P = new Uint8Array(512); let s = seed;
-    const r = () => (s = (s * 16807) % 2147483647) / 2147483647;
-    const perm = [...Array(256).keys()]; for (let i = 255; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [perm[i], perm[j]] = [perm[j], perm[i]]; }
-    for (let i = 0; i < 512; i++) P[i] = perm[i & 255];
-    const fade = t => t * t * t * (t * (t * 6 - 15) + 10);
-    return (x, y, per) => {
-      const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
-      const h = (a, b) => P[(P[((a % per) + per) % per] + ((b % per) + per) % per) & 511] / 255;
-      const u = fade(xf), v = fade(yf);
-      return (h(xi, yi) * (1 - u) + h(xi + 1, yi) * u) * (1 - v) + (h(xi, yi + 1) * (1 - u) + h(xi + 1, yi + 1) * u) * v;
-    };
-  }
-  function smokeTile(size, seed, col) {
-    const n = makeNoise(seed), c = document.createElement('canvas'); c.width = c.height = size;
-    const g = c.getContext('2d'), im = g.createImageData(size, size), d = im.data;
-    const fbm = (x, y, oct, f0) => { let v = 0, a = .5, f = f0, t = 0; for (let o = 0; o < oct; o++) { v += a * n(x * f, y * f, f); t += a; a *= .5; f *= 2; } return v / t; };
-    for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
-      const u = x / size, v = y / size;
-      const wx = fbm(u + .13, v + .71, 4, 3), wy = fbm(u + .57, v + .29, 4, 3);
-      let q = fbm(u + (wx - .5) * .35, v + (wy - .5) * .35, 5, 3);   // coordenadas desplazadas (periódicas)
-      q = Math.max(0, (q - .42) / .58); q = Math.pow(q, 1.35);
-      const i = (y * size + x) * 4;
-      d[i] = col[0]; d[i + 1] = col[1] + q * 70; d[i + 2] = col[2]; d[i + 3] = Math.min(255, q * 330);
-    }
-    g.putImageData(im, 0, 0); return c;
-  }
-  let layers = [];
-  setTimeout(() => {
-    const A = smokeTile(320, 1234, [230, 40, 255]), B = smokeTile(320, 777, [200, 30, 240]), C = smokeTile(320, 4242, [255, 140, 255]);
-    layers = [
-      { p: cx.createPattern(A, 'repeat'), tile: A, sc: 2.6, vx: -9, vy: -3, a: .85 },
-      { p: cx.createPattern(B, 'repeat'), tile: B, sc: 1.7, vx: 12, vy: -5, a: .7 },
-      { p: cx.createPattern(C, 'repeat'), tile: C, sc: 3.4, vx: 4, vy: -2, a: .35 }
-    ].map(l => ({ ...l, ox: Math.random() * 600, oy: Math.random() * 600 }));
-  }, 30);
-
-  const PALETTE = [[255, 255, 255], [225, 0, 255], [0, 255, 4], [0, 180, 255], [153, 0, 255]];
+  const cv = document.getElementById('fx');
+  const gl = cv.getContext('webgl2', { alpha: false, antialias: false, premultipliedAlpha: false, preserveDrawingBuffer: false });
+  const PALETTE = [[1, 1, 1], [.88, 0, 1], [0, 1, .02], [0, .7, 1], [.6, 0, 1]];
   const heads = [.06, .2, .34, .5, .66, .8, .94].map((x, i) => ({ x, ph: rnd(0, 6.28), sp: rnd(.035, .06), amp: rnd(.25, .4), base: (i - 3) * .06, col: PALETTE[i % PALETTE.length].slice(), tgt: null }));
-  const lasers = [{ x: .02, ph: 0, col: '0,255,4' }, { x: .98, ph: 2.5, col: '0,255,4' }];
-
-  function resize() {
-    W = cv.width = beamsCv.width = maskCv.width = Math.round(innerWidth * RES);
-    H = cv.height = beamsCv.height = maskCv.height = Math.round(innerHeight * RES);
-  }
-  addEventListener('resize', resize); resize();
-
-  function cone(g, x0, y0, ang, len, w0, w1, col, a) {
-    const ex = x0 + Math.cos(ang) * len, ey = y0 + Math.sin(ang) * len, nx = -Math.sin(ang), ny = Math.cos(ang);
-    const gr = g.createLinearGradient(x0, y0, ex, ey);
-    gr.addColorStop(0, `rgba(${col},${a})`); gr.addColorStop(.5, `rgba(${col},${a * .5})`); gr.addColorStop(1, `rgba(${col},0)`);
-    g.fillStyle = gr; g.beginPath(); g.moveTo(x0 + nx * w0, y0 + ny * w0); g.lineTo(ex + nx * w1, ey + ny * w1); g.lineTo(ex - nx * w1, ey - ny * w1); g.lineTo(x0 - nx * w0, y0 - ny * w0); g.closePath(); g.fill();
-  }
-  function drawSmoke(g, t, alphaMul) {
-    for (const L of layers) {
-      const s = (Math.max(W, H) * L.sc) / L.tile.width;
-      L.p.setTransform(new DOMMatrix([s, 0, 0, s, L.ox + t * L.vx * RES, L.oy + t * L.vy * RES]));
-      g.globalAlpha = L.a * alphaMul; g.fillStyle = L.p; g.fillRect(0, 0, W, H);
+  const lasers = [{ x: .02, ph: 0 }, { x: .98, ph: 2.5 }];
+  let fxMode = 0, fxModeT = 12, simT = 0;
+  function startFluid() {
+    if (!gl) return false;
+    const ext = gl.getExtension('EXT_color_buffer_float') || gl.getExtension('EXT_color_buffer_half_float');
+    if (!ext) return false;
+    gl.getExtension('OES_texture_float_linear');
+    const VS = `#version 300 es
+      in vec2 aPos; out vec2 vUv, vL, vR, vT, vB; uniform vec2 texel;
+      void main(){ vUv = aPos*.5+.5; vL = vUv-vec2(texel.x,0.); vR = vUv+vec2(texel.x,0.); vT = vUv+vec2(0.,texel.y); vB = vUv-vec2(0.,texel.y); gl_Position = vec4(aPos,0.,1.); }`;
+    const H = '#version 300 es\nprecision highp float; precision highp sampler2D; in vec2 vUv, vL, vR, vT, vB; out vec4 o;\n';
+    const FS = {
+      advect: H + `uniform sampler2D vel, src; uniform vec2 texel; uniform float dt, diss;
+        void main(){ vec2 c = vUv - dt*texture(vel,vUv).xy*texel; o = texture(src,c)/(1.+diss*dt); }`,
+      force: H + `uniform sampler2D vel, dye; uniform float dt, buoy, t;
+        void main(){ vec2 v = texture(vel,vUv).xy; float d = texture(dye,vUv).r;
+          v.y += dt*buoy*d; v.x += dt*buoy*.18*d*sin(vUv.y*9.+t*.7+vUv.x*5.); o = vec4(v,0.,1.); }`,
+      curl: H + `uniform sampler2D vel; void main(){ o = vec4(.5*(texture(vel,vR).y-texture(vel,vL).y-texture(vel,vT).x+texture(vel,vB).x),0.,0.,1.); }`,
+      vort: H + `uniform sampler2D vel, curl; uniform float dt, k;
+        void main(){ float L=texture(curl,vL).x,R=texture(curl,vR).x,T=texture(curl,vT).x,B=texture(curl,vB).x,C=texture(curl,vUv).x;
+          vec2 f = .5*vec2(abs(T)-abs(B),abs(R)-abs(L)); f /= length(f)+1e-4; f *= k*C; f.y *= -1.;
+          o = vec4(texture(vel,vUv).xy+f*dt,0.,1.); }`,
+      div: H + `uniform sampler2D vel;
+        void main(){ float L=texture(vel,vL).x,R=texture(vel,vR).x,T=texture(vel,vT).y,B=texture(vel,vB).y; vec2 C=texture(vel,vUv).xy;
+          if(vL.x<0.)L=-C.x; if(vR.x>1.)R=-C.x; if(vT.y>1.)T=-C.y; if(vB.y<0.)B=-C.y; o=vec4(.5*(R-L+T-B),0.,0.,1.); }`,
+      pres: H + `uniform sampler2D p, dv;
+        void main(){ o = vec4((texture(p,vL).x+texture(p,vR).x+texture(p,vB).x+texture(p,vT).x-texture(dv,vUv).x)*.25,0.,0.,1.); }`,
+      grad: H + `uniform sampler2D p, vel;
+        void main(){ vec2 v = texture(vel,vUv).xy - vec2(texture(p,vR).x-texture(p,vL).x, texture(p,vT).x-texture(p,vB).x); o = vec4(v,0.,1.); }`,
+      splat: H + `uniform sampler2D src; uniform vec2 pt; uniform vec3 val; uniform float r, ar;
+        void main(){ vec2 d = vUv-pt; d.x *= ar; o = vec4(texture(src,vUv).xyz + val*exp(-dot(d,d)/r),1.); }`,
+      show: H + `uniform sampler2D dye; uniform float ar, t; uniform int nb; uniform vec4 bg[9]; uniform vec4 bc[9];
+        void main(){
+          vec2 uv = vUv; vec2 tx = 1.5/vec2(textureSize(dye,0));
+          float d = (texture(dye,uv).r*2.+texture(dye,uv+vec2(tx.x,0.)).r+texture(dye,uv-vec2(tx.x,0.)).r+texture(dye,uv+vec2(0.,tx.y)).r+texture(dye,uv-vec2(0.,tx.y)).r)/6.;
+          float du = texture(dye,uv+vec2(0.,.015)).r;
+          float dens = (1.-exp(-d*1.1))*smoothstep(1.05,.25,uv.y);
+          vec3 base = mix(vec3(.016,.012,.03), vec3(.06,.016,.09), smoothstep(1.,0.,uv.y));
+          float lit = clamp(.65 + (d-du)*2.2, .35, 1.25);          // autosombreado suave: volutas con relieve
+          vec3 smoke = vec3(.85,.1,1.)*dens*lit*.62 + vec3(1.,.55,1.)*pow(dens,3.)*.12;
+          vec3 col = base + smoke;
+          vec2 p = vec2(uv.x*ar, uv.y);
+          for(int i=0;i<9;i++){ if(i>=nb) break;
+            vec2 org = vec2(bg[i].x*ar, bg[i].y); vec2 dir = vec2(cos(bg[i].z), sin(bg[i].z));
+            vec2 q = p-org; float al = dot(q,dir); float pe = abs(q.x*dir.y-q.y*dir.x);
+            float w = bg[i].w*(.02+al*.16); float cone = smoothstep(w,w*.15,pe)*step(0.,al)*exp(-al*.55);
+            col += bc[i].rgb*cone*bc[i].a*(.16+1.8*dens); }
+          o = vec4(col,1.); }`
+    };
+    const mk = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw gl.getShaderInfoLog(s); return s; };
+    const vs = mk(gl.VERTEX_SHADER, VS), P = {};
+    for (const k in FS) { const p = gl.createProgram(); gl.attachShader(p, vs); gl.attachShader(p, mk(gl.FRAGMENT_SHADER, FS[k])); gl.bindAttribLocation(p, 0, 'aPos'); gl.linkProgram(p);
+      if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw gl.getProgramInfoLog(p); const u = {}; const n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+      for (let i = 0; i < n; i++) { const nm = gl.getActiveUniform(p, i).name.replace(/\[0\]$/, ''); u[nm] = gl.getUniformLocation(p, nm.includes('[') ? nm : nm); u[nm + '[]'] = gl.getUniformLocation(p, nm + '[0]'); } P[k] = { p, u }; }
+    const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    function fbo(w, h) { const tex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA16F, w, h, 0, gl.RGBA, gl.HALF_FLOAT, null);
+      const f = gl.createFramebuffer(); gl.bindFramebuffer(gl.FRAMEBUFFER, f); gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+      gl.viewport(0, 0, w, h); gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT); return { tex, f, w, h }; }
+    const dbl = (w, h) => { let a = fbo(w, h), b = fbo(w, h); return { get r() { return a; }, get w() { return b; }, swap() { [a, b] = [b, a]; } }; };
+    let SW, SH, DW, DH, vel, dye, prs, dv, crl, AR = 1;
+    function alloc() {
+      const mob = innerWidth <= 620;
+      cv.width = Math.round(innerWidth * (mob ? .6 : .55)); cv.height = Math.round(innerHeight * (mob ? .6 : .55));
+      AR = cv.width / cv.height; const sim = mob ? 96 : 128, dres = mob ? 320 : 512;
+      SH = sim; SW = Math.round(sim * AR); DH = dres; DW = Math.round(dres * AR);
+      vel = dbl(SW, SH); dye = dbl(DW, DH); prs = dbl(SW, SH); dv = fbo(SW, SH); crl = fbo(SW, SH);
     }
-    g.globalAlpha = 1;
-  }
-  let t = 0, last = performance.now(), running = true, mode = 0, modeT = 10;
-  function frame(now) {
-    if (!running) return;
-    const dt = Math.min(.05, (now - last) / 1000); last = now; if (!reduce) t += dt;
-    // fondo
-    cx.globalCompositeOperation = 'source-over';
-    const bg = cx.createLinearGradient(0, 0, 0, H); bg.addColorStop(0, '#040307'); bg.addColorStop(.6, '#0a0410'); bg.addColorStop(1, '#14051c');
-    cx.fillStyle = bg; cx.fillRect(0, 0, W, H);
-    // humo (más denso abajo)
-    if (layers.length) {
-      cx.globalCompositeOperation = 'lighter'; drawSmoke(cx, t, .9);
-      cx.globalCompositeOperation = 'destination-out';
-      const f = cx.createLinearGradient(0, 0, 0, H); f.addColorStop(0, 'rgba(0,0,0,.72)'); f.addColorStop(.45, 'rgba(0,0,0,.25)'); f.addColorStop(.8, 'rgba(0,0,0,0)');
-      cx.fillStyle = f; cx.fillRect(0, 0, W, H);
-      cx.globalCompositeOperation = 'destination-over'; cx.fillStyle = bg; cx.fillRect(0, 0, W, H);
+    alloc(); let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(alloc, 250); });
+    const tex = (u, t, i) => { gl.activeTexture(gl.TEXTURE0 + i); gl.bindTexture(gl.TEXTURE_2D, t.tex); gl.uniform1i(u, i); };
+    const run = (prog, target, w, h) => { gl.bindFramebuffer(gl.FRAMEBUFFER, target ? target.f : null); gl.viewport(0, 0, w, h); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); };
+    function splat(x, y, vx, vy, dens, r) {
+      const S = P.splat; gl.useProgram(S.p); gl.uniform2f(S.u.texel, 1 / SW, 1 / SH);
+      gl.uniform1f(S.u.ar, AR); gl.uniform2f(S.u.pt, x, y); gl.uniform1f(S.u.r, r);
+      tex(S.u.src, vel.r, 0); gl.uniform3f(S.u.val, vx, vy, 0); run(S, vel.w, SW, SH); vel.swap();
+      gl.uniform2f(S.u.texel, 1 / DW, 1 / DH); tex(S.u.src, dye.r, 0); gl.uniform3f(S.u.val, dens, 0, 0); run(S, dye.w, DW, DH); dye.swap();
     }
-    // programación de efectos
-    modeT -= dt;
-    if (modeT <= 0) { mode = (mode + 1) % 3; modeT = rnd(12, 18); if (mode === 2) heads.forEach((h, i) => h.tgt = PALETTE[(i + Math.floor(t)) % PALETTE.length]); }
-    // haces: se dibujan aparte y se multiplican por la densidad del humo (efecto volumétrico)
-    bx.globalCompositeOperation = 'source-over'; bx.clearRect(0, 0, W, H); bx.globalCompositeOperation = 'lighter';
-    const len = Math.hypot(W, H) * 1.4, oy = -H * .35;     // origen siempre por encima de la pantalla
-    heads.forEach((h, i) => {
-      if (h.tgt) for (let k = 0; k < 3; k++) h.col[k] += (h.tgt[k] - h.col[k]) * Math.min(1, dt * .6);
-      let ang = Math.PI / 2 + h.base + Math.sin(t * h.sp * 2 * Math.PI / 4 + h.ph) * h.amp;
-      if (mode === 1) ang = Math.PI / 2 + Math.sin(t * .18 + i * .9) * .45;
-      const col = h.col.map(Math.round).join(',');
-      cone(bx, h.x * W, oy, ang, len, 4 * RES, 110 * RES, col, .55);
-      cone(bx, h.x * W, oy, ang, len, 2 * RES, 34 * RES, col, .7);
-    });
-    lasers.forEach((L, i) => {
-      const ang = -Math.PI / 2 + (L.x < .5 ? .5 : -.5) + Math.sin(t * .08 + L.ph) * .3;
-      cone(bx, L.x * W, H * 1.3, ang, len, 3 * RES, 9 * RES, L.col, .8);
-    });
-    if (layers.length) {   // máscara única de densidad de humo (las capas se suman, no se multiplican)
-      mk.globalCompositeOperation = 'source-over'; mk.clearRect(0, 0, W, H); mk.fillStyle = 'rgba(255,255,255,.22)'; mk.fillRect(0, 0, W, H);
-      mk.globalCompositeOperation = 'lighter'; drawSmoke(mk, t, 1.1);
-      bx.globalCompositeOperation = 'destination-in'; bx.drawImage(maskCv, 0, 0);
+    const emit = [...Array(6)].map((_, i) => ({ x: (i + .5) / 6, ph: rnd(0, 6.28), sp: rnd(.05, .12) }));
+    let last = performance.now(), running = true;
+    function step(now) {
+      if (!running) return;
+      const dt = Math.min(.033, (now - last) / 1000); last = now; simT += dt;
+      // emisores de humo a ras de suelo (máquinas de niebla que se mueven despacio)
+      emit.forEach((e, i) => { const x = e.x + Math.sin(simT * e.sp + e.ph) * .07;
+        if (Math.random() < dt * 14) splat(x, .0, rnd(-50, 50), rnd(70, 170), rnd(.05, .1), .004 + Math.random() * .003); });
+      if (Math.random() < dt * .6) splat(rnd(.05, .95), rnd(.0, .1), rnd(-220, 220), rnd(160, 320), .18, .008);   // bocanada
+      gl.useProgram(P.force.p); gl.uniform2f(P.force.u.texel, 1 / SW, 1 / SH); tex(P.force.u.vel, vel.r, 0); tex(P.force.u.dye, dye.r, 1);
+      gl.uniform1f(P.force.u.dt, dt); gl.uniform1f(P.force.u.buoy, 90); gl.uniform1f(P.force.u.t, simT); run(P.force, vel.w, SW, SH); vel.swap();
+      gl.useProgram(P.curl.p); gl.uniform2f(P.curl.u.texel, 1 / SW, 1 / SH); tex(P.curl.u.vel, vel.r, 0); run(P.curl, crl, SW, SH);
+      gl.useProgram(P.vort.p); gl.uniform2f(P.vort.u.texel, 1 / SW, 1 / SH); tex(P.vort.u.vel, vel.r, 0); tex(P.vort.u.curl, crl, 1); gl.uniform1f(P.vort.u.dt, dt); gl.uniform1f(P.vort.u.k, 22); run(P.vort, vel.w, SW, SH); vel.swap();
+      gl.useProgram(P.div.p); gl.uniform2f(P.div.u.texel, 1 / SW, 1 / SH); tex(P.div.u.vel, vel.r, 0); run(P.div, dv, SW, SH);
+      gl.useProgram(P.pres.p); gl.uniform2f(P.pres.u.texel, 1 / SW, 1 / SH); tex(P.pres.u.dv, dv, 1);
+      for (let i = 0; i < 20; i++) { tex(P.pres.u.p, prs.r, 0); run(P.pres, prs.w, SW, SH); prs.swap(); }
+      gl.useProgram(P.grad.p); gl.uniform2f(P.grad.u.texel, 1 / SW, 1 / SH); tex(P.grad.u.p, prs.r, 0); tex(P.grad.u.vel, vel.r, 1); run(P.grad, vel.w, SW, SH); vel.swap();
+      gl.useProgram(P.advect.p); gl.uniform2f(P.advect.u.texel, 1 / SW, 1 / SH); gl.uniform1f(P.advect.u.dt, dt);
+      tex(P.advect.u.vel, vel.r, 0); tex(P.advect.u.src, vel.r, 1); gl.uniform1f(P.advect.u.diss, .25); run(P.advect, vel.w, SW, SH); vel.swap();
+      tex(P.advect.u.vel, vel.r, 0); tex(P.advect.u.src, dye.r, 1); gl.uniform1f(P.advect.u.diss, .45); run(P.advect, dye.w, DW, DH); dye.swap();
+      // haces (origen siempre fuera de pantalla)
+      fxModeT -= dt;
+      if (fxModeT <= 0) { fxMode = (fxMode + 1) % 3; fxModeT = rnd(12, 18); if (fxMode === 2) heads.forEach((h, i) => h.tgt = PALETTE[(i + Math.floor(simT)) % PALETTE.length]); }
+      const bgA = new Float32Array(36), bcA = new Float32Array(36); let n = 0;
+      const mobK = innerWidth <= 620 ? .6 : 1;
+      heads.forEach((h, i) => {
+        if (h.tgt) for (let k = 0; k < 3; k++) h.col[k] += (h.tgt[k] - h.col[k]) * Math.min(1, dt * .6);
+        let ang = -Math.PI / 2 - h.base + Math.sin(simT * h.sp * 2 * Math.PI / 4 + h.ph) * h.amp;
+        if (fxMode === 1) ang = -Math.PI / 2 + Math.sin(simT * .18 + i * .9) * .45;
+        bgA.set([h.x, 1.25, ang, 1.0], n * 4); bcA.set([...h.col, .55 * mobK], n * 4); n++;
+      });
+      lasers.forEach(L => { const ang = Math.PI / 2 + (L.x < .5 ? -.5 : .5) + Math.sin(simT * .08 + L.ph) * .3;
+        bgA.set([L.x, -.25, ang, .22], n * 4); bcA.set([0, 1, .02, .9 * mobK], n * 4); n++; });
+      const S = P.show; gl.useProgram(S.p); gl.uniform2f(S.u.texel, 1 / DW, 1 / DH); tex(S.u.dye, dye.r, 0);
+      gl.uniform1f(S.u.ar, AR); gl.uniform1f(S.u.t, simT); gl.uniform1i(S.u.nb, n); gl.uniform4fv(S.u['bg[]'], bgA); gl.uniform4fv(S.u['bc[]'], bcA);
+      run(S, null, cv.width, cv.height);
+      if (!reduce) requestAnimationFrame(step);
     }
-    cx.globalCompositeOperation = 'lighter';
-    cx.globalAlpha = innerWidth <= 620 ? .6 : 1; cx.drawImage(beamsCv, 0, 0);
-    cx.globalAlpha = innerWidth <= 620 ? .2 : .35; cx.drawImage(beamsCv, 0, 0); cx.globalAlpha = 1;
-    if (!reduce) requestAnimationFrame(frame);
+    requestAnimationFrame(step);
+    document.addEventListener('visibilitychange', () => { running = !document.hidden; if (running && !reduce) { last = performance.now(); requestAnimationFrame(step); } });
+    return true;
   }
-  requestAnimationFrame(frame);
-  document.addEventListener('visibilitychange', () => { running = !document.hidden; if (running && !reduce) { last = performance.now(); requestAnimationFrame(frame); } });
+  let fluidOK = false; try { fluidOK = startFluid(); } catch (e) { console.warn('fluid', e); fluidOK = false; }
+  if (!fluidOK) { cv.style.background = 'radial-gradient(ellipse at 50% 110%,rgba(225,0,255,.45),transparent 60%),linear-gradient(180deg,#040307,#14051c)'; }
 
   /* ===================================================================
      RACK: diseño fijo que se escala entero (nunca se apila ni cambia de forma)
@@ -490,24 +509,25 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 
   /* ---------- HARDWARE: LCD de puntos con marcas (PIXELHUE · PURELINK · NOVASTAR) ---------- */
   const brands = ['PIXELHUE', 'PURELINK', 'NOVASTAR'];
-  const bImgs = {}; brands.forEach(b => { const i = new Image(); i.onload = () => bImgs[b] = i; i.src = `assets/brands/${b.toLowerCase()}.svg`; });
-  const bc = document.getElementById('brands').getContext('2d'), bOff = document.createElement('canvas'); bOff.width = 86; bOff.height = 23;
+  const bImgs = {}; brands.forEach(b => { const i = new Image(); i.onload = () => bImgs[b] = i; i.src = `assets/brands/${b.toLowerCase()}.png`; });
+  const BW = 132, BH = 34, bc = document.getElementById('brands').getContext('2d'), bOff = document.createElement('canvas'); bOff.width = BW; bOff.height = BH;
   const og = bOff.getContext('2d', { willReadFrequently: true });
   let bIdx = 0, bT = 0;
   function drawBrands(dt) {
-    bT += dt; if (bT > 3.2) { bT = 0; bIdx = (bIdx + 1) % brands.length; }
-    const name = brands[bIdx]; og.clearRect(0, 0, 86, 23);
-    if (bImgs[name]) { const i = bImgs[name], s = Math.min(80 / i.width, 19 / i.height); og.drawImage(i, (86 - i.width * s) / 2, (23 - i.height * s) / 2, i.width * s, i.height * s); }
-    else { og.fillStyle = '#fff'; og.font = '800 13px Inter, sans-serif'; og.textAlign = 'center'; og.textBaseline = 'middle'; og.fillText(name, 43, 12.5); }
-    const d = og.getImageData(0, 0, 86, 23).data, w = 344, h = 92, p = 4;
-    bc.fillStyle = '#020402'; bc.fillRect(0, 0, w, h);
-    const fadeIn = Math.min(1, bT * 3), fadeOut = Math.min(1, (3.2 - bT) * 3), k = Math.min(fadeIn, fadeOut);
-    for (let y = 0; y < 23; y++) for (let x = 0; x < 86; x++) {
-      const a = d[(y * 86 + x) * 4 + 3] / 255, lum = (d[(y * 86 + x) * 4] + d[(y * 86 + x) * 4 + 1] + d[(y * 86 + x) * 4 + 2]) / 765;
-      const on = a * Math.max(lum, .6) > .35 ? k : 0;
-      bc.fillStyle = on ? `rgba(0,255,4,${.35 + .65 * on})` : 'rgba(0,255,4,.07)';
-      bc.fillRect(x * p + .5, y * p + .5, p - 1, p - 1);
+    bT += dt; if (bT > 3.4) { bT = 0; bIdx = (bIdx + 1) % brands.length; }
+    const name = brands[bIdx]; og.clearRect(0, 0, BW, BH);
+    if (bImgs[name]) { const i = bImgs[name], s = Math.min((BW - 6) / i.width, (BH - 4) / i.height); og.drawImage(i, (BW - i.width * s) / 2, (BH - i.height * s) / 2, i.width * s, i.height * s); }
+    else { og.fillStyle = '#fff'; og.font = '800 18px Inter, sans-serif'; og.textAlign = 'center'; og.textBaseline = 'middle'; og.fillText(name, BW / 2, BH / 2 + 1); }
+    const d = og.getImageData(0, 0, BW, BH).data, w = 344, h = 92, px = w / BW, py = h / BH;
+    bc.fillStyle = '#01030a'; bc.fillRect(0, 0, w, h);
+    const k = Math.min(1, bT * 3, (3.4 - bT) * 3);
+    for (let y = 0; y < BH; y++) for (let x = 0; x < BW; x++) {
+      const a = d[(y * BW + x) * 4 + 3] / 255;
+      if (a > .22) { bc.fillStyle = `rgba(40,150,255,${(.3 + .7 * Math.min(1, a * 1.4)) * k + .06})`; bc.shadowColor = 'rgba(30,140,255,.9)'; bc.shadowBlur = 3 * k; }
+      else { bc.fillStyle = 'rgba(40,150,255,.07)'; bc.shadowBlur = 0; }
+      bc.fillRect(x * px + .4, y * py + .4, px - .8, py - .8);
     }
+    bc.shadowBlur = 0;
   }
 
   /* ---------- VJSHOW: recreación de una mezcla (fondo + figuras + objetos + capa de estilo) ---------- */
@@ -623,10 +643,8 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
   let lastS = -1;
   const upd = () => { const d = Math.max(0, target - Date.now());
     const s = Math.floor(d % 6e4 / 1e3);
-    document.getElementById('fc-d').textContent = pad(Math.floor(d / 864e5), 3);
-    document.getElementById('fc-h').textContent = pad(Math.floor(d % 864e5 / 36e5));
-    document.getElementById('fc-m').textContent = pad(Math.floor(d % 36e5 / 6e4));
-    document.getElementById('fc-s').textContent = pad(s);
+    const setN = (id, v) => { const el = document.getElementById(id); if (el.textContent !== v) { el.textContent = v; el.dataset.v = v; } };
+    setN('fc-d', pad(Math.floor(d / 864e5), 3)); setN('fc-h', pad(Math.floor(d % 864e5 / 36e5))); setN('fc-m', pad(Math.floor(d % 36e5 / 6e4))); setN('fc-s', pad(s));
     if (s !== lastS) { if (lastS !== -1) tick(); lastS = s; } };
   upd(); setInterval(upd, 200);
 
