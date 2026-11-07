@@ -128,18 +128,8 @@
         .time-block { display: flex; flex-direction: column; align-items: center; }
         .time-label { font-family: 'Inter', sans-serif; font-size: 7px; font-weight: 700; color: #666; letter-spacing: 0.5px; margin-top: 2px; text-shadow: none; line-height: 1; }
 
-        /* --- BETAS EN LÍNEA (al pulsar WORK IN PROGRESS) --- */
-        #wip-btn { cursor: pointer; }
-        #wip-btn:hover { color: #fff; }
-        #betas-modal { position: fixed; inset: 0; z-index: 2000; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,.7); padding: 16px; }
-        #betas-modal.open { display: flex; }
-        .betas-caja { width: min(460px, 100%); max-height: 85vh; overflow-y: auto; background: #101510; border: 1px solid #00ff04; border-radius: 8px; box-shadow: 0 0 25px rgba(0,255,4,.25); font-family: 'Share Tech Mono', monospace; color: #cfe; padding: 16px; }
-        .betas-caja h3 { font-family: 'Inter', sans-serif; font-size: 14px; letter-spacing: 3px; color: #00ff04; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-        .betas-caja h3 button { background: none; border: 0; color: #00ff04; font-size: 18px; cursor: pointer; }
-        .betas-grupo { font-size: 11px; color: #888; letter-spacing: 2px; margin: 12px 0 6px; }
-        .betas-caja a { display: block; padding: 9px 12px; margin-bottom: 6px; border: 1px solid #234; border-radius: 5px; color: #00ff04; text-decoration: none; font-size: 14px; }
-        .betas-caja a:hover { background: rgba(0,255,4,.12); }
-        .betas-caja .nota { font-size: 11px; color: #777; }
+        /* --- ACCESO DE ADMINISTRADOR: mantener pulsado el logo AVHUB --- */
+        .logo-avhub { user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
     </style>
 </head>
 <body>
@@ -200,7 +190,7 @@
             </a>
         </nav>
         <div class="rack-footer">
-            <div id="wip-btn" title="Ver betas en línea"><span class="footer-led"></span>WORK IN PROGRESS</div>
+            <div><span class="footer-led"></span>WORK IN PROGRESS</div>
             
             <!-- DIGITAL LED MATRIX CLOCK FIXED SEPARATORS -->
             <div class="digital-clock-container">
@@ -232,13 +222,6 @@
     <button id="audio-toggle" type="button" aria-label="Activar música">
     ♫ AUDIO OFF
 </button>
-
-<div id="betas-modal">
-    <div class="betas-caja">
-        <h3>BETAS EN LÍNEA <button type="button" id="betas-cerrar" aria-label="Cerrar">✕</button></h3>
-        <div id="betas-lista"><div class="nota">Cargando…</div></div>
-    </div>
-</div>
 
 <audio id="bg-music"
        src="assets/audio/music-digital-technology.mp3"
@@ -589,35 +572,16 @@ audioToggle.addEventListener('click',()=>{
 
 });
 
-        // --- BETAS EN LÍNEA: lista las ramas beta-N de cada repositorio y las abre en raw.githack.com ---
-        const BETAS_REPOS = [
-            { nombre: 'AVHUB', repo: 'mediaservi/AVHUB', ruta: 'mockup/index.html', desde: 2 },
-            { nombre: 'SCREENCALC', repo: 'mediaservi/SCREENCALC', ruta: 'index.html', desde: 1 }
-        ];
-        const betasModal = document.getElementById('betas-modal');
-        const betasLista = document.getElementById('betas-lista');
-        async function cargarBetas() {
-            betasLista.innerHTML = '<div class="nota">Cargando…</div>';
-            let html = '';
-            for (const r of BETAS_REPOS) {
-                html += '<div class="betas-grupo">' + r.nombre + '</div>';
-                try {
-                    const res = await fetch('https://api.github.com/repos/' + r.repo + '/branches?per_page=100');
-                    const ramas = (await res.json()).map(b => b.name).filter(n => /^beta-\d+$/.test(n) && parseInt(n.slice(5)) >= r.desde)
-                        .sort((a, b) => parseInt(b.slice(5)) - parseInt(a.slice(5)));
-                    if (!ramas.length) html += '<div class="nota">Sin betas.</div>';
-                    ramas.forEach(n => {
-                        html += '<a href="https://raw.githack.com/' + r.repo + '/' + n + '/' + r.ruta + '" target="_blank" rel="noopener noreferrer">▶ ' + n.toUpperCase() + '</a>';
-                    });
-                } catch (e) {
-                    html += '<div class="nota">No se ha podido leer la lista (reinténtalo en un momento).</div>';
-                }
-            }
-            betasLista.innerHTML = html;
-        }
-        document.getElementById('wip-btn').addEventListener('click', () => { betasModal.classList.add('open'); cargarBetas(); });
-        document.getElementById('betas-cerrar').addEventListener('click', () => betasModal.classList.remove('open'));
-        betasModal.addEventListener('click', e => { if (e.target === betasModal) betasModal.classList.remove('open'); });
+        // --- ACCESO DE ADMINISTRADOR: mantener pulsado el logo AVHUB 2 segundos ---
+        // Abre el panel de administrador (solo entra la cuenta del propietario; comprobado en el servidor).
+        const ADMIN_URL = 'https://script.google.com/macros/s/AKfycbz3skSjsWWJZojxlb17d4CE2Gy8D0RVgb4RAtI-wxKhro18-pkBpx4s3hJLvq4nTtUXyg/exec';
+        const logoAdmin = document.querySelector('.logo-avhub');
+        let adminTimer = null;
+        const adminIni = () => { clearTimeout(adminTimer); adminTimer = setTimeout(() => window.open(ADMIN_URL, '_blank', 'noopener'), 2000); };
+        const adminFin = () => clearTimeout(adminTimer);
+        logoAdmin.addEventListener('pointerdown', adminIni);
+        ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => logoAdmin.addEventListener(ev, adminFin));
+        logoAdmin.addEventListener('contextmenu', e => e.preventDefault());
 
         // Lógica de cuenta atrás y actualización del DOM
         const targetDate = new Date('2027-05-07T00:00:00').getTime();
