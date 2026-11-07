@@ -5,7 +5,7 @@
 AVHUB es el punto de encuentro de las herramientas AV profesionales: una única app, pensada para el móvil y el uso táctil, que reúne el cálculo de pantallas, la configuración de hardware, las novedades del sector y las herramientas de contenido interactivo.
 
 - Web: https://avhub.mediaservi.com
-- Estado: **beta-5 · mockup de estructura** (la rama `main` mantiene la landing provisional hasta el lanzamiento).
+- Estado: **beta-6 · mockup de estructura** (la rama `main` mantiene la landing provisional hasta el lanzamiento).
 - Licencia: GPL-3.0 (ver `LICENSE`).
 
 ---
@@ -36,6 +36,14 @@ Cuando todo esté unificado, cada subdominio abrirá la app directamente en su p
 - **Inter Bold** — botones y títulos de sección.
 - **Inter Regular** — textos, menús y descripciones.
 
+### Logo
+
+- **Maestro:** `assets/logos/avhub-logo.svg` (vectorial, escalable) y `avhub-logo.png` (fondo transparente).
+- **Isotipo:** degradado suave con el mismo peso para verde eléctrico, azul invitado y violeta neón, con bandas paralelas a la pata izquierda de la A; el play va en violeta neón sólido.
+- **Logotipo:** AVHUB en blanco brillante con bisel cincelado; mismo espacio entre letras (8,5 % de la altura) y separación isotipo-texto del 30 % de la altura, todo centrado en un eje común.
+- **Variantes (PNG transparente):** `avhub-logo-cromado.png`, `avhub-logo-golden-embroidered.png`, `avhub-logo-magenta-vinyl.png`, `avhub-logo-lime-green-slime.png`, `avhub-logo-ice-block.png`, `avhub-logo-metacrilato.png`.
+- **Botón play:** `avhub-play.svg` / `avhub-play.png`, el mismo play del isotipo, para navegación y pulsadores.
+
 ### Paleta
 
 | Muestra | Nombre | Hex | Uso |
@@ -43,6 +51,7 @@ Cuando todo esté unificado, cada subdominio abrirá la app directamente en su p
 | ![#00ff04](https://placehold.co/24x24/00ff04/00ff04.png) | **Verde eléctrico** (Energy Green) | `#00ff04` | Estados activos y seleccionados, contornos de iconos principales, indicadores ON, pasos activos, alertas críticas de hardware y textos destacados. Evoca los LED de *Signal Present*. |
 | ![#9900ff](https://placehold.co/24x24/9900ff/9900ff.png) | **Violeta neón** (Cyber Violet) | `#9900ff` | Acento de marca, degradados premium, submenús secundarios y rellenos translúcidos. Atmósfera inmersiva y creativa. |
 | ![#2A2A2A](https://placehold.co/24x24/2A2A2A/2A2A2A.png) | **Gris neutrón** (Hardware Gray) | `#2A2A2A` | Chasis de la app en modo oscuro: paneles, barras de navegación, tarjetas y contenedores, con acabado tipo aluminio anodizado de rack técnico. |
+| ![#00b4ff](https://placehold.co/24x24/00b4ff/00b4ff.png) | **Azul invitado** (Signal Blue) | `#00b4ff` | Solo como tono de transición en el degradado del isotipo, entre el verde eléctrico y el violeta neón. |
 
 ## Idiomas
 
@@ -68,6 +77,7 @@ AVHUB
 
 ## Versiones
 
+- **beta-6** — Logo definitivo: SVG maestro `assets/logos/avhub-logo.svg` (letras redibujadas de la referencia, espaciado idéntico y eje central común, isotipo con play corregido y bisel cincelado), PNG transparente y 6 variantes de material (cromado, golden embroidered, magenta vinyl, lime green slime, ice block, metacrilato). Botón play magenta `avhub-play.svg` para navegación y pulsadores.
 - **beta-5** — Nuevo logo vectorial `assets/logos/avhub-logo.svg`: isotipo con la mezcla de colores y logotipo AVHUB en blanco brillante (escalable).
 - **beta-4** — El botón de administrador apunta al nuevo panel de administrador.
 - **beta-3** — El botón de administrador del mockup abre el panel de administrador publicado (acceso solo del propietario con su cuenta de Google).
