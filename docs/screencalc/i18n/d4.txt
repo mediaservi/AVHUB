@@ -1,0 +1,61 @@
+^de ancho x|wide x|d'ample x|de ancho x|zabal x|de largura x
+^de alto y grosor de|high and thickness of|d'alt i gruix de|de alto e grosor de|altu eta lodiera:|de altura e espessura de
+peso total de la pantalla|total screen weight|pes total de la pantalla|peso total da pantalla|pantailaren pisu osoa|peso total do ecrã
+según fuentes|depending on sources|segons fonts|segundo fontes|iturrien arabera|segundo fontes
++ Tarjetas entrada|+ Input cards|+ Targetes d'entrada|+ Tarxetas de entrada|+ Sarrera-txartelak|+ Placas de entrada
+Fibra ×|Fiber ×|Fibra ×|Fibra ×|Zuntza ×|Fibra ×
+Fibra → Ethernet|Fiber → Ethernet|Fibra → Ethernet|Fibra → Ethernet|Zuntza → Ethernet|Fibra → Ethernet
+Esquema de conexiones del proyecto|Project connection diagram|Esquema de connexions del projecte|Esquema de conexións do proxecto|Proiektuaren konexio-eskema|Esquema de ligações do projeto
+Elegir para el proyecto y el esquema|Choose for the project and the diagram|Triar per al projecte i l'esquema|Elixir para o proxecto e o esquema|Aukeratu proiekturako eta eskemarako|Escolher para o projeto e o esquema
+Quitar del proyecto|Remove from the project|Treure del projecte|Quitar do proxecto|Kendu proiektutik|Remover do projeto
+✓ Elegida para el esquema|✓ Chosen for the diagram|✓ Triada per a l'esquema|✓ Elixida para o esquema|✓ Eskemarako aukeratua|✓ Escolhida para o esquema
+Buscar en Charmex|Search on Charmex|Cercar a Charmex|Buscar en Charmex|Bilatu Charmex-en|Procurar na Charmex
+Ver producto|View product|Veure producte|Ver produto|Ikusi produktua|Ver produto
+Sin equipo adecuado|No suitable device|Sense equip adequat|Sen equipo axeitado|Ekipo egokirik ez|Sem equipamento adequado
+FUENTES DE VÍDEO|VIDEO SOURCES|FONTS DE VÍDEO|FONTES DE VÍDEO|BIDEO-ITURRIAK|FONTES DE VÍDEO
+Software del fabricante|Manufacturer software|Programari del fabricant|Software do fabricante|Fabrikatzailearen softwarea|Software do fabricante
+PC DE CONTROL|CONTROL PC|PC DE CONTROL|PC DE CONTROL|KONTROL PC-A|PC DE CONTROLO
+ENTORNO MARINO / HÚMEDO|MARINE / HUMID ENVIRONMENT|ENTORN MARÍ / HUMIT|CONTORNO MARIÑO / HÚMIDO|ITSAS / HEZE INGURUNEA|AMBIENTE MARINHO / HÚMIDO
+Tropicalizado · contactos oro|Tropicalized · gold contacts|Tropicalitzat · contactes or|Tropicalizado · contactos ouro|Tropikalizatua · urre kontaktuak|Tropicalizado · contactos ouro
+Alimentación cabinets|Cabinet power|Alimentació cabinets|Alimentación cabinets|Kabineteen elikadura|Alimentação cabinets
+Alimentación|Power supply|Alimentació|Alimentación|Elikadura|Alimentação
+Vídeo (|Video (|Vídeo (|Vídeo (|Bideoa (|Vídeo (
+Fibra óptica|Optical fiber|Fibra òptica|Fibra óptica|Zuntz optikoa|Fibra ótica
+Control (USB/LAN)|Control (USB/LAN)|Control (USB/LAN)|Control (USB/LAN)|Kontrola (USB/LAN)|Controlo (USB/LAN)
+Backup (discontinua)|Backup (dashed)|Backup (discontínua)|Backup (descontinua)|Backup (etena)|Backup (descontínua)
+Cosido vertical ·|Vertical routing ·|Cosit vertical ·|Cosido vertical ·|Josketa bertikala ·|Costura vertical ·
+Cosido horizontal ·|Horizontal routing ·|Cosit horitzontal ·|Cosido horizontal ·|Josketa horizontala ·|Costura horizontal ·
+Cosido serpentina (columnas partidas) ·|Serpentine routing (split columns) ·|Cosit serpentina (columnes partides) ·|Cosido serpentina (columnas partidas) ·|Suge-josketa (zutabe zatituak) ·|Costura serpentina (colunas divididas) ·
+puertos (|ports (|ports (|portos (|ataka (|portas (
+puertos|ports|ports|portos|ataka|portas
+columnas por puerto)|columns per port)|columnes per port)|columnas por porto)|zutabe ataka bakoitzeko)|colunas por porta)
+columna por puerto)|column per port)|columna per port)|columna por porto)|zutabe ataka bakoitzeko)|coluna por porta)
+filas por puerto)|rows per port)|files per port)|filas por porto)|errenkada ataka bakoitzeko)|filas por porta)
+fila por puerto)|row per port)|fila per port)|fila por porto)|errenkada ataka bakoitzeko)|fila por porta)
+columnas|columns|columnes|columnas|zutabe|colunas
+filas|rows|files|filas|errenkada|filas
+Tarjeta entrada 4×HDMI|4×HDMI input card|Targeta d'entrada 4×HDMI|Tarxeta de entrada 4×HDMI|4×HDMI sarrera-txartela|Placa de entrada 4×HDMI
+Tarjeta entrada 2×DP|2×DP input card|Targeta d'entrada 2×DP|Tarxeta de entrada 2×DP|2×DP sarrera-txartela|Placa de entrada 2×DP
+Tarjeta entrada 4×SDI|4×SDI input card|Targeta d'entrada 4×SDI|Tarxeta de entrada 4×SDI|4×SDI sarrera-txartela|Placa de entrada 4×SDI
+Tarjeta salida 20 RJ45|20 RJ45 output card|Targeta de sortida 20 RJ45|Tarxeta de saída 20 RJ45|20 RJ45 irteera-txartela|Placa de saída 20 RJ45
+salidas 4K60|4K60 outputs|sortides 4K60|saídas 4K60|4K60 irteerak|saídas 4K60
+capas 4K o 1 capa 8K30|4K layers or 1 8K30 layer|capes 4K o 1 capa 8K30|capas 4K ou 1 capa 8K30|4K geruza edo 8K30 geruza 1|camadas 4K ou 1 camada 8K30
+capas 4K o 1 capa 8K60|4K layers or 1 8K60 layer|capes 4K o 1 capa 8K60|capas 4K ou 1 capa 8K60|4K geruza edo 8K60 geruza 1|camadas 4K ou 1 camada 8K60
+hasta 8 capas + audio|up to 8 layers + audio|fins a 8 capes + àudio|ata 8 capas + audio|8 geruza arte + audioa|até 8 camadas + áudio
+hasta 12 capas + audio|up to 12 layers + audio|fins a 12 capes + àudio|ata 12 capas + audio|12 geruza arte + audioa|até 12 camadas + áudio
+salidas 4K|4K outputs|sortides 4K|saídas 4K|4K irteerak|saídas 4K
+capas 4K|4K layers|capes 4K|capas 4K|4K geruza|camadas 4K
+sincronismo, cascada y backup entre equipos|synchronization, cascade and backup between devices|sincronisme, cascada i backup entre equips|sincronismo, cascada e backup entre equipos|sinkronizazioa, kaskada eta backup-a ekipoen artean|sincronismo, cascata e backup entre equipamentos
+*Incluye una herramienta tipo ventosa y dispone opcionalmente de soportes y marco perimetral.|*Includes a suction-cup type tool and optionally has brackets and perimeter frame.|*Inclou una eina tipus ventosa i disposa opcionalment de suports i marc perimetral.|*Inclúe unha ferramenta tipo ventosa e dispón opcionalmente de soportes e marco perimetral.|*Xurgatzailea motako erreminta barne hartzen du eta aukeran euskarriak eta perimetro-markoa ditu.|*Inclui uma ferramenta tipo ventosa e dispõe opcionalmente de suportes e moldura perimetral.
+*No se suministra soporte a pared / Añadir un cabinet de SpareBackup o más según tamaño de la pantalla.|*Wall bracket not supplied / Add a SpareBackup cabinet or more depending on screen size.|*No es subministra suport de paret / Afegir un cabinet de SpareBackup o més segons la mida de la pantalla.|*Non se subministra soporte de parede / Engadir un cabinet de SpareBackup ou máis segundo o tamaño da pantalla.|*Ez da horma-euskarririk hornitzen / Gehitu SpareBackup kabinete bat edo gehiago pantailaren tamainaren arabera.|*Não é fornecido suporte de parede / Adicionar um cabinet de SpareBackup ou mais conforme o tamanho do ecrã.
+*Disponible opción soporte de pared por cabinet no incluido en el precio.|*Wall bracket option available per cabinet, not included in the price.|*Disponible opció de suport de paret per cabinet no inclòs en el preu.|*Dispoñible opción de soporte de parede por cabinet non incluído no prezo.|*Kabinete bakoitzeko horma-euskarri aukera eskuragarri, prezioan sartu gabe.|*Disponível opção de suporte de parede por cabinet não incluído no preço.
+*Combinable con|*Combinable with|*Combinable amb|*Combinable con|*Honekin konbina daiteke:|*Combinável com
+*Maestro. Combinable con otros|*Master. Combinable with other|*Mestre. Combinable amb altres|*Mestre. Combinable con outros|*Nagusia. Beste hauekin konbina daiteke:|*Mestre. Combinável com outros
+*Esclavo sin RC. Requiere maestro|*Slave without RC. Requires master|*Esclau sense RC. Requereix mestre|*Escravo sen RC. Require mestre|*Morroia RC gabe. Nagusia behar du:|*Escravo sem RC. Requer mestre
+⚠ Este navegador o esta forma de abrir la app no permite la descarga. Ábrela desde su dirección web (https).|⚠ This browser or this way of opening the app does not allow the download. Open it from its web address (https).|⚠ Aquest navegador o aquesta forma d'obrir l'app no permet la descàrrega. Obre-la des de la seva adreça web (https).|⚠ Este navegador ou esta forma de abrir a app non permite a descarga. Ábrea desde o seu enderezo web (https).|⚠ Nabigatzaile honek edo aplikazioa irekitzeko modu honek ez du deskargarik onartzen. Ireki bere web helbidetik (https).|⚠ Este navegador ou esta forma de abrir a app não permite o descarregamento. Abra-a a partir do seu endereço web (https).
+⚠ La app se ha guardado, pero no se pudieron actualizar los datos: repite la descarga con conexión.|⚠ The app has been saved, but the data could not be updated: repeat the download with a connection.|⚠ L'app s'ha desat, però no s'han pogut actualitzar les dades: repeteix la descàrrega amb connexió.|⚠ A app gardouse, pero non se puideron actualizar os datos: repite a descarga con conexión.|⚠ Aplikazioa gorde da, baina ezin izan dira datuak eguneratu: errepikatu deskarga konexioarekin.|⚠ A app foi guardada, mas não foi possível atualizar os dados: repita o descarregamento com ligação.
+⚠ No se pudo completar la descarga:|⚠ The download could not be completed:|⚠ No s'ha pogut completar la descàrrega:|⚠ Non se puido completar a descarga:|⚠ Ezin izan da deskarga osatu:|⚠ Não foi possível concluir o descarregamento:
+✔ Descarga completa. Ya puedes usar la app sin conexión.|✔ Download complete. You can now use the app offline.|✔ Descàrrega completa. Ja pots usar l'app sense connexió.|✔ Descarga completa. Xa podes usar a app sen conexión.|✔ Deskarga osatu da. Orain konexiorik gabe erabil dezakezu aplikazioa.|✔ Descarregamento concluído. Já pode usar a app sem ligação.
+*Estas propuestas se calculan automáticamente por IA que puede cometer fallos. Verifique estos cálculos mediante su método habitual o contrastando con un técnico. Algunas electrónicas menos recientes pueden tener limitaciones entre columnas que invalidarían esta propuesta de conectividad.|*These proposals are calculated automatically by AI which can make mistakes. Verify these calculations with your usual method or by consulting a technician. Some electronics less recent ones may have limitations between columns that would invalidate this connectivity proposal.|*Aquestes propostes es calculen automàticament per IA que pot cometre errors. Verifiqueu aquests càlculs amb el vostre mètode habitual o contrastant-los amb un tècnic. Algunes electròniques menys recents poden tenir limitacions entre columnes que invalidarien aquesta proposta de connectivitat.|*Estas propostas calcúlanse automaticamente por IA que pode cometer erros. Verifique estes cálculos co seu método habitual ou contrastándoos cun técnico. Algunhas electrónicas menos recentes poden ter limitacións entre columnas que invalidarían esta proposta de conectividade.|*Proposamen hauek IA bidez automatikoki kalkulatzen dira, akatsak egin ditzakeena. Egiaztatu kalkulu hauek zure ohiko metodoarekin edo teknikari batekin kontrastatuz. Elektronika batzuk berriegiak ez direnek zutabeen arteko mugak izan ditzakete, konektibitate-proposamen hau baliogabetuko luketenak.|*Estas propostas são calculadas automaticamente por IA, que pode cometer erros. Verifique estes cálculos pelo seu método habitual ou consultando um técnico. Algumas eletrónicas menos recentes podem ter limitações entre colunas que invalidariam esta proposta de conectividade.
+⚠️ APP experimental con motor IA que puede cometer errores. Verifique los resultados con su método de cálculo habitual.|⚠️ Experimental APP with an AI engine that can make mistakes. Verify the results with your usual calculation method.|⚠️ APP experimental amb motor IA que pot cometre errors. Verifiqueu els resultats amb el vostre mètode de càlcul habitual.|⚠️ APP experimental con motor IA que pode cometer erros. Verifique os resultados co seu método de cálculo habitual.|⚠️ APP esperimentala IA motorrarekin, akatsak egin ditzakeena. Egiaztatu emaitzak zure ohiko kalkulu-metodoarekin.|⚠️ APP experimental com motor IA que pode cometer erros. Verifique os resultados pelo seu método de cálculo habitual.
+es un proyecto hecho con|is a project made with|és un projecte fet amb|é un proxecto feito con|-(e)k egindako proiektua da, honekin:|é um projeto feito com

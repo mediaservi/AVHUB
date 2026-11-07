@@ -1,0 +1,13 @@
+const {chromium}=require('playwright');const fs=require('fs');
+const css=fs.readFileSync('tw/out.css','utf8');
+(async()=>{const b=await chromium.launch();const ctx=await b.newContext({viewport:{width:1280,height:800},serviceWorkers:'allow'});const p=await ctx.newPage();p.setDefaultTimeout(15000);
+ await p.route('**/cdn.tailwindcss.com/**',r=>r.fulfill({contentType:'application/javascript',body:`window.tailwind={};var s=document.createElement('style');s.textContent=${JSON.stringify(css)};document.head.appendChild(s);`}));
+ await p.goto('http://localhost:8765/index.html');await p.waitForTimeout(4000);
+ await p.getByRole('button',{name:'Descargar la app'}).click();
+ await p.getByRole('button',{name:'DESCARGAR APP'}).click();
+ await p.waitForTimeout(12000);
+ const t=await p.evaluate(()=>[...document.querySelectorAll('.popup-caja p')].map(x=>x.innerText).join(' | '));
+ console.log(t.slice(-260));
+ console.log('sw',await p.evaluate(async()=>{const r=await navigator.serviceWorker.getRegistration();return !!(r&&r.active)}));
+ const n=await p.evaluate(async()=>{const c=await caches.open('screencalc-offline-v1');return (await c.keys()).length});console.log('en caché',n);
+ await b.close()})();

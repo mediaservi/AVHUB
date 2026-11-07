@@ -1,0 +1,7 @@
+CASTELLANO|CASTELLANO|CASTELLANO|CASTELLANO|CASTELLANO|CASTELLANO
+^de|of|de|de|–|de
+^con|with|amb|con|-rekin|com
+^y|and|i|e|eta|e
+^nits|nits|nits|nits|nits|nits
+^Hz|Hz|Hz|Hz|Hz|Hz
+Para|For|Per a|Para|Honetarako:|Para
