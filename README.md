@@ -5,7 +5,7 @@
 AVHUB es el punto de encuentro de las herramientas AV profesionales: una única app, pensada para el móvil y el uso táctil, que reúne el cálculo de pantallas, la configuración de hardware, las novedades del sector y las herramientas de contenido interactivo.
 
 - Web: https://avhub.mediaservi.com
-- Estado: **beta-3 · mockup de estructura** (la rama `main` mantiene la landing provisional hasta el lanzamiento).
+- Estado: **beta-4 · mockup de estructura** (la rama `main` mantiene la landing provisional hasta el lanzamiento).
 - Licencia: GPL-3.0 (ver `LICENSE`).
 
 ---
@@ -67,6 +67,7 @@ AVHUB
 
 ## Versiones
 
+- **beta-4** — El botón de administrador apunta al nuevo panel de administrador.
 - **beta-3** — El botón de administrador del mockup abre el panel de administrador publicado (acceso solo del propietario con su cuenta de Google).
 - **beta-2** — Mockup navegable de la estructura (móvil y pantalla grande), cabecera con idioma/descarga/info/admin, pestañas P1–P6, bloques BLA–BLF y zonas de anuncios. README con identidad visual.
 - **beta-1** — Conocimiento y referencias acumuladas de SCREENCALC en `docs/screencalc`.
