@@ -574,7 +574,7 @@ audioToggle.addEventListener('click',()=>{
 
         // --- ACCESO DE ADMINISTRADOR: mantener pulsado el logo AVHUB 2 segundos ---
         // Abre el panel de administrador (solo entra la cuenta del propietario; comprobado en el servidor).
-        const ADMIN_URL = 'https://script.google.com/macros/s/AKfycbz3skSjsWWJZojxlb17d4CE2Gy8D0RVgb4RAtI-wxKhro18-pkBpx4s3hJLvq4nTtUXyg/exec';
+        const ADMIN_URL = 'https://script.google.com/macros/s/AKfycbwkc12y4LODbFe-kQidnR2MbbA6cbW1WbhU3UiqmDmshx-ncAdGYrFRy8PNjm9Wg6Mx3w/exec';
         const logoAdmin = document.querySelector('.logo-avhub');
         let adminTimer = null;
         const adminIni = () => { clearTimeout(adminTimer); adminTimer = setTimeout(() => window.open(ADMIN_URL, '_blank', 'noopener'), 2000); };
