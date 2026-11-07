@@ -64,7 +64,7 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 .kicker{margin-top:clamp(18px,3vh,28px);font:600 clamp(11px,1.6vw,13px)/1 'Share Tech Mono',monospace;letter-spacing:.42em;padding-left:.42em;color:#b3afc4}
 
 /* Lectura técnica: líneas centradas y separadas */
-.hero [data-es]{transition:opacity .45s ease}.lang-out [data-es]{opacity:0}
+.hero [data-es]{transition:opacity .5s ease,filter .5s ease}.lang-out [data-es]{opacity:0;filter:blur(10px) brightness(0)}
 .readout{margin-top:clamp(16px,2.6vh,24px);display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
 .readout .l1{font:800 clamp(15px,2.3vw,22px)/1.2 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#fff;text-shadow:0 0 18px rgba(225,0,255,.35)}
 .readout .l2{font:600 clamp(12px,1.8vw,15px)/1.2 'Share Tech Mono',monospace;letter-spacing:.24em;color:#c9c5d8;text-transform:uppercase}
@@ -321,7 +321,7 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
         void main(){ vec2 c = vUv - dt*texture(vel,vUv).xy*texel; o = texture(src,c)/(1.+diss*dt); }`,
       force: H + `uniform sampler2D vel, dye; uniform float dt, buoy, t;
         void main(){ vec2 v = texture(vel,vUv).xy; float d = texture(dye,vUv).r;
-          v.y += dt*buoy*d; v.x += dt*buoy*.18*d*sin(vUv.y*9.+t*.7+vUv.x*5.); o = vec4(v,0.,1.); }`,
+          v.y += dt*buoy*d; v.x += dt*buoy*.05*d*sin(vUv.y*4.+t*.25+vUv.x*3.); o = vec4(v,0.,1.); }`,
       curl: H + `uniform sampler2D vel; void main(){ o = vec4(.5*(texture(vel,vR).y-texture(vel,vL).y-texture(vel,vT).x+texture(vel,vB).x),0.,0.,1.); }`,
       vort: H + `uniform sampler2D vel, curl; uniform float dt, k;
         void main(){ float L=texture(curl,vL).x,R=texture(curl,vR).x,T=texture(curl,vT).x,B=texture(curl,vB).x,C=texture(curl,vUv).x;
@@ -338,10 +338,10 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
         void main(){ vec2 d = vUv-pt; d.x *= ar; o = vec4(texture(src,vUv).xyz + val*exp(-dot(d,d)/r),1.); }`,
       show: H + `uniform sampler2D dye; uniform float ar, t; uniform int nb; uniform vec4 bg[9]; uniform vec4 bc[9];
         void main(){
-          vec2 uv = vUv; vec2 tx = 1.5/vec2(textureSize(dye,0));
+          vec2 uv = vUv; vec2 tx = 5./vec2(textureSize(dye,0));
           float d = (texture(dye,uv).r*2.+texture(dye,uv+vec2(tx.x,0.)).r+texture(dye,uv-vec2(tx.x,0.)).r+texture(dye,uv+vec2(0.,tx.y)).r+texture(dye,uv-vec2(0.,tx.y)).r)/6.;
           float du = texture(dye,uv+vec2(0.,.015)).r;
-          float dens = (1.-exp(-d*1.1))*smoothstep(1.05,.25,uv.y);
+          float dens = (1.-exp(-d*1.3))*smoothstep(.95,.15,uv.y);
           vec3 base = mix(vec3(.016,.012,.03), vec3(.06,.016,.09), smoothstep(1.,0.,uv.y));
           float lit = clamp(.65 + (d-du)*2.2, .35, 1.25);          // autosombreado suave: volutas con relieve
           vec3 smoke = vec3(.85,.1,1.)*dens*lit*.62 + vec3(1.,.55,1.)*pow(dens,3.)*.12;
@@ -351,7 +351,7 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
             vec2 org = vec2(bg[i].x*ar, bg[i].y); vec2 dir = vec2(cos(bg[i].z), sin(bg[i].z));
             vec2 q = p-org; float al = dot(q,dir); float pe = abs(q.x*dir.y-q.y*dir.x);
             float w = bg[i].w*(.02+al*.16); float cone = smoothstep(w,w*.15,pe)*step(0.,al)*exp(-al*.55);
-            col += bc[i].rgb*cone*bc[i].a*(.16+1.8*dens); }
+            col += bc[i].rgb*cone*bc[i].a*(.6+1.3*dens); }
           o = vec4(col,1.); }`
     };
     const mk = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw gl.getShaderInfoLog(s); return s; };
@@ -392,19 +392,19 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
       const dt = Math.min(.033, (now - last) / 1000); last = now; simT += dt;
       // emisores de humo a ras de suelo (máquinas de niebla que se mueven despacio)
       emit.forEach((e, i) => { const x = e.x + Math.sin(simT * e.sp + e.ph) * .07;
-        if (Math.random() < dt * 14) splat(x, .0, rnd(-50, 50), rnd(70, 170), rnd(.05, .1), .004 + Math.random() * .003); });
-      if (Math.random() < dt * .6) splat(rnd(.05, .95), rnd(.0, .1), rnd(-220, 220), rnd(160, 320), .18, .008);   // bocanada
+        if (Math.random() < dt * 6) splat(x, -.04, rnd(-4, 4), rnd(6, 14), rnd(.04, .07), .02 + Math.random() * .015); });
+      if (Math.random() < dt * .15) splat(rnd(.05, .95), -.02, rnd(-10, 10), rnd(20, 40), .12, .012);   // bocanada suave
       gl.useProgram(P.force.p); gl.uniform2f(P.force.u.texel, 1 / SW, 1 / SH); tex(P.force.u.vel, vel.r, 0); tex(P.force.u.dye, dye.r, 1);
-      gl.uniform1f(P.force.u.dt, dt); gl.uniform1f(P.force.u.buoy, 90); gl.uniform1f(P.force.u.t, simT); run(P.force, vel.w, SW, SH); vel.swap();
+      gl.uniform1f(P.force.u.dt, dt); gl.uniform1f(P.force.u.buoy, 18); gl.uniform1f(P.force.u.t, simT); run(P.force, vel.w, SW, SH); vel.swap();
       gl.useProgram(P.curl.p); gl.uniform2f(P.curl.u.texel, 1 / SW, 1 / SH); tex(P.curl.u.vel, vel.r, 0); run(P.curl, crl, SW, SH);
-      gl.useProgram(P.vort.p); gl.uniform2f(P.vort.u.texel, 1 / SW, 1 / SH); tex(P.vort.u.vel, vel.r, 0); tex(P.vort.u.curl, crl, 1); gl.uniform1f(P.vort.u.dt, dt); gl.uniform1f(P.vort.u.k, 22); run(P.vort, vel.w, SW, SH); vel.swap();
+      gl.useProgram(P.vort.p); gl.uniform2f(P.vort.u.texel, 1 / SW, 1 / SH); tex(P.vort.u.vel, vel.r, 0); tex(P.vort.u.curl, crl, 1); gl.uniform1f(P.vort.u.dt, dt); gl.uniform1f(P.vort.u.k, 0.); run(P.vort, vel.w, SW, SH); vel.swap();
       gl.useProgram(P.div.p); gl.uniform2f(P.div.u.texel, 1 / SW, 1 / SH); tex(P.div.u.vel, vel.r, 0); run(P.div, dv, SW, SH);
       gl.useProgram(P.pres.p); gl.uniform2f(P.pres.u.texel, 1 / SW, 1 / SH); tex(P.pres.u.dv, dv, 1);
       for (let i = 0; i < 20; i++) { tex(P.pres.u.p, prs.r, 0); run(P.pres, prs.w, SW, SH); prs.swap(); }
       gl.useProgram(P.grad.p); gl.uniform2f(P.grad.u.texel, 1 / SW, 1 / SH); tex(P.grad.u.p, prs.r, 0); tex(P.grad.u.vel, vel.r, 1); run(P.grad, vel.w, SW, SH); vel.swap();
       gl.useProgram(P.advect.p); gl.uniform2f(P.advect.u.texel, 1 / SW, 1 / SH); gl.uniform1f(P.advect.u.dt, dt);
-      tex(P.advect.u.vel, vel.r, 0); tex(P.advect.u.src, vel.r, 1); gl.uniform1f(P.advect.u.diss, .25); run(P.advect, vel.w, SW, SH); vel.swap();
-      tex(P.advect.u.vel, vel.r, 0); tex(P.advect.u.src, dye.r, 1); gl.uniform1f(P.advect.u.diss, .45); run(P.advect, dye.w, DW, DH); dye.swap();
+      tex(P.advect.u.vel, vel.r, 0); tex(P.advect.u.src, vel.r, 1); gl.uniform1f(P.advect.u.diss, .6); run(P.advect, vel.w, SW, SH); vel.swap();
+      tex(P.advect.u.vel, vel.r, 0); tex(P.advect.u.src, dye.r, 1); gl.uniform1f(P.advect.u.diss, .22); run(P.advect, dye.w, DW, DH); dye.swap();
       // haces (origen siempre fuera de pantalla)
       fxModeT -= dt;
       if (fxModeT <= 0) { fxMode = (fxMode + 1) % 3; fxModeT = rnd(12, 18); if (fxMode === 2) heads.forEach((h, i) => h.tgt = PALETTE[(i + Math.floor(simT)) % PALETTE.length]); }
@@ -414,10 +414,10 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
         if (h.tgt) for (let k = 0; k < 3; k++) h.col[k] += (h.tgt[k] - h.col[k]) * Math.min(1, dt * .6);
         let ang = -Math.PI / 2 - h.base + Math.sin(simT * h.sp * 2 * Math.PI / 4 + h.ph) * h.amp;
         if (fxMode === 1) ang = -Math.PI / 2 + Math.sin(simT * .18 + i * .9) * .45;
-        bgA.set([h.x, 1.25, ang, 1.0], n * 4); bcA.set([...h.col, .55 * mobK], n * 4); n++;
+        bgA.set([h.x, 1.25, ang, 1.0], n * 4); bcA.set([...h.col, .5 * mobK], n * 4); n++;
       });
       lasers.forEach(L => { const ang = Math.PI / 2 + (L.x < .5 ? -.5 : .5) + Math.sin(simT * .08 + L.ph) * .3;
-        bgA.set([L.x, -.25, ang, .22], n * 4); bcA.set([0, 1, .02, .9 * mobK], n * 4); n++; });
+        bgA.set([L.x, -.25, ang, .3], n * 4); bcA.set([0, 1, .02, 1.1 * mobK], n * 4); n++; });
       const S = P.show; gl.useProgram(S.p); gl.uniform2f(S.u.texel, 1 / DW, 1 / DH); tex(S.u.dye, dye.r, 0);
       gl.uniform1f(S.u.ar, AR); gl.uniform1f(S.u.t, simT); gl.uniform1i(S.u.nb, n); gl.uniform4fv(S.u['bg[]'], bgA); gl.uniform4fv(S.u['bc[]'], bcA);
       run(S, null, cv.width, cv.height);
@@ -632,7 +632,7 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
   let lang = 'es';
   setInterval(() => {
     hero.classList.add('lang-out');
-    setTimeout(() => { lang = lang === 'es' ? 'en' : 'es'; bil.forEach(el => el.innerHTML = el.dataset[lang]); hero.classList.remove('lang-out'); }, 450);
+    setTimeout(() => { lang = lang === 'es' ? 'en' : 'es'; bil.forEach(el => el.innerHTML = el.dataset[lang]); hero.classList.remove('lang-out'); }, 550);
   }, 3000);
 
   /* ===================================================================
