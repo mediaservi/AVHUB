@@ -128,8 +128,8 @@
         .time-block { display: flex; flex-direction: column; align-items: center; }
         .time-label { font-family: 'Inter', sans-serif; font-size: 7px; font-weight: 700; color: #666; letter-spacing: 0.5px; margin-top: 2px; text-shadow: none; line-height: 1; }
 
-        /* --- ACCESO DE ADMINISTRADOR: mantener pulsado el logo AVHUB --- */
-        .logo-avhub { user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+        /* --- ACCESOS SECRETOS: mantener pulsado 4 s «BY» (panel admin) o «WORK IN PROGRESS» (última beta) --- */
+        #acc-admin, #acc-beta { user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
     </style>
 </head>
 <body>
@@ -190,7 +190,7 @@
             </a>
         </nav>
         <div class="rack-footer">
-            <div><span class="footer-led"></span>WORK IN PROGRESS</div>
+            <div id="acc-beta"><span class="footer-led"></span>WORK IN PROGRESS</div>
             
             <!-- DIGITAL LED MATRIX CLOCK FIXED SEPARATORS -->
             <div class="digital-clock-container">
@@ -215,7 +215,7 @@
                 </div>
             </div>
             
-            <div>BY <a href="https://mediaservi.com" target="_blank" class="footer-link">MEDIASERVI.COM</a></div>
+            <div><span id="acc-admin">BY</span> <a href="https://mediaservi.com" target="_blank" class="footer-link">MEDIASERVI.COM</a></div>
         </div>
     </div>
     
@@ -572,16 +572,27 @@ audioToggle.addEventListener('click',()=>{
 
 });
 
-        // --- ACCESO DE ADMINISTRADOR: mantener pulsado el logo AVHUB 2 segundos ---
-        // Abre el panel de administrador (solo entra la cuenta del propietario; comprobado en el servidor).
+        // --- ACCESOS SECRETOS (mantener pulsado 4 segundos y soltar) ---
+        // «BY» del pie: panel de administrador (solo entra la cuenta del propietario; comprobado en el servidor).
+        // «WORK IN PROGRESS»: abre la última beta del mockup de AVHUB en raw.githack.com.
         const ADMIN_URL = 'https://script.google.com/macros/s/AKfycbwkc12y4LODbFe-kQidnR2MbbA6cbW1WbhU3UiqmDmshx-ncAdGYrFRy8PNjm9Wg6Mx3w/exec';
-        const logoAdmin = document.querySelector('.logo-avhub');
-        let adminTimer = null;
-        const adminIni = () => { clearTimeout(adminTimer); adminTimer = setTimeout(() => window.open(ADMIN_URL, '_blank', 'noopener'), 2000); };
-        const adminFin = () => clearTimeout(adminTimer);
-        logoAdmin.addEventListener('pointerdown', adminIni);
-        ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => logoAdmin.addEventListener(ev, adminFin));
-        logoAdmin.addEventListener('contextmenu', e => e.preventDefault());
+        const BETA_REPO = 'mediaservi/AVHUB', BETA_RUTA = 'mockup/index.html', BETA_DESDE = 2;
+        let ultimaBetaUrl = null;
+        fetch('https://api.github.com/repos/' + BETA_REPO + '/branches?per_page=100')
+            .then(r => r.json())
+            .then(ramas => {
+                const n = ramas.map(b => b.name).filter(x => /^beta-\d+$/.test(x)).map(x => parseInt(x.slice(5))).filter(v => v >= BETA_DESDE);
+                if (n.length) ultimaBetaUrl = 'https://raw.githack.com/' + BETA_REPO + '/beta-' + Math.max(...n) + '/' + BETA_RUTA;
+            }).catch(() => {});
+        function pulsacionLarga(el, ms, accion) {
+            let t0 = 0;
+            el.addEventListener('pointerdown', () => { t0 = Date.now(); });
+            el.addEventListener('pointerup', () => { if (t0 && Date.now() - t0 >= ms) accion(); t0 = 0; });
+            ['pointerleave', 'pointercancel'].forEach(ev => el.addEventListener(ev, () => { t0 = 0; }));
+            el.addEventListener('contextmenu', e => e.preventDefault());
+        }
+        pulsacionLarga(document.getElementById('acc-admin'), 4000, () => window.open(ADMIN_URL, '_blank', 'noopener'));
+        pulsacionLarga(document.getElementById('acc-beta'), 4000, () => window.open(ultimaBetaUrl || ('https://github.com/' + BETA_REPO + '/branches'), '_blank', 'noopener'));
 
         // Lógica de cuenta atrás y actualización del DOM
         const targetDate = new Date('2027-05-07T00:00:00').getTime();
