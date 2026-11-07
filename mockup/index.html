@@ -170,7 +170,7 @@
 
   <!-- [HEA] HEADER -->
   <header class="hdr">
-    <div class="logo">AV<b>HUB</b><span class="ver">beta-2 · mockup</span></div>
+    <div class="logo">AV<b>HUB</b><span class="ver">beta-3 · mockup</span></div>
     <button class="hbtn" id="bLang" title="Idioma" aria-label="Idioma"><span class="ic ic-idioma"></span></button>
     <button class="hbtn" id="bDown" title="Descargar app" aria-label="Descargar app"><span class="ic ic-download"></span></button>
     <button class="hbtn" id="bInfo" title="Información" aria-label="Información"><span class="ic ic-info"></span></button>
@@ -240,7 +240,7 @@
 <div class="modal" id="mAdmin"><div class="sheet">
   <div class="sheet-h"><span class="ic ic-admin"></span>Administrador<button data-close aria-label="Cerrar"><span class="ic ic-close"></span></button></div>
   <div class="sheet-b">
-    <p class="note">Maqueta: el acceso real se securizará (método pendiente de decidir). Aquí irán las funciones admin.</p>
+    <p class="note">Vista previa local de las zonas de anuncios. El panel real se abre con el botón de administrador.</p>
     <div class="panel-h">Zonas de anuncios</div>
     <label class="row note"><input type="checkbox" data-ad="ads-1" checked> ADS ZONE 1</label>
     <label class="row note"><input type="checkbox" data-ad="ads-2" checked> ADS ZONE 2</label>
@@ -341,7 +341,9 @@
   $('#bLang').onclick = () => open('#mLang');
   $('#bDown').onclick = () => open('#mDown');
   $('#bInfo').onclick = () => open('#mInfo');
-  $('#bAdmin').onclick = () => open('#mAdmin');
+  // Panel de administrador (AVHUB admin): acceso solo del propietario, comprobado en el servidor
+  const ADMIN_URL = 'https://script.google.com/macros/s/AKfycbz3skSjsWWJZojxlb17d4CE2Gy8D0RVgb4RAtI-wxKhro18-pkBpx4s3hJLvq4nTtUXyg/exec';
+  $('#bAdmin').onclick = () => window.open(ADMIN_URL, '_blank', 'noopener');
   $('#openReadme').onclick = () => { $('#mInfo').classList.remove('open'); open('#mReadme'); };
   $('#openDown').onclick = () => { $('#mInfo').classList.remove('open'); open('#mDown'); };
 
