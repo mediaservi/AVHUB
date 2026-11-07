@@ -21,7 +21,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body, html { width: 100%; height: 100%; background-color: var(--bg-dark); font-family: 'Inter', sans-serif; overflow-x: hidden; display: flex; justify-content: center; align-items: flex-end; color: #fff; }
         #fx-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
-        .rack-container { position: relative; z-index: 10; width: 60%; max-width: 950px; min-width: 800px; margin-top: auto; background: linear-gradient(to bottom, #1a1a1c, #0a0a0c); border-radius: 8px 8px 0 0; box-shadow: 0 0 50px rgba(0,0,0,0.8), inset 0 0 2px rgba(255,255,255,0.2), inset 0 0 10px black; border: 1px solid #000; border-bottom: none; padding: 10px 0 0 0; display: flex; flex-direction: column; gap: 4px; }
+        .rack-container { position: relative; z-index: 10; width: min(95vw,1200px); max-width: 1200px; min-width: unset; margin-top: auto; background: linear-gradient(to bottom, #1a1a1c, #0a0a0c); border-radius: 8px 8px 0 0; box-shadow: 0 0 50px rgba(0,0,0,0.8), inset 0 0 2px rgba(255,255,255,0.2), inset 0 0 10px black; border: 1px solid #000; border-bottom: none; padding: 10px 0 0 0; display: flex; flex-direction: column; gap: 4px; }
         .rack-ear { width: 30px; height: 100%; background: linear-gradient(to right, #111, #222, #111); position: absolute; top: 0; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; border-right: 1px solid #000; border-left: 1px solid #000; }
         .rack-ear.left { left: 0; } .rack-ear.right { right: 0; }
         .screw { width: 12px; height: 12px; background: radial-gradient(circle, #555, #111); border-radius: 50%; box-shadow: inset 1px 1px 2px rgba(255,255,255,0.3), 1px 1px 3px black; position: relative; }
@@ -224,8 +224,6 @@
        src="assets/audio/music-digital-technology.mp3"
        loop
        preload="auto"></audio>
-    
-    <audio id="bg-music" src="assets/audio/music-digital-technology.mp3" loop></audio>
     
     <script>
         const newsMatrix = document.getElementById('news-matrix');
@@ -452,23 +450,36 @@
             fxCtx.fillRect(0, 0, cw, ch);
             
             // Fuego / Humo volumétrico magenta denso
-            for(let i=0; i<8; i++) {
-                const x = cw/2 + Math.sin(time*0.4 + i*1.5) * (cw * 0.3);
-                const y = ch/2 + Math.cos(time*0.2 + i*2.1) * (ch * 0.3);
-                const radius = 250 + Math.sin(time*1.2+i)*150;
-                const grad = fxCtx.createRadialGradient(x, y, 0, x, y, radius);
-                // Colores más densos y opacos para simular fuego/incendio magenta
-                grad.addColorStop(0, 'rgba(153, 0, 255, 0.25)'); 
-                grad.addColorStop(0.4, 'rgba(102, 0, 204, 0.1)');
-                grad.addColorStop(1, 'rgba(50, 0, 100, 0)');
-                
-                fxCtx.globalCompositeOperation = 'screen';
-                fxCtx.fillStyle = grad;
-                fxCtx.beginPath();
-                fxCtx.arc(x, y, radius, 0, Math.PI*2);
-                fxCtx.fill();
-            }
-            
+const smokeParticles = [];
+
+for(let i=0;i<80;i++){
+    smokeParticles.push({
+        x:Math.random()*cw,
+        y:Math.random()*ch,
+        size:150+Math.random()*250,
+        vx:(Math.random()-0.5)*0.2,
+        vy:-0.1-Math.random()*0.2,
+        alpha:0.05+Math.random()*0.05
+    });
+}
+     smokeParticles.forEach(p=>{
+    p.x += p.vx;
+    p.y += p.vy;
+
+    const g = fxCtx.createRadialGradient(
+        p.x,p.y,0,
+        p.x,p.y,p.size
+    );
+
+    g.addColorStop(0,'rgba(180,120,255,0.08)');
+    g.addColorStop(0.4,'rgba(120,60,255,0.04)');
+    g.addColorStop(1,'rgba(0,0,0,0)');
+
+    fxCtx.fillStyle=g;
+    fxCtx.beginPath();
+    fxCtx.arc(p.x,p.y,p.size,0,Math.PI*2);
+    fxCtx.fill();
+});       
             fxCtx.globalCompositeOperation = 'source-over';
 
             const originX = cw / 2;
@@ -478,13 +489,13 @@
             fxCtx.lineWidth = 4;
             fxCtx.lineCap = 'round';
             for(let i=0; i<numLasers; i++) {
-                const angleOffset = Math.sin(time + i) * 0.5; 
+                const angleOffset = Math.sin(time * 0.3 + i) * 0.15; 
                 const baseAngle = -Math.PI + (Math.PI / (numLasers + 1)) * (i + 1);
                 const finalAngle = baseAngle + angleOffset;
                 const length = Math.max(cw, ch) * 1.5;
                 const endX = originX + Math.cos(finalAngle) * length;
                 const endY = originY + Math.sin(finalAngle) * length;
-                const alpha = (Math.sin(time * 10 + i) * 0.5 + 0.5) * strobe;
+                const alpha = (Math.sin(time * 2 + i) * 0.5 + 0.5) * 0.8;
                 fxCtx.beginPath();
                 fxCtx.moveTo(originX, originY);
                 fxCtx.lineTo(endX, endY);
@@ -495,37 +506,67 @@
                 fxCtx.stroke();
                 fxCtx.lineWidth = 4; 
             }
-            time += 0.05;
+            time += 0.006;
             requestAnimationFrame(drawClubFX);
         }
         drawClubFX();
 
 // --- SISTEMA DE AUDIO AVHUB ---
-const bgMusic = document.getElementById('bg-music');
-const audioToggle = document.getElementById('audio-toggle');
+const bgMusic =
+document.getElementById('bg-music');
 
-bgMusic.volume = 0.35;
+const audioToggle =
+document.getElementById('audio-toggle');
 
-audioToggle.addEventListener('click', async () => {
+bgMusic.volume=0;
 
-    if (bgMusic.paused) {
-        try {
-            await bgMusic.play();
+function startMusic(){
 
-            audioToggle.textContent = '♫ AUDIO ON';
-            audioToggle.classList.add('playing');
+    let v=0;
 
-        } catch (error) {
-            console.error('Error reproduciendo audio:', error);
-            audioToggle.textContent = '♫ ERROR AUDIO';
+    bgMusic.play().then(()=>{
+
+        const fade=setInterval(()=>{
+
+            v+=0.01;
+
+            bgMusic.volume=Math.min(v,0.35);
+
+            if(v>=0.35){
+                clearInterval(fade);
+            }
+
+        },100);
+
+    }).catch(()=>{});
+
+}
+
+window.addEventListener('load',startMusic);
+
+document.addEventListener(
+    'pointerdown',
+    ()=>{
+        if(bgMusic.paused){
+            startMusic();
         }
+    },
+    {once:true}
+);
 
-    } else {
+audioToggle.addEventListener('click',()=>{
+
+    if(bgMusic.paused){
+
+        bgMusic.play();
+        audioToggle.textContent='♫ AUDIO ON';
+
+    }else{
+
         bgMusic.pause();
-
-        audioToggle.textContent = '♫ AUDIO OFF';
-        audioToggle.classList.remove('playing');
+        audioToggle.textContent='♫ AUDIO OFF';
     }
+
 });
 
         // Lógica de cuenta atrás y actualización del DOM
