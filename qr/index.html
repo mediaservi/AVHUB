@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>AVHUB</title>
+<link rel="icon" type="image/svg+xml" href="../assets/logos/avhub-isotipo.svg">
+<style>
+  html,body{height:100%;margin:0;background:#07060b;color:#cfcce0;font:600 13px/1.4 system-ui,sans-serif;letter-spacing:.18em}
+  body{display:grid;place-items:center;text-align:center}
+  img{width:96px;animation:p 1.2s ease-in-out infinite}
+  @keyframes p{50%{opacity:.5;transform:scale(.94)}}
+  a{color:#00ff04}
+</style>
+</head>
+<body>
+<div><img src="../assets/logos/avhub-isotipo.svg" alt="AVHUB"><p>CARGANDO…</p><noscript><p><a href="https://avhub.mediaservi.com/">avhub.mediaservi.com</a></p></noscript></div>
+<script>
+/* QR DINÁMICO: el código impreso siempre apunta a avhub.mediaservi.com/qr.
+   El destino real se lee del panel de administrador (?accion=qr) y se puede cambiar
+   desde allí sin reimprimir nada. Si el panel no responde, va a la web principal. */
+(function () {
+  var ADMIN_URL = 'https://script.google.com/macros/s/AKfycbwkc12y4LODbFe-kQidnR2MbbA6cbW1WbhU3UiqmDmshx-ncAdGYrFRy8PNjm9Wg6Mx3w/exec';
+  var DEFECTO = 'https://avhub.mediaservi.com/';
+  var hecho = false;
+  function ir(u) {
+    if (hecho) return; hecho = true;
+    if (!/^https:\/\//i.test(u || '')) u = DEFECTO;
+    location.replace(u);
+  }
+  setTimeout(function () { ir(DEFECTO); }, 3500);
+  fetch(ADMIN_URL + '?accion=qr', { cache: 'no-store' })
+    .then(function (r) { return r.json(); })
+    .then(function (j) { ir(j && j.url); })
+    .catch(function () { ir(DEFECTO); });
+})();
+</script>
+</body>
+</html>

@@ -20,119 +20,183 @@
 <style>
 :root{
   --green:#00ff04; --blue:#00b4ff; --violet:#9900ff; --magenta:#e100ff;
-  --amber:#ffb000; --gray:#2a2a2a; --ink:#07060b; --text:#eef0f5; --muted:#9a98a8;
+  --amber:#ffb000; --red:#ff3040; --ink:#07060b; --text:#eef0f5; --muted:#9a98a8;
+  --steel:linear-gradient(90deg,#8d9198,#e6e8ec 22%,#a9adb4 48%,#f3f4f6 70%,#8a8e95);
   --safe-t:env(safe-area-inset-top,0px); --safe-b:env(safe-area-inset-bottom,0px);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{min-height:100%;background:var(--ink);color:var(--text);font-family:Inter,system-ui,sans-serif;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
 body{min-height:100dvh}
 a{color:inherit}
+
+/* ================= ESCENARIO (fondo) ================= */
 canvas#fx{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none}
-.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.07;mix-blend-mode:overlay;
+.truss{position:fixed;left:0;right:0;top:0;height:40px;z-index:1;pointer-events:none;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='40'%3E%3Cg fill='none' stroke='%23a7abb3' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M0 4H48M0 36H48'/%3E%3Cpath d='M0 36L24 4L48 36' stroke-width='1.6' stroke='%23878b93'/%3E%3C/g%3E%3Cg fill='%23d9dbe0'%3E%3Ccircle cx='0' cy='4' r='2.6'/%3E%3Ccircle cx='48' cy='4' r='2.6'/%3E%3Ccircle cx='24' cy='4' r='2'/%3E%3Ccircle cx='0' cy='36' r='2.6'/%3E%3Ccircle cx='48' cy='36' r='2.6'/%3E%3C/g%3E%3C/svg%3E") repeat-x center/48px 40px;
+  filter:drop-shadow(0 6px 10px rgba(0,0,0,.8)) brightness(.8)}
+.fixture{position:fixed;top:36px;z-index:1;width:30px;height:34px;margin-left:-15px;pointer-events:none}
+.fixture svg{width:100%;height:100%;display:block}
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.06;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-.floor{position:fixed;left:50%;bottom:-8vh;width:160vw;height:46vh;transform:translateX(-50%) perspective(600px) rotateX(62deg);z-index:1;pointer-events:none;opacity:.35;
-  background-image:linear-gradient(rgba(153,0,255,.55) 1px,transparent 1px),linear-gradient(90deg,rgba(153,0,255,.55) 1px,transparent 1px);background-size:64px 64px;
-  -webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 10%,transparent 70%);mask-image:radial-gradient(ellipse at 50% 0%,#000 10%,transparent 70%)}
 
 .page{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;min-height:100dvh;
-  padding:calc(18px + var(--safe-t)) 16px calc(18px + var(--safe-b))}
+  padding:calc(64px + var(--safe-t)) 16px calc(18px + var(--safe-b))}
 
-/* ---------- Barra superior ---------- */
+/* ================= BARRA SUPERIOR ================= */
 .topbar{width:100%;max-width:1120px;display:flex;justify-content:space-between;align-items:center;gap:12px}
-.badge{display:inline-flex;align-items:center;gap:8px;font:600 11px/1 'Share Tech Mono',monospace;letter-spacing:.22em;color:#d8c6ff;
-  padding:8px 12px;border-radius:999px;border:1px solid rgba(153,0,255,.45);background:rgba(20,8,36,.55);backdrop-filter:blur(6px)}
+.badge,#audio-toggle{display:inline-flex;align-items:center;gap:8px;font:600 11px/1 'Share Tech Mono',monospace;letter-spacing:.2em;
+  padding:8px 12px;border-radius:999px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.badge{color:#d8c6ff;border:1px solid rgba(153,0,255,.45);background:rgba(20,8,36,.6)}
 .badge i{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 1.6s infinite}
 @keyframes pulse{50%{opacity:.25}}
-#audio-toggle{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font:600 11px/1 'Share Tech Mono',monospace;letter-spacing:.18em;color:var(--green);
-  padding:8px 12px;border-radius:999px;border:1px solid rgba(0,255,4,.4);background:rgba(4,20,6,.55);backdrop-filter:blur(6px)}
+#audio-toggle{cursor:pointer;color:var(--green);border:1px solid rgba(0,255,4,.4);background:rgba(4,20,6,.6)}
 #audio-toggle .eq{display:inline-flex;gap:2px;align-items:flex-end;height:11px}
 #audio-toggle .eq b{width:2px;height:3px;background:currentColor;border-radius:1px}
 #audio-toggle.playing .eq b{animation:eq .9s infinite ease-in-out}
 #audio-toggle.playing .eq b:nth-child(2){animation-delay:.15s}#audio-toggle.playing .eq b:nth-child(3){animation-delay:.3s}#audio-toggle.playing .eq b:nth-child(4){animation-delay:.45s}
 @keyframes eq{0%,100%{height:3px}50%{height:11px}}
 
-/* ---------- Héroe ---------- */
-.hero{width:100%;max-width:1120px;display:flex;flex-direction:column;align-items:center;text-align:center;margin-top:clamp(18px,4vh,46px)}
+/* ================= HÉROE ================= */
+.hero{position:relative;width:100%;max-width:1120px;display:flex;flex-direction:column;align-items:center;text-align:center;margin-top:clamp(14px,3vh,36px)}
+.hero::before{content:'';position:absolute;inset:18% -6% 0;z-index:-1;background:radial-gradient(closest-side,rgba(7,6,11,.82),rgba(7,6,11,.55) 55%,transparent);pointer-events:none}
 .logo-wrap{position:relative;width:min(560px,82vw)}
-.logo-wrap::before{content:'';position:absolute;inset:-18% -12% -8%;background:radial-gradient(closest-side,rgba(153,0,255,.45),rgba(0,180,255,.12) 55%,transparent 75%);filter:blur(10px);z-index:-1;animation:breathe 5s ease-in-out infinite}
+.logo-wrap::before{content:'';position:absolute;inset:-18% -12% -8%;background:radial-gradient(closest-side,rgba(153,0,255,.42),rgba(0,180,255,.1) 55%,transparent 75%);filter:blur(10px);z-index:-1;animation:breathe 6s ease-in-out infinite}
 @keyframes breathe{50%{opacity:.55;transform:scale(.96)}}
-.logo{display:block;width:100%;height:auto;filter:drop-shadow(0 18px 40px rgba(0,0,0,.65));animation:float 7s ease-in-out infinite}
+.logo{display:block;width:100%;height:auto;filter:drop-shadow(0 18px 40px rgba(0,0,0,.7));animation:float 8s ease-in-out infinite}
 @keyframes float{50%{transform:translateY(-6px)}}
-.kicker{margin-top:clamp(18px,3vh,30px);font:600 clamp(11px,1.6vw,13px)/1 'Share Tech Mono',monospace;letter-spacing:.42em;padding-left:.42em;color:var(--muted)}
-.headline{margin-top:12px;font-weight:900;font-size:clamp(34px,7.4vw,84px);line-height:.98;letter-spacing:-.02em;
+.kicker{margin-top:clamp(18px,3vh,28px);font:600 clamp(11px,1.6vw,13px)/1 'Share Tech Mono',monospace;letter-spacing:.42em;padding-left:.42em;color:#b3afc4}
+.headline{margin-top:12px;font-weight:900;font-size:clamp(34px,7.4vw,84px);line-height:1.02;letter-spacing:-.02em;padding:0 .06em .06em;
   background:linear-gradient(92deg,#fff 0%,#f1e6ff 35%,var(--magenta) 62%,var(--violet) 80%,var(--blue) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
   filter:drop-shadow(0 0 26px rgba(225,0,255,.35))}
-.sub{margin-top:14px;max-width:640px;font-size:clamp(15px,2.1vw,19px);line-height:1.5;color:#c9c6d6}
+.sub{margin-top:14px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;font-size:clamp(15px,2.1vw,19px);line-height:1.45;color:#d6d3e2;text-shadow:0 2px 12px rgba(0,0,0,.9)}
+.sub span{display:block;text-wrap:balance}
 .sub b{color:#fff;font-weight:800}
 
-/* ---------- Cuenta atrás ---------- */
-.count{margin-top:clamp(20px,3.4vh,34px);display:flex;gap:clamp(6px,1.6vw,14px);align-items:stretch;justify-content:center}
-.cell{min-width:clamp(64px,17vw,112px);padding:clamp(10px,1.6vw,16px) clamp(6px,1.2vw,12px) clamp(8px,1.2vw,12px);border-radius:16px;
-  background:linear-gradient(180deg,rgba(28,22,40,.9),rgba(10,8,16,.92));border:1px solid rgba(255,255,255,.08);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 12px 30px rgba(0,0,0,.45);position:relative;overflow:hidden}
+/* ================= CUENTA ATRÁS ================= */
+.count{margin-top:clamp(20px,3.4vh,32px);display:flex;gap:clamp(6px,1.6vw,14px);justify-content:center}
+.cell{min-width:clamp(64px,17vw,112px);padding:clamp(10px,1.6vw,16px) clamp(6px,1.2vw,12px) clamp(8px,1.2vw,12px);border-radius:14px;
+  background:linear-gradient(180deg,#1a1820,#0a090e);border:1px solid rgba(255,255,255,.08);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 12px 30px rgba(0,0,0,.55);position:relative;overflow:hidden}
 .cell::after{content:'';position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.6);box-shadow:0 1px 0 rgba(255,255,255,.05)}
 .num{font:800 clamp(34px,7.6vw,72px)/1 'Doto',monospace;color:var(--amber);text-shadow:0 0 18px rgba(255,176,0,.55),0 0 3px rgba(255,176,0,.9);letter-spacing:.04em;font-variant-numeric:tabular-nums}
 .lab{margin-top:8px;font:600 clamp(9px,1.4vw,11px)/1 'Share Tech Mono',monospace;letter-spacing:.24em;color:var(--muted)}
-.date{margin-top:12px;font:600 12px/1 'Share Tech Mono',monospace;letter-spacing:.3em;color:#7d7a8c}
+.date{margin-top:12px;font:600 12px/1 'Share Tech Mono',monospace;letter-spacing:.3em;color:#8e8aa0}
 
-/* ---------- Monolito ---------- */
-.mono-stage{position:relative;width:100%;display:flex;justify-content:center;margin-top:clamp(30px,5vh,56px);perspective:1400px}
-.mono-stage::before{content:'';position:absolute;bottom:-34px;width:min(820px,96vw);height:70px;border-radius:50%;
+/* ================= RACK PRO-AV (monolito) ================= */
+.rack-stage{position:relative;width:100%;display:flex;justify-content:center;margin-top:clamp(30px,5vh,52px)}
+.rack-stage::before{content:'';position:absolute;bottom:-30px;width:min(900px,96vw);height:70px;border-radius:50%;
   background:radial-gradient(closest-side,rgba(225,0,255,.55),rgba(153,0,255,.18) 60%,transparent);filter:blur(14px)}
-.monolith{position:relative;width:min(760px,100%);border-radius:22px;padding:14px 14px 10px;
-  background:linear-gradient(160deg,#17151d 0%,#0b0a10 40%,#050408 100%);
-  border:1px solid rgba(255,255,255,.07);
-  box-shadow:0 40px 90px rgba(0,0,0,.75),0 0 0 1px rgba(0,0,0,.8),inset 0 1px 0 rgba(255,255,255,.08),inset 0 0 60px rgba(153,0,255,.08);
-  transform:rotateX(4deg);transform-origin:50% 100%}
-.monolith::before{content:'';position:absolute;inset:0;border-radius:22px;padding:1px;pointer-events:none;
-  background:linear-gradient(140deg,rgba(0,255,4,.7),rgba(0,180,255,.35) 30%,transparent 50%,rgba(153,0,255,.45) 75%,rgba(225,0,255,.8));
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
-.monolith::after{content:'';position:absolute;inset:0;border-radius:22px;pointer-events:none;
-  background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.06) 45%,transparent 52%);background-size:250% 100%;animation:sheen 7s linear infinite}
-@keyframes sheen{from{background-position:120% 0}to{background-position:-120% 0}}
-.mono-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:4px 6px 12px;font:600 11px/1 'Share Tech Mono',monospace;letter-spacing:.2em;color:#77748a}
-.mono-head .play{width:18px;height:auto;filter:drop-shadow(0 0 8px rgba(153,0,255,.8))}
-.mono-head span{display:flex;align-items:center;gap:8px}
-.screws{display:flex;gap:8px}.screws i{width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#6a6870,#1a191e);box-shadow:inset 0 0 1px #000}
+.rack{position:relative;width:min(940px,100%);padding:12px 0;border-radius:10px;
+  background:linear-gradient(180deg,#0e0d12,#050407);border:1px solid #000;
+  box-shadow:0 40px 90px rgba(0,0,0,.8),inset 0 0 0 1px rgba(255,255,255,.05),inset 0 0 50px rgba(153,0,255,.06)}
+.rack::before,.rack::after{content:'';position:absolute;top:0;bottom:0;width:20px;
+  background:repeating-linear-gradient(180deg,#121116 0 14px,#06050a 14px 16px,#121116 16px 30px),#121116;border:1px solid #000}
+.rack::before{left:0;border-radius:10px 0 0 10px}.rack::after{right:0;border-radius:0 10px 10px 0}
+.rack-label{display:flex;justify-content:center;align-items:center;gap:10px;margin:0 30px 10px;font:600 10px/1 'Share Tech Mono',monospace;letter-spacing:.3em;color:#5f5c70}
+.rack-label img{width:16px;filter:drop-shadow(0 0 6px rgba(153,0,255,.8))}
 
-.unit{position:relative;display:grid;grid-template-columns:52px minmax(0,1fr) auto;align-items:center;gap:14px;text-decoration:none;
-  padding:12px 14px;margin-bottom:8px;border-radius:12px;
-  background:linear-gradient(180deg,#1d1b23,#121117);border:1px solid rgba(255,255,255,.05);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.06),inset 0 -2px 0 rgba(0,0,0,.6);transition:transform .25s,box-shadow .25s,border-color .25s}
-.unit:hover,.unit:focus-visible,.unit.live{transform:translateY(-2px);border-color:rgba(153,0,255,.55);outline:none;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 10px 30px rgba(153,0,255,.25),0 0 0 1px rgba(153,0,255,.25)}
-.ico{width:52px;height:52px;border-radius:12px;display:grid;place-items:center;background:#0a0a0e;border:1px solid rgba(255,255,255,.06);box-shadow:inset 0 0 14px rgba(0,0,0,.9)}
-.ico i{width:28px;height:28px;background:var(--c,var(--green));-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat;filter:drop-shadow(0 0 6px var(--c,var(--green)));opacity:.85;transition:opacity .25s}
-.unit:hover .ico i,.unit.live .ico i{opacity:1}
-.lcd{min-width:0;display:flex;flex-direction:column;gap:5px;text-align:left}
-.lcd strong{font:800 clamp(18px,3.2vw,24px)/1 'Doto',monospace;letter-spacing:.12em;color:var(--green);text-shadow:0 0 10px rgba(0,255,4,.55)}
-.lcd small{font-size:13px;line-height:1.35;color:#a9a6b8;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.go{display:flex;align-items:center;gap:10px}
-.led{width:9px;height:9px;border-radius:50%;background:var(--amber);box-shadow:0 0 10px var(--amber)}
-.led.on{background:var(--green);box-shadow:0 0 10px var(--green)}
-.arrow{width:30px;height:auto;opacity:.75;transition:transform .25s,opacity .25s}
-.unit:hover .arrow,.unit.live .arrow{transform:translateX(3px);opacity:1}
-.vu{display:flex;gap:3px;align-items:flex-end;height:22px}
-.vu b{width:4px;border-radius:1px;background:linear-gradient(0deg,var(--green) 55%,var(--amber) 80%,#ff2d55);height:20%;animation:vu 1.2s infinite ease-in-out}
-.vu b:nth-child(2){animation-delay:.2s}.vu b:nth-child(3){animation-delay:.4s}.vu b:nth-child(4){animation-delay:.1s}.vu b:nth-child(5){animation-delay:.3s}
-@keyframes vu{0%,100%{height:20%}35%{height:95%}60%{height:45%}}
-.mono-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 6px 4px;font:600 11px/1 'Share Tech Mono',monospace;letter-spacing:.16em;color:#6e6b80}
-.mono-foot .bar{flex:1;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--violet),var(--blue),var(--green));background-size:200% 100%;animation:flow 4s linear infinite;opacity:.7}
+/* ---- unidad (1U = 74 px) ---- */
+.unit{position:relative;z-index:1;display:flex;align-items:center;gap:14px;margin:0 6px 6px;padding:0 50px;min-height:74px;text-decoration:none;color:inherit;
+  border-radius:3px;background:
+    linear-gradient(180deg,rgba(255,255,255,.07),transparent 18%,transparent 82%,rgba(0,0,0,.5)),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.012) 0 1px,transparent 1px 3px),
+    #18171c;
+  border-top:1px solid rgba(255,255,255,.1);border-bottom:2px solid #000;box-shadow:0 2px 0 #000;transition:filter .25s,box-shadow .25s}
+.unit.u2{min-height:148px}
+.unit:hover,.unit:focus-visible,.unit.live{outline:none;filter:brightness(1.12);box-shadow:0 2px 0 #000,0 0 0 1px rgba(153,0,255,.55),0 0 28px rgba(153,0,255,.28)}
+/* orejas con tornillos y asas de acero */
+.ear{position:absolute;top:0;bottom:0;width:40px;display:flex;flex-direction:column;justify-content:space-evenly;align-items:center}
+.ear.l{left:0}.ear.r{right:0}
+.ear i{width:13px;height:9px;border-radius:5px;background:#050407;box-shadow:inset 0 1px 2px #000,0 1px 0 rgba(255,255,255,.08)}
+.ear i::after{content:'';display:block;width:9px;height:9px;margin:0 auto;border-radius:50%;background:radial-gradient(circle at 35% 35%,#9a9ca3,#3a3b40 70%);transform:scale(.8)}
+.handle{position:absolute;top:10px;bottom:10px;width:9px;border-radius:5px;background:var(--steel);box-shadow:0 0 0 1px #000,0 3px 6px rgba(0,0,0,.6)}
+.ear.l .handle{left:26px}.ear.r .handle{right:26px}
+.u1 .handle{display:none}
+
+.id{display:flex;flex-direction:column;gap:5px;min-width:0;flex:0 1 210px}
+.brand{font:800 10px/1 Inter,sans-serif;letter-spacing:.2em;color:#9a97a9}
+.brand em{font-style:normal;color:var(--green)}
+.lcd{display:flex;align-items:center;gap:8px;height:30px;padding:0 10px;border-radius:4px;background:#030a03;border:1px solid #000;box-shadow:inset 0 0 10px #000,0 1px 0 rgba(255,255,255,.06)}
+.lcd strong{font:800 clamp(15px,2.4vw,19px)/1 'Doto',monospace;letter-spacing:.14em;color:var(--green);text-shadow:0 0 8px rgba(0,255,4,.6)}
+.desc{font-size:12px;line-height:1.3;color:#a29fb2}
+
+.panel{display:flex;align-items:center;gap:12px;flex:1;min-width:0;justify-content:flex-end}
+.seg{font:800 22px/1 'Doto',monospace;color:#ff3b30;text-shadow:0 0 8px rgba(255,59,48,.8);background:#140303;border:1px solid #000;border-radius:3px;padding:5px 7px;box-shadow:inset 0 0 8px #000}
+.monitor{position:relative;width:150px;height:84px;border-radius:5px;background:#000;border:2px solid #2a2930;box-shadow:inset 0 0 0 1px #000,0 0 0 1px rgba(255,255,255,.06),0 0 18px rgba(0,180,255,.12);overflow:hidden;flex:none}
+.u1 .monitor{width:110px;height:50px}
+.monitor canvas{width:100%;height:100%;display:block}
+.monitor::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 40%);pointer-events:none}
+.knob{width:34px;height:34px;border-radius:50%;flex:none;background:radial-gradient(circle at 35% 30%,#4a4950,#121116 70%);border:2px solid #050407;box-shadow:0 3px 6px rgba(0,0,0,.7),inset 0 -2px 4px rgba(0,0,0,.6);position:relative}
+.knob::before{content:'';position:absolute;left:50%;top:4px;width:3px;height:9px;margin-left:-1.5px;border-radius:2px;background:#ff8a00;box-shadow:0 0 5px #ff8a00;transform-origin:50% 13px;transform:rotate(var(--r,-30deg))}
+.knob.sm{width:26px;height:26px}.knob.sm::before{height:7px;transform-origin:50% 9px}
+.btn{width:22px;height:16px;border-radius:3px;flex:none;background:linear-gradient(180deg,#3a3940,#1c1b20);border:1px solid #000;box-shadow:0 2px 0 #000,inset 0 1px 0 rgba(255,255,255,.12)}
+.btn.g{background:linear-gradient(180deg,#2bff3e,#0e9a19);box-shadow:0 2px 0 #000,0 0 10px rgba(0,255,4,.6)}
+.btn.o{background:linear-gradient(180deg,#ff9a2e,#c25700);box-shadow:0 2px 0 #000,0 0 10px rgba(255,138,0,.5)}
+.btn.r{background:linear-gradient(180deg,#ff4d5a,#a1101c);box-shadow:0 2px 0 #000,0 0 10px rgba(255,48,64,.5)}
+.btn.m{background:linear-gradient(180deg,#e64dff,#7a00b8);box-shadow:0 2px 0 #000,0 0 10px rgba(225,0,255,.55)}
+.btn.b{background:linear-gradient(180deg,#3fc6ff,#006aa8);box-shadow:0 2px 0 #000,0 0 10px rgba(0,180,255,.5)}
+.btn.off{filter:brightness(.35) saturate(.4);box-shadow:0 2px 0 #000}
+.col{display:flex;flex-direction:column;gap:6px;align-items:center}
+.row{display:flex;gap:6px;align-items:center}
+.meter{display:flex;gap:2px;align-items:flex-end;height:44px;padding:3px;background:#050407;border:1px solid #000;border-radius:2px}
+.meter b{width:4px;height:100%;background:linear-gradient(0deg,#0f3 0 60%,#ff0 60% 80%,#f33 80%);-webkit-mask:linear-gradient(0deg,#000 var(--v,40%),transparent var(--v,40%));mask:linear-gradient(0deg,#000 var(--v,40%),transparent var(--v,40%));
+  background-size:100% 100%;opacity:.95}
+/* conectores */
+.ports{display:flex;gap:8px;align-items:flex-end}
+.port{display:flex;flex-direction:column;align-items:center;gap:4px;font:600 7px/1 'Share Tech Mono',monospace;letter-spacing:.06em;color:#8d8a9c;white-space:nowrap}
+.hdmi{width:30px;height:12px;background:#000;border:2px solid #a9adb4;clip-path:polygon(0 0,100% 0,100% 55%,86% 100%,14% 100%,0 55%);position:relative}
+.hdmi::after{content:'';position:absolute;left:4px;right:4px;top:3px;height:2px;background:#c9a227}
+.usb3{width:22px;height:10px;background:#000;border:2px solid #a9adb4;border-radius:1px;position:relative}
+.usb3::after{content:'';position:absolute;left:2px;right:2px;top:1px;height:3px;background:#1e6dff}
+.usbc{width:20px;height:8px;border-radius:5px;background:#000;border:2px solid #a9adb4}
+.dp{width:24px;height:11px;background:#000;border:2px solid #a9adb4;clip-path:polygon(0 0,100% 0,100% 100%,18% 100%,0 70%)}
+.rj{width:16px;height:14px;background:#000;border:2px solid #a9adb4;position:relative}
+.rj::after{content:'';position:absolute;left:4px;right:4px;bottom:-2px;height:4px;background:#000;border:2px solid #a9adb4;border-top:0}
+/* matriz */
+.matrix{display:grid;grid-template-columns:repeat(8,16px);gap:4px}
+.matrix .btn{width:16px;height:12px}
+.marquee{position:relative;flex:1;min-width:120px;height:34px;overflow:hidden;border-radius:4px;background:#0b0700;border:1px solid #000;box-shadow:inset 0 0 10px #000}
+.marquee span{position:absolute;top:50%;transform:translateY(-50%);white-space:nowrap;font:800 18px/1 'Doto',monospace;letter-spacing:.08em;color:var(--amber);text-shadow:0 0 8px rgba(255,176,0,.7);animation:ticker 38s linear infinite;padding-left:100%}
+@keyframes ticker{to{transform:translate(-100%,-50%)}}
+.fader{position:relative;width:96px;height:14px;border-radius:7px;background:#050407;border:1px solid #000;box-shadow:inset 0 0 6px #000}
+.fader i{position:absolute;top:-6px;left:var(--x,40%);width:14px;height:24px;margin-left:-7px;border-radius:3px;background:var(--steel);box-shadow:0 2px 5px rgba(0,0,0,.8);transition:left 1.6s ease-in-out}
+.pads{display:grid;grid-template-columns:repeat(4,18px);gap:5px}
+.pads .btn{width:18px;height:18px;border-radius:4px}
+.dpad{position:relative;width:46px;height:46px;flex:none}
+.dpad::before,.dpad::after{content:'';position:absolute;background:linear-gradient(180deg,#3a3940,#17161b);border:1px solid #000;border-radius:3px;box-shadow:0 2px 0 #000}
+.dpad::before{left:15px;top:0;width:16px;height:46px}.dpad::after{top:15px;left:0;width:46px;height:16px}
+.slot{width:70px;height:10px;border-radius:2px;background:#000;box-shadow:inset 0 2px 3px #000,0 1px 0 rgba(255,255,255,.08)}
+.play-btn{width:28px;flex:none;filter:drop-shadow(0 0 8px rgba(153,0,255,.7));transition:transform .25s}
+.unit:hover .play-btn,.unit.live .play-btn{transform:scale(1.12)}
+.rack-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:8px 30px 0;font:600 10px/1 'Share Tech Mono',monospace;letter-spacing:.16em;color:#5f5c70}
+.rack-foot .bar{flex:1;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--violet),var(--blue),var(--green));background-size:200% 100%;animation:flow 4s linear infinite;opacity:.7}
 @keyframes flow{to{background-position:-200% 0}}
 
-/* ---------- Pie ---------- */
+/* ================= PIE ================= */
 .site-foot{width:100%;max-width:1120px;margin-top:auto;padding-top:clamp(36px,6vh,64px);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
-  font:600 11px/1.4 'Share Tech Mono',monospace;letter-spacing:.18em;color:#6f6c80}
+  font:600 11px/1.4 'Share Tech Mono',monospace;letter-spacing:.18em;color:#77748a}
 #acc-beta,#acc-admin{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;cursor:default}
 #acc-beta{display:inline-flex;align-items:center;gap:8px}
 .wip-led{width:8px;height:8px;border-radius:50%;background:#ff9900;box-shadow:0 0 10px #ff9900;animation:pulse 2s infinite}
-.site-foot a{text-decoration:none;color:#9b98ad;transition:color .2s}.site-foot a:hover{color:#fff}
+.site-foot a{text-decoration:none;color:#a19eb2;transition:color .2s}.site-foot a:hover{color:#fff}
 
+/* ================= RESPONSIVE ================= */
+@media (max-width:860px){
+  .hide-md{display:none!important}
+}
 @media (max-width:620px){
-  .unit{grid-template-columns:44px minmax(0,1fr) auto;gap:10px;padding:10px}
-  .ico{width:44px;height:44px;border-radius:10px}.ico i{width:24px;height:24px}
-  .vu{display:none}
-  .monolith{padding:10px 10px 8px;border-radius:18px;transform:none}
+  .page{padding-top:calc(58px + var(--safe-t))}
+  .truss{height:30px;background-size:36px 30px}
+  .fixture{top:27px;width:22px;height:26px;margin-left:-11px}
+  .unit{padding:10px 34px;gap:10px;flex-wrap:wrap;min-height:0}
+  .unit.u2{min-height:0}
+  .ear{width:26px}.ear.l .handle{left:16px}.ear.r .handle{right:16px}.handle{width:6px}
+  .id{flex:1 1 100%}
+  .panel{flex:1 1 100%;justify-content:space-between;gap:10px}
+  .monitor{width:118px;height:66px}.u1 .monitor{width:96px;height:44px}
+  .hide-sm{display:none!important}
+  .rack-label,.rack-foot{margin-left:30px;margin-right:30px}
   .site-foot{justify-content:center;text-align:center}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
@@ -140,7 +204,8 @@ canvas#fx{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-even
 </head>
 <body>
 <canvas id="fx" aria-hidden="true"></canvas>
-<div class="floor" aria-hidden="true"></div>
+<div class="truss" aria-hidden="true"></div>
+<div id="fixtures" aria-hidden="true"></div>
 <div class="grain" aria-hidden="true"></div>
 
 <main class="page">
@@ -153,8 +218,12 @@ canvas#fx{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-even
     <div class="logo-wrap"><img class="logo" src="assets/logos/avhub-logo.svg" alt="AVHUB" width="2978" height="1817"></div>
     <p class="kicker">TOOLS FOR PRO-AV PROFESSIONALS</p>
     <h1 class="headline">Muy pronto.</h1>
-    <p class="sub">El punto de encuentro de las herramientas <b>Pro-AV</b>: pantallas LED y proyección, hardware, novedades, visuales y juego interactivo. <b>Todo en una sola app.</b></p>
-
+    <p class="sub">
+      <span>El punto de encuentro de las herramientas <b>Pro-AV</b>.</span>
+      <span>Pantallas LED y proyección, hardware,</span>
+      <span>novedades, visuales y juego interactivo.</span>
+      <span><b>Todo en una sola app.</b></span>
+    </p>
     <div class="count" role="timer" aria-label="Cuenta atrás para el lanzamiento">
       <div class="cell"><div class="num" id="fc-d">000</div><div class="lab">DÍAS</div></div>
       <div class="cell"><div class="num" id="fc-h">00</div><div class="lab">HORAS</div></div>
@@ -164,37 +233,79 @@ canvas#fx{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-even
     <p class="date">LANZAMIENTO · 07.05.2027</p>
   </section>
 
-  <section class="mono-stage" aria-label="Herramientas de AVHUB">
-    <div class="monolith">
-      <div class="mono-head"><span><img class="play" src="assets/logos/avhub-play.svg" alt="">AVHUB · RACK 01</span><span class="screws"><i></i><i></i></span></div>
+  <section class="rack-stage" aria-label="Herramientas de AVHUB">
+    <div class="rack">
+      <div class="rack-label"><img src="assets/logos/avhub-play.svg" alt="">AVHUB · PRO-AV RACK</div>
 
-      <a class="unit" href="https://screencalc.mediaservi.com" target="_blank" rel="noopener noreferrer">
-        <span class="ico"><i style="--m:url(assets/icons/icon-screen.svg);--c:var(--green)"></i></span>
-        <span class="lcd"><strong>SCREEN</strong><small>Calculador de pantallas: de una sola a una sala inmersiva, LED o proyección.</small></span>
-        <span class="go"><span class="vu" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></span><span class="led on"></span><img class="arrow" src="assets/logos/avhub-play.svg" alt=""></span>
-      </a>
-      <a class="unit" href="https://screencalc.mediaservi.com" target="_blank" rel="noopener noreferrer">
-        <span class="ico"><i style="--m:url(assets/icons/icon-hardware.svg);--c:var(--blue)"></i></span>
-        <span class="lcd"><strong>HARDWARE</strong><small>Configura montajes interconectados con los equipos de tu próximo proyecto.</small></span>
-        <span class="go"><span class="vu" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></span><span class="led on"></span><img class="arrow" src="assets/logos/avhub-play.svg" alt=""></span>
-      </a>
-      <a class="unit" href="https://charmex.net/productos/esp/promociones" target="_blank" rel="noopener noreferrer">
-        <span class="ico"><i style="--m:url(assets/icons/icon-news.svg);--c:var(--amber)"></i></span>
-        <span class="lcd"><strong>NEWS</strong><small>Novedades, próximos cursos de formación y ofertas.</small></span>
-        <span class="go"><span class="vu" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></span><span class="led on"></span><img class="arrow" src="assets/logos/avhub-play.svg" alt=""></span>
-      </a>
-      <a class="unit" href="https://vjshow.mediaservi.com" target="_blank" rel="noopener noreferrer">
-        <span class="ico"><i style="--m:url(assets/icons/icon-vjshow.svg);--c:var(--magenta)"></i></span>
-        <span class="lcd"><strong>VJSHOW</strong><small>Visuales reactivos al audio para sesiones de VJ y salas inmersivas.</small></span>
-        <span class="go"><span class="vu" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></span><span class="led on"></span><img class="arrow" src="assets/logos/avhub-play.svg" alt=""></span>
-      </a>
-      <a class="unit" href="https://vjshow.mediaservi.com" target="_blank" rel="noopener noreferrer">
-        <span class="ico"><i style="--m:url(assets/icons/icon-joystick.svg);--c:var(--violet)"></i></span>
-        <span class="lcd"><strong>MSGAME</strong><small>Videojuegos en cartuchos para una o varias pantallas, con tu móvil como mando.</small></span>
-        <span class="go"><span class="vu" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></span><span class="led"></span><img class="arrow" src="assets/logos/avhub-play.svg" alt=""></span>
+      <!-- SCREEN · procesador de vídeo LED (2U) -->
+      <a class="unit u2" href="https://screencalc.mediaservi.com" target="_blank" rel="noopener noreferrer">
+        <span class="ear l"><i></i><span class="handle"></span><i></i></span>
+        <span class="id"><span class="brand">AVHUB <em>LED PROCESSOR</em></span><span class="lcd"><strong>SCREEN</strong></span><span class="desc">Calculador de pantallas LED y proyección.</span></span>
+        <span class="panel">
+          <span class="seg hide-sm">4K60</span>
+          <span class="monitor"><canvas id="mon-screen" width="300" height="168"></canvas></span>
+          <span class="col hide-md"><span class="row"><span class="btn g"></span><span class="btn"></span><span class="btn"></span></span><span class="row"><span class="btn"></span><span class="btn o"></span><span class="btn"></span></span></span>
+          <span class="ports"><span class="port"><span class="hdmi"></span>HDMI 2.1</span><span class="port hide-sm"><span class="hdmi"></span>HDMI 2.1</span><span class="port"><span class="usb3"></span>USB 3.0</span></span>
+          <span class="knob hide-sm" style="--r:40deg"></span>
+          <img class="play-btn" src="assets/logos/avhub-play.svg" alt="">
+        </span>
+        <span class="ear r"><i></i><span class="handle"></span><i></i></span>
       </a>
 
-      <div class="mono-foot"><span>SYS READY</span><span class="bar"></span><span>v0 · 2027</span></div>
+      <!-- HARDWARE · matriz de vídeo (1U) -->
+      <a class="unit u1" href="https://screencalc.mediaservi.com" target="_blank" rel="noopener noreferrer">
+        <span class="ear l"><i></i><i></i></span>
+        <span class="id"><span class="brand">AVHUB <em>MATRIX 8×8</em></span><span class="lcd"><strong>HARDWARE</strong></span><span class="desc hide-md">Montajes interconectados para tu proyecto.</span></span>
+        <span class="panel">
+          <span class="matrix" id="matrix"></span>
+          <span class="ports hide-sm"><span class="port"><span class="hdmi"></span>HDMI 2.1</span><span class="port"><span class="usbc"></span>USB-C</span><span class="port hide-md"><span class="rj"></span>LAN</span></span>
+          <img class="play-btn" src="assets/logos/avhub-play.svg" alt="">
+        </span>
+        <span class="ear r"><i></i><i></i></span>
+      </a>
+
+      <!-- NEWS · teletipo (1U) -->
+      <a class="unit u1" href="https://charmex.net/productos/esp/promociones" target="_blank" rel="noopener noreferrer">
+        <span class="ear l"><i></i><i></i></span>
+        <span class="id"><span class="brand">AVHUB <em>INFO FEED</em></span><span class="lcd"><strong>NEWS</strong></span></span>
+        <span class="panel">
+          <span class="marquee"><span>NOVEDADES · PRÓXIMOS CURSOS DE FORMACIÓN · OFERTAS · LANZAMIENTOS · EVENTOS PRO-AV · </span></span>
+          <span class="col hide-sm"><span class="btn r"></span><span class="btn"></span></span>
+          <span class="knob sm hide-sm" style="--r:-60deg"></span>
+          <img class="play-btn" src="assets/logos/avhub-play.svg" alt="">
+        </span>
+        <span class="ear r"><i></i><i></i></span>
+      </a>
+
+      <!-- VJSHOW · mezclador de vídeo (2U) -->
+      <a class="unit u2" href="https://vjshow.mediaservi.com" target="_blank" rel="noopener noreferrer">
+        <span class="ear l"><i></i><span class="handle"></span><i></i></span>
+        <span class="id"><span class="brand">AVHUB <em>VISUAL MIXER</em></span><span class="lcd"><strong>VJSHOW</strong></span><span class="desc">Visuales reactivos al audio para VJ y salas inmersivas.</span></span>
+        <span class="panel">
+          <span class="monitor"><canvas id="mon-vj" width="300" height="168"></canvas></span>
+          <span class="col hide-sm"><span class="pads" id="pads"></span><span class="fader" id="fader"><i></i></span></span>
+          <span class="meter hide-md" id="meter"><b></b><b></b><b></b><b></b><b></b><b></b></span>
+          <span class="col hide-sm"><span class="knob sm" style="--r:20deg"></span><span class="knob sm" style="--r:-80deg"></span></span>
+          <img class="play-btn" src="assets/logos/avhub-play.svg" alt="">
+        </span>
+        <span class="ear r"><i></i><span class="handle"></span><i></i></span>
+      </a>
+
+      <!-- MSGAME · consola (1U) -->
+      <a class="unit u1" href="https://vjshow.mediaservi.com" target="_blank" rel="noopener noreferrer">
+        <span class="ear l"><i></i><i></i></span>
+        <span class="id"><span class="brand">AVHUB <em>GAME SYSTEM</em></span><span class="lcd"><strong>MSGAME</strong></span><span class="desc hide-md">Juegos con tu móvil como mando.</span></span>
+        <span class="panel">
+          <span class="monitor"><canvas id="mon-game" width="220" height="100"></canvas></span>
+          <span class="col hide-sm"><span class="slot"></span><span class="row"><span class="port"><span class="usb3"></span>USB 3.0</span><span class="port"><span class="hdmi"></span>HDMI 2.1</span></span></span>
+          <span class="dpad hide-sm"></span>
+          <span class="col"><span class="btn m"></span><span class="btn b"></span></span>
+          <img class="play-btn" src="assets/logos/avhub-play.svg" alt="">
+        </span>
+        <span class="ear r"><i></i><i></i></span>
+      </a>
+
+      <div class="rack-foot"><span>SYS READY</span><span class="bar"></span><span>v0 · 2027</span></div>
     </div>
   </section>
 
@@ -204,97 +315,246 @@ canvas#fx{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-even
   </footer>
 </main>
 
-<audio id="bg-music" src="assets/audio/music-digital-technology.mp3" loop preload="none"></audio>
+<audio id="bg-music" src="assets/audio/music-digital-technology.mp3" loop preload="auto" autoplay></audio>
 
 <script>
 (() => {
   'use strict';
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rnd = (a, b) => a + Math.random() * (b - a);
 
-  /* ===== Humo magenta + láseres de show ===== */
+  /* ===================================================================
+     ESCENARIO: humo magenta volumétrico + cabezas móviles + láseres
+     =================================================================== */
   const cv = document.getElementById('fx'), cx = cv.getContext('2d');
-  let W = 0, H = 0, DPR = 1, smoke = [], t = 0, running = true;
-  const resize = () => {
-    DPR = Math.min(window.devicePixelRatio || 1, 1.5);
-    W = cv.width = Math.round(innerWidth * DPR); H = cv.height = Math.round(innerHeight * DPR);
-    const n = innerWidth < 700 ? 26 : 44;
-    smoke = Array.from({ length: n }, () => ({
-      x: Math.random() * W, y: H * (0.35 + Math.random() * 0.75), r: (160 + Math.random() * 260) * DPR,
-      vx: (Math.random() - .5) * .25 * DPR, vy: -(.08 + Math.random() * .22) * DPR,
-      hue: Math.random() < .7 ? 292 : (Math.random() < .5 ? 270 : 200), a: .05 + Math.random() * .06
-    }));
-  };
+  const RES = 0.6;                      // el humo y los haces son difusos: se dibujan a menor resolución
+  let W = 0, H = 0, trussY = 0;
+
+  // Textura de humo: ruido fractal (fBm) tileable, generado una sola vez
+  function smokeTexture(size, seed, oct) {
+    const c = document.createElement('canvas'); c.width = c.height = size;
+    const g = c.getContext('2d'), img = g.createImageData(size, size), d = img.data;
+    const P = new Uint8Array(512); let s = seed;
+    const r = () => (s = (s * 16807) % 2147483647) / 2147483647;
+    const perm = [...Array(256).keys()].sort(() => r() - .5); for (let i = 0; i < 512; i++) P[i] = perm[i & 255];
+    const fade = t => t * t * (3 - 2 * t);
+    const val = (x, y, per) => { // ruido de valor periódico
+      const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
+      const h = (a, b) => P[(P[((a % per) + per) % per] + ((b % per) + per) % per) & 511] / 255;
+      const u = fade(xf), v = fade(yf);
+      return (h(xi, yi) * (1 - u) + h(xi + 1, yi) * u) * (1 - v) + (h(xi, yi + 1) * (1 - u) + h(xi + 1, yi + 1) * u) * v;
+    };
+    for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+      let n = 0, amp = .55, f = 4, norm = 0;
+      for (let o = 0; o < oct; o++) { n += amp * val(x / size * f, y / size * f, f); norm += amp; amp *= .5; f *= 2; }
+      n /= norm;
+      let a = Math.max(0, (n - .38) / .62); a = Math.pow(a, 1.6);
+      const i = (y * size + x) * 4;
+      d[i] = 235; d[i + 1] = 70 + n * 60; d[i + 2] = 255; d[i + 3] = a * 255;
+    }
+    g.putImageData(img, 0, 0); return c;
+  }
+  const smokeA = smokeTexture(256, 1234, 5), smokeB = smokeTexture(256, 98765, 4), smokeW = smokeTexture(256, 4242, 5);
+  const layers = [
+    { tex: smokeA, scale: 2.4, vx: -6, vy: -2, a: .8, y0: .35 },
+    { tex: smokeB, scale: 1.6, vx: 9, vy: -4, a: .65, y0: .45 },
+    { tex: smokeW, scale: 3.2, vx: 3, vy: -1, a: .4, y0: .2 }
+  ].map(l => ({ ...l, ox: Math.random() * 1000, oy: Math.random() * 1000 }));
+
+  // Cabezas móviles colgadas del truss
+  const FIX = [0.08, 0.22, 0.36, 0.5, 0.64, 0.78, 0.92];
+  const fixHost = document.getElementById('fixtures');
+  const fixSVG = '<svg viewBox="0 0 30 34"><rect x="7" y="0" width="16" height="6" rx="1.5" fill="#2b2a30" stroke="#000"/><path d="M5 6h20v6a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z" fill="#1c1b20" stroke="#000"/><path d="M6 13h3v12H6zM21 13h3v12h-3z" fill="#2b2a30" stroke="#000"/><rect x="8.5" y="16" width="13" height="15" rx="4" fill="#232228" stroke="#000"/><circle cx="15" cy="27" r="4" fill="#0a0a0d" stroke="#555"/></svg>';
+  FIX.forEach(x => { const d = document.createElement('div'); d.className = 'fixture'; d.style.left = (x * 100) + '%'; d.innerHTML = fixSVG; fixHost.appendChild(d); });
+  const PALETTE = [[255, 255, 255], [225, 0, 255], [0, 255, 4], [0, 180, 255], [153, 0, 255], [255, 255, 255]];
+  const heads = FIX.map((x, i) => ({ x, ph: rnd(0, 6.28), sp: rnd(.05, .09), amp: rnd(.28, .45), base: (i - 3) * .07, col: PALETTE[i % PALETTE.length].slice(), tgt: null }));
+  // Láseres: pocos, lentos y gruesos (casi focos concentrados)
+  const lasers = [{ x: .04, col: [0, 255, 4], ph: 0 }, { x: .96, col: [0, 255, 4], ph: 2 }, { x: .5, col: [225, 0, 255], ph: 4 }];
+
+  function resize() {
+    W = cv.width = Math.round(innerWidth * RES); H = cv.height = Math.round(innerHeight * RES);
+    trussY = (innerWidth <= 620 ? 50 : 64) * RES;
+  }
   addEventListener('resize', resize); resize();
-  const lasers = [
-    { ox: .08, col: '0,255,4' }, { ox: .3, col: '225,0,255' }, { ox: .5, col: '0,180,255' },
-    { ox: .7, col: '225,0,255' }, { ox: .92, col: '0,255,4' }
-  ];
-  function frame() {
+
+  let t = 0, last = performance.now(), running = true, fx = { strobe: 0, mode: 0, modeT: 0 };
+  function beam(x0, y0, ang, len, w0, w1, col, alpha) {
+    const ex = x0 + Math.cos(ang) * len, ey = y0 + Math.sin(ang) * len;
+    const nx = -Math.sin(ang), ny = Math.cos(ang);
+    const gr = cx.createLinearGradient(x0, y0, ex, ey);
+    gr.addColorStop(0, `rgba(${col},${alpha})`); gr.addColorStop(.35, `rgba(${col},${alpha * .45})`); gr.addColorStop(1, `rgba(${col},0)`);
+    cx.fillStyle = gr; cx.beginPath();
+    cx.moveTo(x0 + nx * w0, y0 + ny * w0); cx.lineTo(ex + nx * w1, ey + ny * w1); cx.lineTo(ex - nx * w1, ey - ny * w1); cx.lineTo(x0 - nx * w0, y0 - ny * w0); cx.closePath(); cx.fill();
+  }
+  function frame(now) {
     if (!running) return;
+    const dt = Math.min(.05, (now - last) / 1000); last = now; if (!reduce) t += dt;
     cx.globalCompositeOperation = 'source-over';
     const bg = cx.createLinearGradient(0, 0, 0, H);
-    bg.addColorStop(0, '#07060b'); bg.addColorStop(.6, '#0d0616'); bg.addColorStop(1, '#14061f');
+    bg.addColorStop(0, '#050408'); bg.addColorStop(.55, '#0b0512'); bg.addColorStop(1, '#16061f');
     cx.fillStyle = bg; cx.fillRect(0, 0, W, H);
+
+    // --- humo magenta (capas de ruido a la deriva, más denso abajo) ---
     cx.globalCompositeOperation = 'lighter';
-    // humo
-    for (const p of smoke) {
-      p.x += p.vx; p.y += p.vy;
-      if (p.y + p.r < 0) { p.y = H + p.r * .5; p.x = Math.random() * W; }
-      if (p.x < -p.r) p.x = W + p.r; if (p.x > W + p.r) p.x = -p.r;
-      const g = cx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
-      g.addColorStop(0, `hsla(${p.hue},100%,58%,${p.a})`); g.addColorStop(.5, `hsla(${p.hue},100%,45%,${p.a * .45})`); g.addColorStop(1, 'hsla(0,0%,0%,0)');
-      cx.fillStyle = g; cx.beginPath(); cx.arc(p.x, p.y, p.r, 0, 6.2832); cx.fill();
+    for (const L of layers) {
+      const s = Math.max(W, H) * L.scale / 256 * 256, ox = ((L.ox + t * L.vx * RES * 3) % s + s) % s, oy = ((L.oy + t * L.vy * RES * 3) % s + s) % s;
+      cx.save(); cx.globalAlpha = L.a;
+      const grd = cx.createLinearGradient(0, H * L.y0, 0, H); // máscara vertical: el humo se acumula en el suelo
+      for (let x = -ox; x < W; x += s) for (let y = H * L.y0 - oy - s; y < H; y += s) cx.drawImage(L.tex, x, y, s, s);
+      cx.restore();
     }
-    // láseres desde la base del escenario, barriendo en abanico
-    const oy = H * 1.02;
-    lasers.forEach((L, i) => {
-      const ox = W * L.ox;
-      const fan = 7;
-      for (let k = 0; k < fan; k++) {
-        const base = -Math.PI / 2 + (k - (fan - 1) / 2) * .11;
-        const ang = base + Math.sin(t * .55 + i * 1.7 + k * .3) * .32;
-        const len = Math.hypot(W, H) * 1.1;
-        const ex = ox + Math.cos(ang) * len, ey = oy + Math.sin(ang) * len;
-        const flick = .45 + .55 * Math.max(0, Math.sin(t * 1.3 + i * 2.1 + k));
-        const gr = cx.createLinearGradient(ox, oy, ex, ey);
-        gr.addColorStop(0, `rgba(${L.col},${.55 * flick})`); gr.addColorStop(.55, `rgba(${L.col},${.16 * flick})`); gr.addColorStop(1, `rgba(${L.col},0)`);
-        cx.strokeStyle = gr; cx.lineWidth = 1.6 * DPR; cx.beginPath(); cx.moveTo(ox, oy); cx.lineTo(ex, ey); cx.stroke();
-        cx.lineWidth = 9 * DPR; cx.globalAlpha = .12; cx.stroke(); cx.globalAlpha = 1;
-      }
+    // atenuación superior: el humo se queda abajo
+    cx.globalCompositeOperation = 'destination-out';
+    const fade = cx.createLinearGradient(0, 0, 0, H);
+    fade.addColorStop(0, 'rgba(0,0,0,.8)'); fade.addColorStop(.4, 'rgba(0,0,0,.3)'); fade.addColorStop(.7, 'rgba(0,0,0,0)');
+    cx.fillStyle = fade; cx.fillRect(0, 0, W, H);
+    cx.globalCompositeOperation = 'destination-over';
+    cx.fillStyle = bg; cx.fillRect(0, 0, W, H);
+
+    // --- efectos programados ---
+    fx.modeT -= dt;
+    if (fx.modeT <= 0) { fx.mode = (fx.mode + 1) % 4; fx.modeT = rnd(9, 14);
+      if (fx.mode === 2) heads.forEach((h, i) => h.tgt = PALETTE[(i + Math.floor(t)) % PALETTE.length]); // cambio de color en bloque
+      if (fx.mode === 3) fx.strobe = 1.4; }
+    fx.strobe = Math.max(0, fx.strobe - dt);
+
+    // --- haces de las cabezas móviles ---
+    cx.globalCompositeOperation = 'lighter';
+    const len = Math.hypot(W, H) * 1.05;
+    heads.forEach((h, i) => {
+      if (h.tgt) { for (let k = 0; k < 3; k++) h.col[k] += (h.tgt[k] - h.col[k]) * Math.min(1, dt * .8); }
+      let ang = Math.PI / 2 + h.base + Math.sin(t * h.sp * 2 * Math.PI / 6 + h.ph) * h.amp;
+      if (fx.mode === 1) ang = Math.PI / 2 + Math.sin(t * .25 + i * .9) * .55;          // abanico en ola
+      if (fx.mode === 3) ang = Math.PI / 2 + (FIX[3] - h.x) * 1.15 * Math.sin(t * .3);   // convergencia al centro
+      let a = .2;
+      if (fx.strobe > 0) a *= (Math.sin(t * 40) > 0 ? 1.8 : .25);
+      const col = h.col.map(Math.round).join(',');
+      beam(h.x * W, trussY, ang, len, 3 * RES, 70 * RES, col, a * .55);
+      beam(h.x * W, trussY, ang, len, 1.5 * RES, 22 * RES, col, a);
     });
-    t += reduce ? 0 : .012;
+    // --- láseres gruesos y lentos ---
+    lasers.forEach((L, i) => {
+      const ang = -Math.PI / 2 + (L.x - .5) * -.9 + Math.sin(t * .12 + L.ph) * .35;
+      const x0 = L.x * W, y0 = H;
+      const fl = .55 + .45 * Math.sin(t * .4 + i);
+      beam(x0, y0, ang, len, 2 * RES, 5 * RES, L.col.join(','), .5 * fl);
+      beam(x0, y0, ang, len, 4 * RES, 14 * RES, L.col.join(','), .12 * fl);
+    });
+    // brillo de las lentes en el truss
+    heads.forEach(h => {
+      const g = cx.createRadialGradient(h.x * W, trussY, 0, h.x * W, trussY, 18 * RES);
+      const col = h.col.map(Math.round).join(',');
+      g.addColorStop(0, `rgba(${col},.9)`); g.addColorStop(1, `rgba(${col},0)`);
+      cx.fillStyle = g; cx.beginPath(); cx.arc(h.x * W, trussY, 18 * RES, 0, 6.3); cx.fill();
+    });
     if (!reduce) requestAnimationFrame(frame);
   }
-  frame();
-  document.addEventListener('visibilitychange', () => { running = !document.hidden; if (running && !reduce) requestAnimationFrame(frame); });
+  requestAnimationFrame(frame);
+  document.addEventListener('visibilitychange', () => { running = !document.hidden; if (running && !reduce) { last = performance.now(); requestAnimationFrame(frame); } });
 
-  /* ===== Módulo activo simulado en el monolito ===== */
+  /* ===================================================================
+     RACK: monitores y controles vivos
+     =================================================================== */
   const units = [...document.querySelectorAll('.unit')];
-  if (!reduce) setInterval(() => { units.forEach(u => u.classList.remove('live')); units[Math.floor(Math.random() * units.length)].classList.add('live'); }, 2600);
+  if (!reduce) setInterval(() => { units.forEach(u => u.classList.remove('live')); units[Math.floor(Math.random() * units.length)].classList.add('live'); }, 2800);
 
-  /* ===== Cuenta atrás ===== */
+  // Matriz 8×8: entradas y salidas con rutas que cambian
+  const mx = document.getElementById('matrix');
+  for (let i = 0; i < 16; i++) { const b = document.createElement('span'); b.className = 'btn off'; mx.appendChild(b); }
+  const mb = [...mx.children];
+  const route = () => { mb.forEach(b => b.className = 'btn off'); const i = Math.floor(Math.random() * 8), o = 8 + Math.floor(Math.random() * 8); mb[i].className = 'btn g'; mb[o].className = 'btn o'; };
+  route(); if (!reduce) setInterval(route, 1400);
+
+  // Pads del mezclador, crossfader y vúmetro
+  const pads = document.getElementById('pads'), pc = ['m', 'b', 'g', 'o', 'm', 'b', 'g', 'r'];
+  for (let i = 0; i < 8; i++) { const b = document.createElement('span'); b.className = 'btn off'; b.dataset.c = pc[i]; pads.appendChild(b); }
+  const pb = [...pads.children], fader = document.getElementById('fader'), meter = [...document.querySelectorAll('#meter b')];
+  if (!reduce) {
+    setInterval(() => { pb.forEach(b => b.className = 'btn off'); const k = Math.floor(Math.random() * 8); pb[k].className = 'btn ' + pb[k].dataset.c; }, 700);
+    setInterval(() => fader.style.setProperty('--x', rnd(10, 90) + '%'), 2400);
+    setInterval(() => meter.forEach(m => m.style.setProperty('--v', rnd(25, 95) + '%')), 140);
+  }
+
+  // Monitor SCREEN: carta de ajuste → píxeles LED → escaneo
+  const ms = document.getElementById('mon-screen').getContext('2d');
+  function drawScreen(tt) {
+    const w = 300, h = 168, mode = Math.floor(tt / 4) % 3;
+    if (mode === 0) {
+      const c = ['#c0c0c0', '#c0c000', '#00c0c0', '#00c000', '#c000c0', '#c00000', '#0000c0'];
+      c.forEach((k, i) => { ms.fillStyle = k; ms.fillRect(i * w / 7, 0, w / 7 + 1, h * .7); });
+      ms.fillStyle = '#111'; ms.fillRect(0, h * .7, w, h * .3);
+      ms.fillStyle = '#fff'; ms.font = '700 18px Doto, monospace'; ms.textAlign = 'center'; ms.fillText('3840×2160 · 60Hz', w / 2, h * .9);
+    } else if (mode === 1) {
+      ms.fillStyle = '#000'; ms.fillRect(0, 0, w, h);
+      for (let y = 0; y < h; y += 8) for (let x = 0; x < w; x += 8) {
+        const v = .5 + .5 * Math.sin(x * .05 + tt * 2) * Math.cos(y * .07 - tt);
+        ms.fillStyle = `hsl(${(280 + v * 120 + tt * 20) % 360},100%,${20 + v * 45}%)`; ms.fillRect(x + 1, y + 1, 6, 6);
+      }
+    } else {
+      ms.fillStyle = '#04040a'; ms.fillRect(0, 0, w, h);
+      ms.strokeStyle = 'rgba(0,255,4,.35)'; ms.lineWidth = 1;
+      for (let x = 0; x <= w; x += 30) { ms.beginPath(); ms.moveTo(x, 0); ms.lineTo(x, h); ms.stroke(); }
+      for (let y = 0; y <= h; y += 28) { ms.beginPath(); ms.moveTo(0, y); ms.lineTo(w, y); ms.stroke(); }
+      const sx = (tt * 120) % w; ms.fillStyle = 'rgba(0,255,4,.55)'; ms.fillRect(sx, 0, 6, h);
+      ms.fillStyle = '#00ff04'; ms.font = '700 16px Doto, monospace'; ms.textAlign = 'left'; ms.fillText('CABINETS 12×6', 10, 20);
+    }
+  }
+  // Monitor VJSHOW: visuales reactivos
+  const mv = document.getElementById('mon-vj').getContext('2d');
+  function drawVJ(tt) {
+    const w = 300, h = 168, mode = Math.floor(tt / 5) % 3;
+    mv.fillStyle = 'rgba(0,0,0,.25)'; mv.fillRect(0, 0, w, h);
+    if (mode === 0) { for (let i = 0; i < 16; i++) { const bh = (Math.abs(Math.sin(tt * 3 + i * .6)) * .8 + .1) * h; mv.fillStyle = `hsl(${(i * 22 + tt * 60) % 360},100%,55%)`; mv.fillRect(i * w / 16 + 2, h - bh, w / 16 - 4, bh); } }
+    else if (mode === 1) { for (let r = 6; r > 0; r--) { mv.beginPath(); mv.arc(w / 2, h / 2, r * 22 + (tt * 40) % 22, 0, 6.3); mv.strokeStyle = `hsl(${(tt * 90 + r * 40) % 360},100%,60%)`; mv.lineWidth = 3; mv.stroke(); } }
+    else { mv.save(); mv.translate(w / 2, h / 2); for (let k = 0; k < 5; k++) { mv.rotate(tt * .6 + k * .3); const s = 30 + k * 22; mv.strokeStyle = `hsl(${(tt * 70 + k * 50) % 360},100%,60%)`; mv.lineWidth = 2.5; mv.strokeRect(-s / 2, -s / 2, s, s); } mv.restore(); }
+  }
+  // Monitor MSGAME: pong automático
+  const mg = document.getElementById('mon-game').getContext('2d');
+  const pg = { x: 110, y: 50, vx: 2.2, vy: 1.4, l: 40, r: 40 };
+  function drawGame() {
+    const w = 220, h = 100; mg.fillStyle = '#031203'; mg.fillRect(0, 0, w, h);
+    mg.strokeStyle = 'rgba(0,255,4,.35)'; mg.setLineDash([4, 5]); mg.beginPath(); mg.moveTo(w / 2, 0); mg.lineTo(w / 2, h); mg.stroke(); mg.setLineDash([]);
+    pg.x += pg.vx; pg.y += pg.vy; if (pg.y < 4 || pg.y > h - 4) pg.vy *= -1;
+    pg.l += (pg.y - pg.l - 0) * .09; pg.r += (pg.y - pg.r) * .07;
+    if (pg.x < 14 || pg.x > w - 14) { pg.vx *= -1; }
+    mg.fillStyle = '#00ff04'; mg.fillRect(6, pg.l - 14, 5, 28); mg.fillRect(w - 11, pg.r - 14, 5, 28); mg.fillRect(pg.x - 3, pg.y - 3, 6, 6);
+  }
+  const t0 = performance.now();
+  (function mon(now) { const tt = (now - t0) / 1000; drawScreen(tt); drawVJ(tt); drawGame(); if (!reduce) requestAnimationFrame(mon); })(t0);
+
+  /* ===================================================================
+     CUENTA ATRÁS
+     =================================================================== */
   const target = new Date('2027-05-07T00:00:00').getTime();
   const pad = (n, l = 2) => String(n).padStart(l, '0');
-  const tick = () => {
-    let d = Math.max(0, target - Date.now());
+  const tick = () => { const d = Math.max(0, target - Date.now());
     document.getElementById('fc-d').textContent = pad(Math.floor(d / 864e5), 3);
     document.getElementById('fc-h').textContent = pad(Math.floor(d % 864e5 / 36e5));
     document.getElementById('fc-m').textContent = pad(Math.floor(d % 36e5 / 6e4));
-    document.getElementById('fc-s').textContent = pad(Math.floor(d % 6e4 / 1e3));
-  };
+    document.getElementById('fc-s').textContent = pad(Math.floor(d % 6e4 / 1e3)); };
   tick(); setInterval(tick, 1000);
 
-  /* ===== Audio (se activa con la primera interacción; los navegadores bloquean la reproducción automática) ===== */
+  /* ===================================================================
+     AUDIO: intenta sonar al cargar (los navegadores solo lo permiten si el
+     visitante ya ha interactuado con la web antes); si lo bloquean, arranca
+     con el primer toque, clic o tecla en cualquier parte de la página.
+     =================================================================== */
   const music = document.getElementById('bg-music'), btn = document.getElementById('audio-toggle'), lbl = document.getElementById('audio-label');
+  let userOff = false;
   const setUI = on => { btn.classList.toggle('playing', on); btn.setAttribute('aria-pressed', on); lbl.textContent = on ? 'AUDIO ON' : 'AUDIO OFF'; };
   const fadeIn = () => { music.volume = 0; let v = 0; const f = setInterval(() => { v += .02; music.volume = Math.min(v, .35); if (v >= .35) clearInterval(f); }, 80); };
-  const play = () => music.play().then(() => { fadeIn(); setUI(true); }).catch(() => setUI(false));
-  btn.addEventListener('click', e => { e.stopPropagation(); if (music.paused) play(); else { music.pause(); setUI(false); } });
-  document.addEventListener('pointerdown', e => { if (e.target.closest('#audio-toggle,#acc-beta,#acc-admin')) return; if (music.paused) play(); }, { once: true });
+  const play = () => music.play().then(() => { fadeIn(); setUI(true); return true; }).catch(() => { setUI(false); return false; });
+  music.volume = 0; play();
+  const unlock = e => { if (userOff || !music.paused) return off(); if (e && e.target && e.target.closest && e.target.closest('#audio-toggle')) return; play().then(ok => { if (ok) off(); }); };
+  const evs = ['pointerdown', 'touchstart', 'keydown', 'click'];
+  const off = () => evs.forEach(ev => removeEventListener(ev, unlock, true));
+  evs.forEach(ev => addEventListener(ev, unlock, { capture: true, passive: true }));
+  btn.addEventListener('click', e => { e.stopPropagation(); if (music.paused) { userOff = false; play(); } else { userOff = true; music.pause(); setUI(false); } });
 
-  /* ===== Accesos secretos (mantener pulsado 4 s y soltar) =====
-     «BY»: panel de administrador (solo entra la cuenta del propietario; comprobado en el servidor).
-     «WORK IN PROGRESS»: abre la beta más reciente del mockup de AVHUB en raw.githack.com. */
+  /* ===================================================================
+     ACCESOS SECRETOS (mantener pulsado 4 s y soltar)
+     «BY»: panel de administrador · «WORK IN PROGRESS»: beta más reciente
+     =================================================================== */
   const ADMIN_URL = 'https://script.google.com/macros/s/AKfycbwkc12y4LODbFe-kQidnR2MbbA6cbW1WbhU3UiqmDmshx-ncAdGYrFRy8PNjm9Wg6Mx3w/exec';
   const BETA_REPO = 'mediaservi/AVHUB', BETA_RUTA = 'mockup/index.html', BETA_DESDE = 2;
   let ultimaBetaUrl = null;
@@ -303,10 +563,10 @@ canvas#fx{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-even
     if (n.length) ultimaBetaUrl = 'https://raw.githack.com/' + BETA_REPO + '/beta-' + Math.max(...n) + '/' + BETA_RUTA;
   }).catch(() => {});
   function pulsacionLarga(el, ms, accion) {
-    let t0 = 0;
-    el.addEventListener('pointerdown', () => { t0 = Date.now(); });
-    el.addEventListener('pointerup', () => { if (t0 && Date.now() - t0 >= ms) accion(); t0 = 0; });
-    ['pointerleave', 'pointercancel'].forEach(ev => el.addEventListener(ev, () => { t0 = 0; }));
+    let t1 = 0;
+    el.addEventListener('pointerdown', () => { t1 = Date.now(); });
+    el.addEventListener('pointerup', () => { if (t1 && Date.now() - t1 >= ms) accion(); t1 = 0; });
+    ['pointerleave', 'pointercancel'].forEach(ev => el.addEventListener(ev, () => { t1 = 0; }));
     el.addEventListener('contextmenu', e => e.preventDefault());
   }
   pulsacionLarga(document.getElementById('acc-admin'), 4000, () => window.open(ADMIN_URL, '_blank', 'noopener'));
