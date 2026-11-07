@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 622" role="img" aria-labelledby="t">
+  <title id="t">AVHUB</title>
+  <defs>
+    <!-- Isotipo: mezcla de color (verde → cian → azul → violeta → magenta) -->
+    <linearGradient id="avhub-iso" gradientUnits="userSpaceOnUse" x1="100" y1="390" x2="585" y2="190">
+      <stop offset="0" stop-color="#00ff04"/>
+      <stop offset="0.3" stop-color="#00e0c8"/>
+      <stop offset="0.5" stop-color="#00b4ff"/>
+      <stop offset="0.7" stop-color="#4a4dff"/>
+      <stop offset="0.86" stop-color="#9900ff"/>
+      <stop offset="1" stop-color="#e100ff"/>
+    </linearGradient>
+    <!-- Logotipo: blanco brillante -->
+    <linearGradient id="avhub-txt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.55" stop-color="#f3f3f6"/>
+      <stop offset="1" stop-color="#c9cad1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ISOTIPO -->
+  <g transform="translate(240 20) scale(1.04) translate(-85 -47)">
+    <path d="M122 350 L323 84 L540 352 L330 352" fill="none" stroke="url(#avhub-iso)" stroke-width="74" stroke-linejoin="round"/>
+    <circle cx="122" cy="350" r="37" fill="url(#avhub-iso)"/>
+    <polygon points="330,315 330,389 288,389" fill="url(#avhub-iso)"/>
+    <polygon points="314,206 314,294 390,250" fill="url(#avhub-iso)" stroke="url(#avhub-iso)" stroke-width="16" stroke-linejoin="round"/>
+  </g>
+
+  <!-- LOGOTIPO AVHUB -->
+  <g transform="translate(28 442) scale(1.6)" fill="url(#avhub-txt)" fill-rule="evenodd">
+    <path d="M0 100 L48 0 H72 L120 100 H94 L60 28 L26 100 Z"/>
+    <path d="M125 0 H151 L185 72 L219 0 H245 L197 100 H173 Z"/>
+    <path d="M265 0 h24 v38 h42 v-38 h24 v100 h-24 v-40 h-42 v40 h-24 z"/>
+    <path d="M375 0 h24 v62 q0 14 14 14 h19 q14 0 14 -14 v-62 h24 v66 q0 34 -34 34 h-27 q-34 0 -34 -34 z"/>
+    <path d="M490 0 H566 Q590 0 590 24 V32 Q590 46 580 50 Q590 54 590 68 V76 Q590 100 566 100 H490 Z M514 20 H562 Q568 20 568 26 V32 Q568 38 562 38 H514 Z M514 60 H564 Q570 60 570 66 V74 Q570 80 564 80 H514 Z"/>
+  </g>
+</svg>
