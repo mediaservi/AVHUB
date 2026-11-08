@@ -608,8 +608,12 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
   let userOff = false, actx = null, audioOn = false;
   const setUI = on => { audioOn = on; btn.classList.toggle('playing', on); btn.setAttribute('aria-pressed', on); lbl.textContent = on ? 'AUDIO ON' : 'AUDIO OFF'; };
   const fadeIn = () => { music.volume = 0; let v = 0; const f = setInterval(() => { v += .02; music.volume = Math.min(v, .35); if (v >= .35) clearInterval(f); }, 80); };
-  const play = () => music.play().then(() => { fadeIn(); setUI(true); try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); actx.resume(); } catch (e) {} return true; }).catch(() => { setUI(false); return false; });
+  const play = () => music.play().then(() => { fadeIn(); try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); actx.resume(); } catch (e) {} return true; }).catch(() => { setUI(false); return false; });
   music.volume = 0; play();
+  // «AUDIO ON» solo cuando la música avanza de verdad (se comprueba cada 0,5 s)
+  let lastT = -1;
+  setInterval(() => { const t = music.currentTime, avanza = !music.paused && music.readyState >= 3 && t !== lastT; lastT = t; if (avanza !== audioOn) setUI(avanza); }, 500);
+  ['pause', 'ended', 'emptied', 'error'].forEach(ev => music.addEventListener(ev, () => setUI(false)));
   const evs = ['pointerdown', 'touchstart', 'keydown', 'click'];
   const off = () => evs.forEach(ev => removeEventListener(ev, unlock, true));
   function unlock(e) { if (userOff || !music.paused) return off(); if (e && e.target && e.target.closest && e.target.closest('#audio-toggle')) return; play().then(ok => { if (ok) off(); }); }
