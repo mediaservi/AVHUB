@@ -656,10 +656,16 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
   const BETA_REPO = 'mediaservi/AVHUB', BETA_RUTA = 'mockup/index.html';
   const ultimaBetaUrl = 'https://raw.githack.com/' + BETA_REPO + '/beta/' + BETA_RUTA;
   function pulsacionLarga(el, ms, accion) {
-    let t1 = 0;
-    el.addEventListener('pointerdown', () => { t1 = Date.now(); });
-    el.addEventListener('pointerup', () => { if (t1 && Date.now() - t1 >= ms) accion(); t1 = 0; });
-    ['pointerleave', 'pointercancel'].forEach(ev => el.addEventListener(ev, () => { t1 = 0; }));
+    /* Ratón: se abre en el «click» (gesto nuevo del usuario; Safari/Chrome bloquean ventanas abiertas segundos después de pulsar).
+       Táctil: se abre al levantar el dedo. Pequeños movimientos del ratón no cancelan la pulsación. */
+    let t1 = 0, tipo = '', listo = false;
+    el.addEventListener('pointerdown', e => { t1 = Date.now(); tipo = e.pointerType; listo = false; });
+    el.addEventListener('pointerup', () => {
+      listo = !!t1 && Date.now() - t1 >= ms; t1 = 0;
+      if (listo && tipo !== 'mouse') { listo = false; accion(); }
+    });
+    el.addEventListener('click', () => { if (listo) { listo = false; accion(); } });
+    el.addEventListener('pointercancel', () => { t1 = 0; listo = false; });
     el.addEventListener('contextmenu', e => e.preventDefault());
   }
   pulsacionLarga(document.getElementById('acc-admin'), 4000, () => window.open(ADMIN_URL, '_blank', 'noopener'));
