@@ -650,15 +650,11 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 
   /* ===================================================================
      ACCESOS SECRETOS (mantener pulsado 4 s y soltar)
-     «BY»: panel de administrador · «WORK IN PROGRESS»: beta más reciente
+     «BY»: panel de administrador · «WORK IN PROGRESS»: mockup en la rama beta
      =================================================================== */
   const ADMIN_URL = 'https://script.google.com/macros/s/AKfycbwkc12y4LODbFe-kQidnR2MbbA6cbW1WbhU3UiqmDmshx-ncAdGYrFRy8PNjm9Wg6Mx3w/exec';
-  const BETA_REPO = 'mediaservi/AVHUB', BETA_RUTA = 'mockup/index.html', BETA_DESDE = 2;
-  let ultimaBetaUrl = null;
-  fetch('https://api.github.com/repos/' + BETA_REPO + '/branches?per_page=100').then(r => r.json()).then(ramas => {
-    const n = ramas.map(b => b.name).filter(x => /^beta-\d+$/.test(x)).map(x => parseInt(x.slice(5))).filter(v => v >= BETA_DESDE);
-    if (n.length) ultimaBetaUrl = 'https://raw.githack.com/' + BETA_REPO + '/beta-' + Math.max(...n) + '/' + BETA_RUTA;
-  }).catch(() => {});
+  const BETA_REPO = 'mediaservi/AVHUB', BETA_RUTA = 'mockup/index.html';
+  const ultimaBetaUrl = 'https://raw.githack.com/' + BETA_REPO + '/beta/' + BETA_RUTA;
   function pulsacionLarga(el, ms, accion) {
     let t1 = 0;
     el.addEventListener('pointerdown', () => { t1 = Date.now(); });

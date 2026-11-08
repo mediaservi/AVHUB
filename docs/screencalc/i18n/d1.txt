@@ -1,0 +1,109 @@
+Interior|Indoor|Interior|Interior|Barrualdea|Interior
+Exterior|Outdoor|Exterior|Exterior|Kanpoaldea|Exterior
+Escaparate|Shop window|Aparador|Escaparate|Erakusleihoa|Montra
+Sin preferencia|No preference|Sense preferència|Sen preferencia|Hobespenik gabe|Sem preferência
+Instalación fija|Fixed installation|Instal·lació fixa|Instalación fixa|Instalazio finkoa|Instalação fixa
+Alquiler / eventos|Rental / events|Lloguer / esdeveniments|Aluguer / eventos|Alokairua / ekitaldiak|Aluguer / eventos
+Alquiler|Rental|Lloguer|Aluguer|Alokairua|Aluguer
+Instalación|Installation|Instal·lació|Instalación|Instalazioa|Instalação
+Introduce ancho y alto de pantalla primero|Enter the screen width and height first|Introdueix primer l'ample i l'alt de la pantalla|Introduce primeiro o ancho e o alto da pantalla|Sartu lehenik pantailaren zabalera eta altuera|Introduza primeiro a largura e a altura do ecrã
+Ningún modelo disponible alcanza esa resolución con ese tamaño|No available model reaches that resolution at that size|Cap model disponible arriba a aquesta resolució amb aquesta mida|Ningún modelo dispoñible alcanza esa resolución con ese tamaño|Ez dago eskuragarri dagoen modelorik tamaina horrekin bereizmen hori lortzen duenik|Nenhum modelo disponível atinge essa resolução com esse tamanho
+Selecciona un modelo primero|Select a model first|Selecciona primer un model|Selecciona un modelo primeiro|Hautatu lehenik modelo bat|Selecione primeiro um modelo
+Cosido de cable|Cable routing|Cosit de cable|Cosido de cable|Kable-josketa|Costura de cabo
+Cómo se cablea la pantalla: AUTO elige el cosido con menos líneas sin partir columnas ni filas.|How the screen is cabled: AUTO picks the routing with the fewest lines without splitting columns or rows.|Com es cableja la pantalla: AUTO tria el cosit amb menys línies sense partir columnes ni files.|Como se cablea a pantalla: AUTO elixe o cosido con menos liñas sen partir columnas nin filas.|Pantaila nola kableatzen den: AUTO-k lerro gutxien duen josketa aukeratzen du, zutabeak edo errenkadak zatitu gabe.|Como se cabla o ecrã: AUTO escolhe a costura com menos linhas sem partir colunas nem filas.
+HORIZ.|HORIZ.|HORIZ.|HORIZ.|HORIZ.|HORIZ.
+¿Qué medidas debe tener la pantalla?|What size should the screen be?|Quines mides ha de tenir la pantalla?|Que medidas debe ter a pantalla?|Zer neurri izan behar ditu pantailak?|Que medidas deve ter o ecrã?
+Ancho x alto. Ej.: 6x2 metros|Width x height. E.g.: 6x2 meters|Ample x alt. Ex.: 6x2 metres|Ancho x alto. Ex.: 6x2 metros|Zabalera x altuera. Adib.: 6x2 metro|Largura x altura. Ex.: 6x2 metros
+¿Dónde se instalará la pantalla?|Where will the screen be installed?|On s'instal·larà la pantalla?|Onde se instalará a pantalla?|Non instalatuko da pantaila?|Onde será instalado o ecrã?
+¿Es para instalación fija o para alquiler?|Is it for fixed installation or for rental?|És per a instal·lació fixa o per a lloguer?|É para instalación fixa ou para aluguer?|Instalazio finkorako ala alokairurako da?|É para instalação fixa ou para aluguer?
+¿Es un espacio público donde el LED pueda recibir golpes o contacto?|Is it a public space where the LED could be hit or touched?|És un espai públic on el LED pugui rebre cops o contacte?|É un espazo público onde o LED poida recibir golpes ou contacto?|Leku publikoa al da, LEDak kolpeak edo ukipena jaso ditzakeena?|É um espaço público onde o LED possa receber pancadas ou contacto?
+Si es así se propone LED protegido (COB / HOB); si no, SMD.|If so, protected LED (COB / HOB) is proposed; otherwise, SMD.|Si és així es proposa LED protegit (COB / HOB); si no, SMD.|Se é así proponse LED protexido (COB / HOB); se non, SMD.|Hala bada, LED babestua (COB / HOB) proposatzen da; bestela, SMD.|Se sim, propõe-se LED protegido (COB / HOB); caso contrário, SMD.
+Sí, LED protegido|Yes, protected LED|Sí, LED protegit|Si, LED protexido|Bai, LED babestua|Sim, LED protegido
+No, espacio controlado|No, controlled space|No, espai controlat|Non, espazo controlado|Ez, espazio kontrolatua|Não, espaço controlado
+¿A qué distancia mínima estará el público?|What is the minimum distance of the audience?|A quina distància mínima estarà el públic?|A que distancia mínima estará o público?|Zein distantzia minimora egongo da publikoa?|A que distância mínima estará o público?
+Menos de 2 m|Less than 2 m|Menys de 2 m|Menos de 2 m|2 m baino gutxiago|Menos de 2 m
+De 2 a 4 m|From 2 to 4 m|De 2 a 4 m|De 2 a 4 m|2tik 4 m-ra|De 2 a 4 m
+De 4 a 8 m|From 4 to 8 m|De 4 a 8 m|De 4 a 8 m|4tik 8 m-ra|De 4 a 8 m
+De 8 a 15 m|From 8 to 15 m|De 8 a 15 m|De 8 a 15 m|8tik 15 m-ra|De 8 a 15 m
+Más de 15 m|More than 15 m|Més de 15 m|Máis de 15 m|15 m baino gehiago|Mais de 15 m
+No lo sé|I don't know|No ho sé|Non o sei|Ez dakit|Não sei
+¿La pantalla estará cerca del mar o en una zona con mucha humedad?|Will the screen be near the sea or in a very humid area?|La pantalla estarà a prop del mar o en una zona amb molta humitat?|A pantalla estará preto do mar ou nunha zona con moita humidade?|Pantaila itsasoaren ondoan edo hezetasun handiko eremuan egongo da?|O ecrã ficará perto do mar ou numa zona com muita humidade?
+En ambiente marino o muy húmedo hace falta una variante tropicalizada con contactos chapados en oro.|In a marine or very humid environment a tropicalized variant with gold-plated contacts is needed.|En ambient marí o molt humit cal una variant tropicalitzada amb contactes xapats en or.|En ambiente mariño ou moi húmido fai falta unha variante tropicalizada con contactos chapados en ouro.|Itsas ingurunean edo oso hezean, urrez estalitako kontaktuak dituen aldaera tropikalizatua behar da.|Em ambiente marinho ou muito húmido é necessária uma variante tropicalizada com contactos banhados a ouro.
+Sí, costa / mucha humedad|Yes, coast / high humidity|Sí, costa / molta humitat|Si, costa / moita humidade|Bai, kostaldea / hezetasun handia|Sim, costa / muita humidade
+No|No|No|Non|Ez|Não
+¿Quieres incluir la electrónica de control (proyecto llave en mano)?|Do you want to include the control electronics (turnkey project)?|Vols incloure l'electrònica de control (projecte clau en mà)?|Queres incluír a electrónica de control (proxecto chave en man)?|Kontrol-elektronika sartu nahi duzu (giltza eskuko proiektua)?|Quer incluir a eletrónica de controlo (projeto chave na mão)?
+Sí, con electrónica|Yes, with electronics|Sí, amb electrònica|Si, con electrónica|Bai, elektronikarekin|Sim, com eletrónica
+No, solo la pantalla|No, just the screen|No, només la pantalla|Non, só a pantalla|Ez, pantaila soilik|Não, apenas o ecrã
+¿Quieres electrónica con backup (redundancia)?|Do you want electronics with backup (redundancy)?|Vols electrònica amb backup (redundància)?|Queres electrónica con backup (redundancia)?|Backup duen elektronika nahi duzu (erredundantzia)?|Quer eletrónica com backup (redundância)?
+Sí, con backup|Yes, with backup|Sí, amb backup|Si, con backup|Bai, backup-ekin|Sim, com backup
+No, solo línea principal|No, main line only|No, només línia principal|Non, só liña principal|Ez, linea nagusia soilik|Não, apenas linha principal
+¿La electrónica debe llevar escalador (procesador de vídeo)?|Should the electronics include a scaler (video processor)?|L'electrònica ha de portar escalador (processador de vídeo)?|A electrónica debe levar escalador (procesador de vídeo)?|Elektronikak eskalatzailea (bideo-prozesadorea) eraman behar du?|A eletrónica deve incluir escalador (processador de vídeo)?
+Sí, con escalador|Yes, with scaler|Sí, amb escalador|Si, con escalador|Bai, eskalatzailearekin|Sim, com escalador
+No, sin escalador|No, without scaler|No, sense escalador|Non, sen escalador|Ez, eskalatzailerik gabe|Não, sem escalador
+¿Cómo se conecta la electrónica a la pantalla?|How is the electronics connected to the screen?|Com es connecta l'electrònica a la pantalla?|Como se conecta a electrónica á pantalla?|Nola konektatzen da elektronika pantailarekin?|Como se liga a eletrónica ao ecrã?
+Directo por cable de red (RJ45)|Direct by network cable (RJ45)|Directe per cable de xarxa (RJ45)|Directo por cable de rede (RJ45)|Zuzenean sare-kablez (RJ45)|Direto por cabo de rede (RJ45)
+En rack con fibra óptica|In rack with optical fiber|En rack amb fibra òptica|En rack con fibra óptica|Rack-ean zuntz optikoarekin|Em rack com fibra ótica
+¿Necesitas mediaserver?|Do you need a mediaserver?|Necessites mediaserver?|Precisas mediaserver?|Mediaserver behar duzu?|Precisa de mediaserver?
+No lo necesito|I don't need it|No el necessito|Non o necesito|Ez dut behar|Não preciso
+Sí, cualquier marca|Yes, any brand|Sí, qualsevol marca|Si, calquera marca|Bai, edozein marka|Sim, qualquer marca
+Sí, NovaStar|Yes, NovaStar|Sí, NovaStar|Si, NovaStar|Bai, NovaStar|Sim, NovaStar
+Sí, PixelHue|Yes, PixelHue|Sí, PixelHue|Si, PixelHue|Bai, PixelHue|Sim, PixelHue
+Sí, con audio Dante|Yes, with Dante audio|Sí, amb àudio Dante|Si, con audio Dante|Bai, Dante audioarekin|Sim, com áudio Dante
+¿Cuántas fuentes de vídeo (entradas) vas a conectar?|How many video sources (inputs) will you connect?|Quantes fonts de vídeo (entrades) connectaràs?|Cantas fontes de vídeo (entradas) vas conectar?|Zenbat bideo-iturri (sarrera) konektatuko dituzu?|Quantas fontes de vídeo (entradas) vai ligar?
+Ordenadores, cámaras, reproductores... Sirve para elegir las tarjetas de entrada.|Computers, cameras, players... Used to choose the input cards.|Ordinadors, càmeres, reproductors... Serveix per triar les targetes d'entrada.|Ordenadores, cámaras, reprodutores... Serve para elixir as tarxetas de entrada.|Ordenagailuak, kamerak, erreproduzigailuak... Sarrera-txartelak aukeratzeko balio du.|Computadores, câmaras, reprodutores... Serve para escolher as placas de entrada.
+1 fuente|1 source|1 font|1 fonte|1 iturri|1 fonte
+2 fuentes|2 sources|2 fonts|2 fontes|2 iturri|2 fontes
+3 o 4 fuentes|3 or 4 sources|3 o 4 fonts|3 ou 4 fontes|3 edo 4 iturri|3 ou 4 fontes
+5 a 8 fuentes|5 to 8 sources|5 a 8 fonts|5 a 8 fontes|5etik 8ra iturri|5 a 8 fontes
+Más de 8|More than 8|Més de 8|Máis de 8|8 baino gehiago|Mais de 8
+¿Qué tipo de señal de entrada usan las fuentes?|What type of input signal do the sources use?|Quin tipus de senyal d'entrada utilitzen les fonts?|Que tipo de sinal de entrada usan as fontes?|Zer sarrera-seinale mota erabiltzen dute iturriek?|Que tipo de sinal de entrada usam as fontes?
+SDI (profesional)|SDI (professional)|SDI (professional)|SDI (profesional)|SDI (profesionala)|SDI (profissional)
+Varias / mezcla|Several / mixed|Diverses / barreja|Varias / mestura|Hainbat / nahasketa|Várias / mistura
+¿Qué resolución tiene la señal de entrada?|What resolution does the input signal have?|Quina resolució té el senyal d'entrada?|Que resolución ten o sinal de entrada?|Zer bereizmen du sarrera-seinaleak?|Que resolução tem o sinal de entrada?
+La salida se calcula con los píxeles de la pantalla.|The output is calculated from the screen pixels.|La sortida es calcula amb els píxels de la pantalla.|A saída calcúlase cos píxeles da pantalla.|Irteera pantailaren pixelekin kalkulatzen da.|A saída é calculada com os píxeis do ecrã.
+Full HD 1080p|Full HD 1080p|Full HD 1080p|Full HD 1080p|Full HD 1080p|Full HD 1080p
+¿A qué distancia están las fuentes de vídeo de la electrónica o mediaserver?|How far are the video sources from the electronics or mediaserver?|A quina distància són les fonts de vídeo de l'electrònica o del mediaserver?|A que distancia están as fontes de vídeo da electrónica ou do mediaserver?|Zein distantziatara daude bideo-iturriak elektronikatik edo mediaserver-etik?|A que distância estão as fontes de vídeo da eletrónica ou do mediaserver?
+Para elegir el cable HDMI PureLink FlexInstall adecuado.|To choose the right PureLink FlexInstall HDMI cable.|Per triar el cable HDMI PureLink FlexInstall adequat.|Para elixir o cable HDMI PureLink FlexInstall axeitado.|PureLink FlexInstall HDMI kable egokia aukeratzeko.|Para escolher o cabo HDMI PureLink FlexInstall adequado.
+Hasta 3 m|Up to 3 m|Fins a 3 m|Ata 3 m|3 m-ra arte|Até 3 m
+De 3 a 5 m|From 3 to 5 m|De 3 a 5 m|De 3 a 5 m|3tik 5 m-ra|De 3 a 5 m
+De 5 a 10 m|From 5 to 10 m|De 5 a 10 m|De 5 a 10 m|5etik 10 m-ra|De 5 a 10 m
+De 10 a 15 m|From 10 to 15 m|De 10 a 15 m|De 10 a 15 m|10etik 15 m-ra|De 10 a 15 m
+De 15 a 20 m|From 15 to 20 m|De 15 a 20 m|De 15 a 20 m|15etik 20 m-ra|De 15 a 20 m
+No lo sé (cable estándar)|I don't know (standard cable)|No ho sé (cable estàndard)|Non o sei (cable estándar)|Ez dakit (kable estandarra)|Não sei (cabo padrão)
+tamaño calculado para|size calculated for|mida calculada per a|tamaño calculado para|honetarako kalkulatutako tamaina:|tamanho calculado para
+No hay modelos|There are no models|No hi ha models|Non hai modelos|Ez dago modelorik|Não há modelos
+en la tabla: se ha ampliado la búsqueda.|in the table: the search has been widened.|a la taula: s'ha ampliat la cerca.|na táboa: ampliouse a busca.|taulan: bilaketa zabaldu da.|na tabela: a pesquisa foi alargada.
+No hay cabinets GOLD para esta selección en la tabla: revisa a mano la variante con soldadura GOLD.|There are no GOLD cabinets for this selection in the table: check the GOLD-soldered variant manually.|No hi ha cabinets GOLD per a aquesta selecció a la taula: revisa a mà la variant amb soldadura GOLD.|Non hai cabinets GOLD para esta selección na táboa: revisa a man a variante con soldadura GOLD.|Ez dago GOLD kabinetik hautapen honetarako taulan: berrikusi eskuz GOLD soldadura duen aldaera.|Não há cabinets GOLD para esta seleção na tabela: reveja manualmente a variante com soldadura GOLD.
+Entorno marino/húmedo: solo cabinets con tecnología GOLD.|Marine/humid environment: only cabinets with GOLD technology.|Entorn marí/humit: només cabinets amb tecnologia GOLD.|Contorno mariño/húmido: só cabinets con tecnoloxía GOLD.|Itsas/heze ingurunea: GOLD teknologia duten kabinetak soilik.|Ambiente marinho/húmido: apenas cabinets com tecnologia GOLD.
+calculado en|calculated in|calculat en|calculado en|hemen kalkulatua:|calculado em
+con pitch|with pitch|amb pitch|con pitch|pitch-arekin:|com pitch
+mm se ve bien desde|mm looks good from|mm es veu bé des de|mm vese ben desde|mm ondo ikusten da hemendik:|mm vê-se bem a partir de
+(óptimo desde|(optimal from|(òptim des de|(óptimo desde|(optimoa hemendik:|(ótimo a partir de
+con backup|with backup|amb backup|con backup|backup-ekin|com backup
+sin backup|without backup|sense backup|sen backup|backup gabe|sem backup
+con escalador|with scaler|amb escalador|con escalador|eskalatzailearekin|com escalador
+sin escalador|without scaler|sense escalador|sen escalador|eskalatzailerik gabe|sem escalador
+conexión RJ45|RJ45 connection|connexió RJ45|conexión RJ45|RJ45 konexioa|ligação RJ45
+rack + fibra|rack + fiber|rack + fibra|rack + fibra|rack + zuntza|rack + fibra
+Electrónica|Electronics|Electrònica|Electrónica|Elektronika|Eletrónica
+Sin mediaserver|No mediaserver|Sense mediaserver|Sen mediaserver|Mediaserver-ik gabe|Sem mediaserver
+con Dante|with Dante|amb Dante|con Dante|Dante-rekin|com Dante
+Este navegador no admite dictado por voz. Prueba con Chrome, Edge o Safari, o sube un audio.|This browser does not support voice dictation. Try Chrome, Edge or Safari, or upload an audio file.|Aquest navegador no admet dictat per veu. Prova amb Chrome, Edge o Safari, o puja un àudio.|Este navegador non admite ditado por voz. Proba con Chrome, Edge ou Safari, ou sube un audio.|Nabigatzaile honek ez du ahots-diktaketarik onartzen. Saiatu Chrome, Edge edo Safari-rekin, edo igo audio bat.|Este navegador não suporta ditado por voz. Experimente o Chrome, Edge ou Safari, ou carregue um áudio.
+Permiso de micrófono denegado: actívalo en el navegador para dictar.|Microphone permission denied: enable it in the browser to dictate.|Permís de micròfon denegat: activa'l al navegador per dictar.|Permiso de micrófono denegado: actívao no navegador para ditar.|Mikrofono-baimena ukatua: gaitu nabigatzailean diktatzeko.|Permissão de microfone negada: ative-a no navegador para ditar.
+No se ha oído nada. Inténtalo de nuevo.|Nothing was heard. Try again.|No s'ha sentit res. Torna-ho a provar.|Non se oíu nada. Téntao de novo.|Ez da ezer entzun. Saiatu berriro.|Não se ouviu nada. Tente novamente.
+No se encuentra ningún micrófono.|No microphone found.|No es troba cap micròfon.|Non se atopa ningún micrófono.|Ez da mikrofonorik aurkitu.|Não foi encontrado nenhum microfone.
+El dictado necesita conexión a internet.|Dictation needs an internet connection.|El dictat necessita connexió a internet.|O ditado necesita conexión a internet.|Diktaketak internet konexioa behar du.|O ditado precisa de ligação à internet.
+Error de dictado:|Dictation error:|Error de dictat:|Erro de ditado:|Diktaketa errorea:|Erro de ditado:
+🎤 Escuchando… pulsa de nuevo el micrófono para parar.|🎤 Listening… press the microphone again to stop.|🎤 Escoltant… prem de nou el micròfon per parar.|🎤 Escoitando… preme de novo o micrófono para parar.|🎤 Entzuten… sakatu berriro mikrofonoa gelditzeko.|🎤 A ouvir… prima novamente o microfone para parar.
+No se pudo iniciar el micrófono.|The microphone could not be started.|No s'ha pogut iniciar el micròfon.|Non se puido iniciar o micrófono.|Ezin izan da mikrofonoa hasi.|Não foi possível iniciar o microfone.
+Leyendo el audio…|Reading the audio…|Llegint l'àudio…|Lendo o audio…|Audioa irakurtzen…|A ler o áudio…
+Preparando el transcriptor (la primera vez descarga unos 75 MB)…|Preparing the transcriber (the first time it downloads about 75 MB)…|Preparant el transcriptor (la primera vegada descarrega uns 75 MB)…|Preparando o transcritor (a primeira vez descarga uns 75 MB)…|Transkribatzailea prestatzen (lehen aldian 75 MB inguru deskargatzen ditu)…|A preparar o transcritor (da primeira vez descarrega cerca de 75 MB)…
+Descargando el transcriptor…|Downloading the transcriber…|Descarregant el transcriptor…|Descargando o transcritor…|Transkribatzailea deskargatzen…|A descarregar o transcritor…
+Transcribiendo el audio…|Transcribing the audio…|Transcrivint l'àudio…|Transcribindo o audio…|Audioa transkribatzen…|A transcrever o áudio…
+No se ha entendido nada en el audio.|Nothing could be understood in the audio.|No s'ha entès res a l'àudio.|Non se entendeu nada no audio.|Ez da ezer ulertu audioan.|Não se percebeu nada no áudio.
+✔ Audio transcrito. Revisa el texto y pulsa PROPONER PANTALLA.|✔ Audio transcribed. Check the text and press PROPOSE SCREEN.|✔ Àudio transcrit. Revisa el text i prem PROPOSAR PANTALLA.|✔ Audio transcrito. Revisa o texto e preme PROPOÑER PANTALLA.|✔ Audioa transkribatu da. Berrikusi testua eta sakatu PANTAILA PROPOSATU.|✔ Áudio transcrito. Reveja o texto e prima PROPOR ECRÃ.
+Falta el alto. Escribe, por ejemplo: 6x2 m, o indica la proporción (6 m en 16:9).|The height is missing. Write, for example: 6x2 m, or give the ratio (6 m in 16:9).|Falta l'alt. Escriu, per exemple: 6x2 m, o indica la proporció (6 m en 16:9).|Falta o alto. Escribe, por exemplo: 6x2 m, ou indica a proporción (6 m en 16:9).|Altuera falta da. Idatzi, adibidez: 6x2 m, edo adierazi proportzioa (6 m 16:9an).|Falta a altura. Escreva, por exemplo: 6x2 m, ou indique a proporção (6 m em 16:9).
+No he entendido las medidas. Escribe, por ejemplo: 6x2 m|I did not understand the measurements. Write, for example: 6x2 m|No he entès les mides. Escriu, per exemple: 6x2 m|Non entendín as medidas. Escribe, por exemplo: 6x2 m|Ez ditut neurriak ulertu. Idatzi, adibidez: 6x2 m|Não percebi as medidas. Escreva, por exemplo: 6x2 m
+Ningún modelo alcanza|No model reaches|Cap model arriba a|Ningún modelo alcanza|Ez dago modelorik hau lortzen duenik:|Nenhum modelo atinge
+esa resolución|that resolution|aquesta resolució|esa resolución|bereizmen hori|essa resolução
+con ese tamaño: se muestra la mejor opción sin exigir resolución mínima.|at that size: the best option is shown without requiring a minimum resolution.|amb aquesta mida: es mostra la millor opció sense exigir resolució mínima.|con ese tamaño: móstrase a mellor opción sen esixir resolución mínima.|tamaina horrekin: aukerarik onena erakusten da gutxieneko bereizmenik eskatu gabe.|com esse tamanho: é apresentada a melhor opção sem exigir resolução mínima.

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<!--
+  AVHUB · MOCKUP de estructura (beta-2) — v0.1
+  Maqueta navegable de la disposición de pantallas según la guía de estilo:
+  móvil = páginas a pantalla completa (P1 pestaña fija + páginas de bloques con scroll);
+  pantalla grande = pestaña fija a la izquierda + bloques a la derecha según el espacio.
+  Sin datos reales ni lógica de cálculo: solo estructura, navegación e identidad.
+-->
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2A2A2A">
+<title>AVHUB · Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#00ff04;            /* Verde eléctrico: activo, seleccionado, ON */
+    --green-dim:rgba(0,255,4,.14);
+    --violet:#9900ff;           /* Violeta neón: marca, degradados, secundarios */
+    --violet-dim:rgba(153,0,255,.22);
+    --gray:#2A2A2A;             /* Gris neutrón: chasis, paneles, tarjetas */
+    --gray-2:#222224;
+    --gray-3:#343437;
+    --bg:#121213;
+    --text:#f2f2f2;
+    --muted:#9a9a9e;
+    --line:rgba(255,255,255,.08);
+    --hdr-h:52px;
+    --tabs-h:58px;
+    --ads-h:56px;
+    --safe-t:env(safe-area-inset-top,0px);
+    --safe-b:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-weight:400;overflow:hidden;-webkit-tap-highlight-color:transparent}
+  button{font-family:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  h1,h2,h3,.btn,.tab-label{font-weight:700}
+
+  /* Iconos SVG (fill #434343) recoloreados con máscara → toman currentColor */
+  .ic{display:inline-block;width:22px;height:22px;background:currentColor;flex:none;
+      -webkit-mask:var(--src) center/contain no-repeat;mask:var(--src) center/contain no-repeat}
+  .ic-home{--src:url(../assets/icons/icon-home.svg)}
+  .ic-screen{--src:url(../assets/icons/icon-screen.svg)}
+  .ic-hardware{--src:url(../assets/icons/icon-hardware.svg)}
+  .ic-news{--src:url(../assets/icons/icon-news.svg)}
+  .ic-vjshow{--src:url(../assets/icons/icon-vjshow.svg)}
+  .ic-joystick{--src:url(../assets/icons/icon-joystick.svg)}
+  .ic-idioma{--src:url(../assets/icons/icon-idioma.svg)}
+  /* Iconos de línea propios (provisionales hasta tener los definitivos) */
+  .ic-info{--src:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 11v6M12 7.5v.01'/%3E%3C/svg%3E")}
+  .ic-download{--src:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v8M8.5 11.5 12 15l3.5-3.5M8 17h8'/%3E%3C/svg%3E")}
+  .ic-admin{--src:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='11' width='14' height='10' rx='2'/%3E%3Cpath d='M8 11V7a4 4 0 0 1 8 0v4'/%3E%3C/svg%3E")}
+  .ic-mic{--src:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='9' y='3' width='6' height='11' rx='3'/%3E%3Cpath d='M5 11a7 7 0 0 0 14 0M12 18v3'/%3E%3C/svg%3E")}
+  .ic-audio{--src:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z'/%3E%3Cpath d='M14 3v6h6M10 17v-5l4-1v5'/%3E%3Ccircle cx='9' cy='17' r='1.3'/%3E%3Ccircle cx='13' cy='16' r='1.3'/%3E%3C/svg%3E")}
+  .ic-close{--src:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6 6 18'/%3E%3C/svg%3E")}
+
+  /* ---------- ESTRUCTURA ---------- */
+  .app{height:100dvh;display:grid;grid-template-rows:var(--safe-t) var(--hdr-h) 1fr calc(var(--ads-h) + var(--safe-b))}
+  .safety{background:var(--gray-2)}
+
+  /* [HEA] Cabecera */
+  .hdr{display:flex;align-items:center;gap:6px;padding:0 10px;background:var(--gray);border-bottom:1px solid #000;box-shadow:0 1px 0 var(--line) inset}
+  .logo{font-weight:700;font-size:20px;letter-spacing:4px;color:#fff;margin-right:auto;user-select:none}
+  .logo b{color:var(--green)}
+  .ver{font-size:10px;color:var(--muted);letter-spacing:1px;margin-left:6px;font-weight:400}
+  .hbtn{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#d8d8d8;background:linear-gradient(#333,#232325);border:1px solid #000;box-shadow:0 2px 4px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.08)}
+  .hbtn:active{transform:translateY(1px)}
+  .hbtn:hover{color:var(--green)}
+
+  /* Contenedor de páginas (móvil: carrusel horizontal a pantalla completa) */
+  .pages{display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;min-height:0}
+  .pages::-webkit-scrollbar{display:none}
+  .page{flex:0 0 100%;scroll-snap-align:start;min-height:0;display:flex;flex-direction:column}
+  .page.res{overflow-y:auto;padding:10px;gap:10px;overscroll-behavior:contain}
+
+  /* [MS1] Pestaña fija */
+  .ms1{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--gray-2)}
+  .panel{flex:1;min-height:0;overflow:hidden;padding:12px;display:flex;flex-direction:column;gap:10px}
+  .panel-h{display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase}
+  .panel-h .ic{color:var(--green)}
+  .panel-h .tag{margin-left:auto;font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:20px;background:var(--violet-dim);color:#d9b3ff;border:1px solid rgba(153,0,255,.5)}
+  .card{background:var(--gray);border:1px solid #111;border-radius:10px;padding:12px;box-shadow:inset 0 1px 0 var(--line)}
+  textarea{width:100%;min-height:96px;resize:none;background:#151516;color:var(--text);border:1px solid #3a3a3d;border-radius:8px;padding:10px;font:inherit;font-size:14px;outline:none}
+  textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px var(--green-dim)}
+  .row{display:flex;gap:8px;align-items:center}
+  .btn{flex:1;height:40px;border-radius:8px;font-size:12px;letter-spacing:1.2px;text-transform:uppercase;background:linear-gradient(#3a3a3d,#2a2a2c);border:1px solid #000;box-shadow:0 2px 0 #000,inset 0 1px 0 rgba(255,255,255,.08)}
+  .btn.on,.btn.primary{background:var(--green);color:#071a07;box-shadow:0 0 14px rgba(0,255,4,.35),0 2px 0 #063}
+  .btn.primary{background:linear-gradient(90deg,var(--violet),#5d00b8);color:#fff;box-shadow:0 0 16px var(--violet-dim),0 2px 0 #000}
+  .rbtn{position:relative;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(#3a3a3d,#252527);border:1px solid #000;box-shadow:0 2px 0 #000}
+  .rbtn:hover{color:var(--green)}
+  .chips{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  .chip{height:36px;border-radius:8px;font-size:11px;font-weight:700;letter-spacing:1px;border:1px solid #3a3a3d;background:#1b1b1d;display:flex;align-items:center;justify-content:center;gap:6px}
+  .chip .ic{width:16px;height:16px}
+  .chip.on{border-color:var(--green);color:var(--green);background:var(--green-dim)}
+  .note{font-size:11px;color:var(--muted);line-height:1.45}
+  .linkbtn{display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;color:inherit}
+
+  /* Bocadillo de cómic (solo pantalla grande, hover) */
+  .bubble{display:none}
+  @media (hover:hover) and (min-width:1024px){
+    .bubble{display:block;position:absolute;bottom:calc(100% + 12px);right:-6px;white-space:nowrap;padding:7px 11px;border-radius:10px;font-size:12px;font-weight:400;background:#fff;color:#111;box-shadow:0 4px 14px rgba(0,0,0,.5);opacity:0;transform:translateY(4px);pointer-events:none;transition:.15s}
+    .bubble::after{content:'';position:absolute;top:100%;right:18px;border:8px solid transparent;border-top-color:#fff}
+    .rbtn:hover .bubble{opacity:1;transform:none}
+  }
+
+  /* [P1..P6] Barra de pestañas */
+  .tabs{height:var(--tabs-h);display:grid;grid-template-columns:repeat(6,1fr);background:var(--gray);border-top:1px solid #000}
+  .tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#8d8d92;position:relative}
+  .tab .ic{width:22px;height:22px}
+  .tab-label{font-size:8.5px;letter-spacing:.8px}
+  .tab.on{color:var(--green)}
+  .tab.on::before{content:'';position:absolute;top:0;left:22%;right:22%;height:3px;border-radius:0 0 3px 3px;background:var(--green);box-shadow:0 0 10px var(--green)}
+
+  /* [BLA..BLF] Bloques de resultados */
+  .block{background:var(--gray);border:1px solid #111;border-radius:10px;overflow:hidden;min-height:220px;display:flex;flex-direction:column;box-shadow:inset 0 1px 0 var(--line)}
+  .block-h{display:flex;align-items:center;gap:8px;padding:9px 12px;background:linear-gradient(90deg,rgba(153,0,255,.35),rgba(153,0,255,.05));border-bottom:1px solid #000;font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase}
+  .block-h code{font-family:inherit;font-size:9px;color:var(--muted);margin-left:auto}
+  .block-b{flex:1;display:grid;place-items:center;padding:14px;text-align:center;color:var(--muted);font-size:12px;background:repeating-linear-gradient(135deg,transparent 0 10px,rgba(255,255,255,.015) 10px 20px)}
+  .scroll-hint{font-size:10px;letter-spacing:2px;text-align:center;color:var(--green);opacity:.6;padding:2px 0 4px}
+
+  /* Indicador de página (móvil) [<] [>] */
+  .pager{position:absolute;left:0;right:0;bottom:calc(var(--ads-h) + var(--safe-b) + var(--tabs-h) + 6px);display:flex;justify-content:center;gap:6px;pointer-events:none}
+  .dot{width:6px;height:6px;border-radius:50%;background:#555}
+  .dot.on{background:var(--green);box-shadow:0 0 6px var(--green)}
+  .navarrow{position:absolute;top:50%;width:28px;height:44px;display:grid;place-items:center;color:var(--green);font-size:22px;background:rgba(0,0,0,.35);border-radius:6px;z-index:5}
+  .navarrow.l{left:4px}.navarrow.r{right:4px}
+
+  /* [ADS] Zonas de anuncios (puntos de inserción activables desde admin) */
+  .ads{display:grid;grid-template-columns:1fr;background:var(--gray-2);border-top:1px solid #000;padding-bottom:var(--safe-b)}
+  .ad-slot{display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:2px;color:#777;border:1px dashed #3d3d40;margin:6px;border-radius:6px}
+  .ad-slot[data-enabled="false"]{opacity:.35}
+  .ad-slot[data-slot="ads-2"]{display:none}
+
+  /* ---------- PANTALLA GRANDE ---------- */
+  @media (min-width:1024px){
+    :root{--hdr-h:56px}
+    .pages{display:grid;grid-template-columns:380px 1fr;overflow:hidden;scroll-snap-type:none}
+    .page.p1{grid-row:1/2}
+    #resWrap{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));grid-auto-rows:minmax(260px,auto);gap:12px;padding:12px;overflow-y:auto;align-content:start}
+    #resWrap .page.res{display:contents}
+    .pager,.navarrow,.scroll-hint{display:none}
+    .ms1{border-right:1px solid #000}
+    .ads{grid-template-columns:380px 1fr}
+    .ad-slot[data-slot="ads-2"]{display:flex}
+  }
+  @media (max-width:1023px){
+    #resWrap{display:contents}
+  }
+
+  /* ---------- POPUPS ---------- */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+  .modal.open{display:flex}
+  .sheet{width:min(420px,100%);background:var(--gray);border:1px solid #000;border-radius:14px;box-shadow:0 20px 50px rgba(0,0,0,.6);overflow:hidden}
+  .sheet-h{display:flex;align-items:center;gap:8px;padding:12px 14px;background:linear-gradient(90deg,var(--violet),#4d0099);font-weight:700;font-size:13px;letter-spacing:1.5px;text-transform:uppercase}
+  .sheet-h button{margin-left:auto}
+  .sheet-b{padding:14px;display:flex;flex-direction:column;gap:10px}
+  .lang{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid #3a3a3d;border-radius:8px;background:#1b1b1d;font-size:14px;text-align:left}
+  .lang.on{border-color:var(--green);color:var(--green);background:var(--green-dim)}
+  .lang .flag{font-size:18px}
+  .frame{width:min(1100px,92vw);height:80vh}
+  .frame .sheet-b{height:calc(100% - 46px);overflow:auto;font-size:14px;line-height:1.55}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="safety" aria-hidden="true"></div>
+
+  <!-- [HEA] HEADER -->
+  <header class="hdr">
+    <div class="logo">AV<b>HUB</b><span class="ver">beta-4 · mockup</span></div>
+    <button class="hbtn" id="bLang" title="Idioma" aria-label="Idioma"><span class="ic ic-idioma"></span></button>
+    <button class="hbtn" id="bDown" title="Descargar app" aria-label="Descargar app"><span class="ic ic-download"></span></button>
+    <button class="hbtn" id="bInfo" title="Información" aria-label="Información"><span class="ic ic-info"></span></button>
+    <button class="hbtn" id="bAdmin" title="Administrador" aria-label="Administrador"><span class="ic ic-admin"></span></button>
+  </header>
+
+  <!-- PÁGINAS -->
+  <main class="pages" id="pages">
+    <!-- PÁGINA 1: [MS1] PESTAÑA FIJA + [P1..P6] -->
+    <section class="page p1" data-page="1">
+      <div class="ms1">
+        <div class="panel" id="panel"></div>
+        <nav class="tabs" id="tabs"></nav>
+      </div>
+    </section>
+
+    <!-- PÁGINAS 2-4: BLOQUES (en pantalla grande se reparten según el espacio) -->
+    <div id="resWrap">
+      <section class="page res" data-page="2"><div class="block" data-b="A"></div><div class="block" data-b="B"></div><div class="scroll-hint">SCROLL</div></section>
+      <section class="page res" data-page="3"><div class="block" data-b="C"></div><div class="block" data-b="D"></div><div class="scroll-hint">SCROLL</div></section>
+      <section class="page res" data-page="4"><div class="block" data-b="E"></div><div class="block" data-b="F"></div></section>
+    </div>
+  </main>
+
+  <!-- [ADS] ZONAS DE ANUNCIOS -->
+  <footer class="ads">
+    <div class="ad-slot" data-slot="ads-1" data-enabled="true">ADS ZONE 1</div>
+    <div class="ad-slot" data-slot="ads-2" data-enabled="true">ADS ZONE 2</div>
+  </footer>
+</div>
+
+<button class="navarrow l" id="prev" aria-label="Página anterior">‹</button>
+<button class="navarrow r" id="next" aria-label="Página siguiente">›</button>
+<div class="pager" id="pager"></div>
+
+<!-- POPUP IDIOMAS -->
+<div class="modal" id="mLang"><div class="sheet">
+  <div class="sheet-h"><span class="ic ic-idioma"></span>Idioma<button data-close aria-label="Cerrar"><span class="ic ic-close"></span></button></div>
+  <div class="sheet-b" id="langList"></div>
+</div></div>
+
+<!-- POPUP INFO (2 opciones) -->
+<div class="modal" id="mInfo"><div class="sheet">
+  <div class="sheet-h"><span class="ic ic-info"></span>Info<button data-close aria-label="Cerrar"><span class="ic ic-close"></span></button></div>
+  <div class="sheet-b">
+    <button class="btn" id="openReadme">1 · Información</button>
+    <button class="btn" id="openDown">2 · Descargar app</button>
+  </div>
+</div></div>
+
+<!-- POPUP DESCARGA -->
+<div class="modal" id="mDown"><div class="sheet">
+  <div class="sheet-h"><span class="ic ic-download"></span>Descargar app<button data-close aria-label="Cerrar"><span class="ic ic-close"></span></button></div>
+  <div class="sheet-b">
+    <p class="note">Instala AVHUB en tu dispositivo para usarla sin conexión. Con conexión (wifi o datos) se guarda una copia local actualizada de la información necesaria.</p>
+    <div class="row"><button class="btn on">Descargar app</button><button class="btn" data-close>Cancelar</button></div>
+  </div>
+</div></div>
+
+<!-- POPUP README (marco al 80 %) -->
+<div class="modal" id="mReadme"><div class="sheet frame">
+  <div class="sheet-h"><span class="ic ic-info"></span>Información<button data-close aria-label="Cerrar"><span class="ic ic-close"></span></button></div>
+  <div class="sheet-b"><p class="note">Aquí se mostrará el README del proyecto (desplazable).</p></div>
+</div></div>
+
+<!-- POPUP ADMIN (placeholder: acceso securizado pendiente de definir) -->
+<div class="modal" id="mAdmin"><div class="sheet">
+  <div class="sheet-h"><span class="ic ic-admin"></span>Administrador<button data-close aria-label="Cerrar"><span class="ic ic-close"></span></button></div>
+  <div class="sheet-b">
+    <p class="note">Vista previa local de las zonas de anuncios. El panel real se abre con el botón de administrador.</p>
+    <div class="panel-h">Zonas de anuncios</div>
+    <label class="row note"><input type="checkbox" data-ad="ads-1" checked> ADS ZONE 1</label>
+    <label class="row note"><input type="checkbox" data-ad="ads-2" checked> ADS ZONE 2</label>
+  </div>
+</div></div>
+
+<script>
+(() => {
+  const TABS = [
+    { id:'home',     ic:'home',     label:'AVHUB',    host:'avhub.mediaservi.com' },
+    { id:'screen',   ic:'screen',   label:'SCREEN',   host:'screencalc.mediaservi.com' },
+    { id:'hardware', ic:'hardware', label:'HARDWARE', host:'hardware.mediaservi.com' },
+    { id:'news',     ic:'news',     label:'NEWS',     host:'news.mediaservi.com' },
+    { id:'vjshow',   ic:'vjshow',   label:'VJSHOW',   host:'vjshow.mediaservi.com' },
+    { id:'msgame',   ic:'joystick', label:'MSGAME',   host:null }
+  ];
+  const BLOCKS = {
+    home:    ['Resumen del proyecto','Pantallas','Hardware','Conexionado','Novedades','Informe PDF'],
+    screen:  ['Características pantalla','Simulación','Cabinets','Instalación','Señal y alimentación','Propuesta cableado'],
+    hardware:['Borrador del proyecto','Procesado / Novastar','Mediaserver','Conectividad','Accesorios','Informe PDF'],
+    news:    ['Novedades','Formación','Ofertas','Eventos','Destacados','Archivo'],
+    vjshow:  ['Visuales','Audio','Salidas','Sala inmersiva','Presets','Ajustes'],
+    msgame:  ['Cartuchos','Mandos','Pantallas','Partida','Ranking','Ajustes']
+  };
+  const LANGS = [['es','🇪🇸','Castellano'],['en','🇬🇧','English'],['ca','🏴','Català'],['gl','🏴','Galego'],['eu','🏴','Euskara'],['pt','🇵🇹','Português']];
+  const LS = k => { try { return localStorage.getItem(k); } catch(e){ return null; } };
+  const LSset = (k,v) => { try { localStorage.setItem(k,v); } catch(e){} };
+
+  const $ = s => document.querySelector(s);
+  const panel = $('#panel'), tabsEl = $('#tabs'), pages = $('#pages');
+
+  // Pestaña inicial: #hash > subdominio > HOME
+  const fromHost = TABS.find(t => t.host && location.hostname === t.host);
+  let current = (TABS.find(t => '#'+t.id === location.hash) || fromHost || TABS[0]).id;
+
+  tabsEl.innerHTML = TABS.map((t,i) =>
+    `<button class="tab" data-tab="${t.id}" title="[P${i+1}] ${t.label}"><span class="ic ic-${t.ic}"></span><span class="tab-label">${t.label}</span></button>`).join('');
+  tabsEl.addEventListener('click', e => { const b = e.target.closest('.tab'); if (b) setTab(b.dataset.tab); });
+
+  function panelHTML(id){
+    const t = TABS.find(x => x.id === id);
+    const head = `<div class="panel-h"><span class="ic ic-${t.ic}"></span>${t.label}<span class="tag">[MS1]</span></div>`;
+    if (id === 'home') return head + `
+      <div class="card" style="display:flex;flex-direction:column;gap:10px">
+        <div class="panel-h" style="font-size:11px">Petición del cliente<span class="tag" style="background:var(--green-dim);color:var(--green);border-color:var(--green)">Entrada principal</span></div>
+        <textarea placeholder="Escribe, dicta o sube un audio con la petición…"></textarea>
+        <div class="row">
+          <button class="btn primary">Calcula proyecto</button>
+          <button class="rbtn" aria-label="Dictar"><span class="ic ic-mic"></span><span class="bubble">🎙️ Díctame lo que necesitas</span></button>
+          <button class="rbtn" aria-label="Subir audio"><span class="ic ic-audio"></span><span class="bubble">🎵 Envíame archivo de audio</span></button>
+        </div>
+      </div>
+      <div class="card"><div class="panel-h" style="font-size:11px;margin-bottom:8px">Filtrar por departamento</div>
+        <div class="chips">${TABS.slice(1).map(x=>`<button class="chip" data-chip><span class="ic ic-${x.ic}"></span>${x.label}</button>`).join('')}</div>
+      </div>`;
+    const links = {
+      screen:  [['Abrir SCREENCALC','https://screencalc.mediaservi.com'],['Abrir SCREENBOX','https://screenboxsim.netlify.app/']],
+      hardware:[['Abrir calculador actual','https://screencalc.mediaservi.com']],
+      news:    [['Ver promociones','https://charmex.net/productos/esp/promociones']],
+      vjshow:  [['Abrir VJSHOW','https://vjshow.mediaservi.com']],
+      msgame:  [['Abrir MSGAME (en VJSHOW)','https://vjshow.mediaservi.com']]
+    }[id];
+    return head + `<div class="card" style="display:flex;flex-direction:column;gap:10px">
+      <p class="note">Área de entrada de la pestaña ${t.label}. Mientras se integra, enlaza con la app actual:</p>
+      ${links.map(([l,u])=>`<a class="btn linkbtn" href="${u}" target="_blank" rel="noopener noreferrer">${l}</a>`).join('')}
+    </div>`;
+  }
+
+  function setTab(id){
+    current = id;
+    tabsEl.querySelectorAll('.tab').forEach(b => b.classList.toggle('on', b.dataset.tab === id));
+    panel.innerHTML = panelHTML(id);
+    panel.querySelectorAll('[data-chip]').forEach(c => c.onclick = () => c.classList.toggle('on'));
+    const names = BLOCKS[id];
+    document.querySelectorAll('.block').forEach((el,i) => {
+      el.innerHTML = `<div class="block-h">${names[i]}<code>[BL${el.dataset.b}]</code></div><div class="block-b">Bloque ${el.dataset.b} · resultados</div>`;
+    });
+    if (location.hash !== '#'+id) history.replaceState(null,'','#'+id);
+  }
+  window.addEventListener('hashchange', () => { const t = TABS.find(x=>'#'+x.id===location.hash); if (t) setTab(t.id); });
+  setTab(current);
+
+  // Paginación móvil
+  const pageEls = () => [...document.querySelectorAll('.page')];
+  const pager = $('#pager');
+  pager.innerHTML = pageEls().map(()=>'<span class="dot"></span>').join('');
+  const idx = () => Math.round(pages.scrollLeft / pages.clientWidth);
+  const go = d => pages.scrollTo({ left: Math.max(0, Math.min(pageEls().length-1, idx()+d)) * pages.clientWidth, behavior:'smooth' });
+  const upd = () => { const i = idx(); [...pager.children].forEach((d,k)=>d.classList.toggle('on',k===i)); $('#prev').style.visibility = i? 'visible':'hidden'; $('#next').style.visibility = i < pageEls().length-1 ? 'visible':'hidden'; };
+  pages.addEventListener('scroll', () => requestAnimationFrame(upd), { passive:true });
+  window.addEventListener('resize', upd);
+  $('#prev').onclick = () => go(-1); $('#next').onclick = () => go(1);
+  upd();
+
+  // Popups
+  const open = id => $(id).classList.add('open');
+  document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', e => { if (e.target === m || e.target.closest('[data-close]')) m.classList.remove('open'); }));
+  $('#bLang').onclick = () => open('#mLang');
+  $('#bDown').onclick = () => open('#mDown');
+  $('#bInfo').onclick = () => open('#mInfo');
+  // Panel de administrador (AVHUB admin): acceso solo del propietario, comprobado en el servidor
+  const ADMIN_URL = 'https://script.google.com/macros/s/AKfycbwkc12y4LODbFe-kQidnR2MbbA6cbW1WbhU3UiqmDmshx-ncAdGYrFRy8PNjm9Wg6Mx3w/exec';
+  $('#bAdmin').onclick = () => window.open(ADMIN_URL, '_blank', 'noopener');
+  $('#openReadme').onclick = () => { $('#mInfo').classList.remove('open'); open('#mReadme'); };
+  $('#openDown').onclick = () => { $('#mInfo').classList.remove('open'); open('#mDown'); };
+
+  // Idioma transversal (clave compartida por todas las apps)
+  const langKey = 'avhub.lang';
+  const renderLangs = () => {
+    const cur = LS(langKey) || 'es';
+    $('#langList').innerHTML = LANGS.map(([c,f,n]) => `<button class="lang ${c===cur?'on':''}" data-lang="${c}"><span class="flag">${f}</span>${n}</button>`).join('');
+    document.documentElement.lang = cur;
+  };
+  $('#langList').addEventListener('click', e => { const b = e.target.closest('[data-lang]'); if (!b) return; LSset(langKey, b.dataset.lang); renderLangs(); });
+  renderLangs();
+
+  // Activar / desactivar zonas de anuncios (maqueta del panel admin)
+  document.querySelectorAll('[data-ad]').forEach(cb => {
+    const slot = document.querySelector(`[data-slot="${cb.dataset.ad}"]`);
+    const saved = LS('avhub.ads.'+cb.dataset.ad);
+    if (saved !== null) { cb.checked = saved === '1'; }
+    slot.dataset.enabled = cb.checked;
+    cb.onchange = () => { slot.dataset.enabled = cb.checked; LSset('avhub.ads.'+cb.dataset.ad, cb.checked?'1':'0'); };
+  });
+})();
+</script>
+</body>
+</html>
