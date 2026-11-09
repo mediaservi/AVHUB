@@ -251,7 +251,7 @@
 (() => {
   const TABS = [
     { id:'home',     ic:'home',     label:'AVHUB',    host:'avhub.mediaservi.com' },
-    { id:'screen',   ic:'screen',   label:'SCREEN',   host:'screencalc.mediaservi.com' },
+    { id:'screen',   ic:'screen',   label:'SCREENS',  host:'screens.mediaservi.com' },
     { id:'hardware', ic:'hardware', label:'HARDWARE', host:'hardware.mediaservi.com' },
     { id:'news',     ic:'news',     label:'NEWS',     host:'news.mediaservi.com' },
     { id:'vjshow',   ic:'vjshow',   label:'VJSHOW',   host:'vjshow.mediaservi.com' },
@@ -297,8 +297,8 @@
         <div class="chips">${TABS.slice(1).map(x=>`<button class="chip" data-chip><span class="ic ic-${x.ic}"></span>${x.label}</button>`).join('')}</div>
       </div>`;
     const links = {
-      screen:  [['Abrir SCREENCALC','https://screencalc.mediaservi.com'],['Abrir SCREENBOX','https://screenboxsim.netlify.app/']],
-      hardware:[['Abrir calculador actual','https://screencalc.mediaservi.com']],
+      screen:  [['Abrir SCREENS','https://screens.mediaservi.com'],['Abrir SCREENCALC (una pantalla LED)','https://screens.mediaservi.com/?led']],
+      hardware:[['Abrir calculador actual','https://screens.mediaservi.com']],
       news:    [['Ver promociones','https://charmex.net/productos/esp/promociones']],
       vjshow:  [['Abrir VJSHOW','https://vjshow.mediaservi.com']],
       msgame:  [['Abrir MSGAME (en VJSHOW)','https://vjshow.mediaservi.com']]
