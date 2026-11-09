@@ -255,7 +255,7 @@
     { id:'hardware', ic:'hardware', label:'HARDWARE', host:'hardware.mediaservi.com' },
     { id:'news',     ic:'news',     label:'NEWS',     host:'news.mediaservi.com' },
     { id:'vjshow',   ic:'vjshow',   label:'VJSHOW',   host:'vjshow.mediaservi.com' },
-    { id:'msgame',   ic:'joystick', label:'MSGAME',   host:null }
+    { id:'msgame',   ic:'joystick', label:'MSGAME',   host:'msgame.mediaservi.com' }
   ];
   const BLOCKS = {
     home:    ['Resumen del proyecto','Pantallas','Hardware','Conexionado','Novedades','Informe PDF'],
@@ -301,7 +301,7 @@
       hardware:[['Abrir calculador actual','https://screens.mediaservi.com']],
       news:    [['Ver promociones','https://charmex.net/productos/esp/promociones']],
       vjshow:  [['Abrir VJSHOW','https://vjshow.mediaservi.com']],
-      msgame:  [['Abrir MSGAME (en VJSHOW)','https://vjshow.mediaservi.com']]
+      msgame:  [['Abrir MSGAME','https://msgame.mediaservi.com']]
     }[id];
     return head + `<div class="card" style="display:flex;flex-direction:column;gap:10px">
       <p class="note">Área de entrada de la pestaña ${t.label}. Mientras se integra, enlaza con la app actual:</p>
