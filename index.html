@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#07060b">
-<title>AVHUB · Muy pronto · Tools for Pro-AV professionals</title>
+<title>AVHUB · Muy pronto · Tools for AV people</title>
 <meta name="description" content="AVHUB: el punto de encuentro de las herramientas Pro-AV. Cálculo de pantallas LED y proyección, hardware, novedades, visuales VJ y juegos interactivos. Muy pronto.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://avhub.mediaservi.com/">
@@ -61,6 +61,8 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
   background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,0) 44%,rgba(255,255,255,.85) 50%,rgba(255,255,255,0) 56%,transparent 60%) no-repeat;background-size:300% 100%;
   animation:shine 7s ease-in-out infinite}
 @keyframes shine{0%,55%{background-position:150% 0}85%,100%{background-position:-50% 0}}
+/* Móvil y táctil: logo sin máscara, sin fusión de capas y sin desenfoques animados. En algunos móviles Android esas capas pintaban un rectángulo de ruido sobre el logo */
+@media (hover:none),(max-width:760px){.shine{display:none}.logo{filter:none}.logo-wrap::before{filter:none;animation:none}}
 .kicker{margin-top:clamp(18px,3vh,28px);font:600 clamp(11px,1.6vw,13px)/1 'Share Tech Mono',monospace;letter-spacing:.42em;padding-left:.42em;color:#b3afc4}
 
 /* Lectura técnica: líneas centradas y separadas */
@@ -194,7 +196,7 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 
   <section class="hero">
     <div class="logo-wrap"><img class="logo" src="assets/logos/avhub-logo.svg" alt="AVHUB" width="2978" height="1817"><span class="shine" aria-hidden="true"></span></div>
-    <p class="kicker">TOOLS FOR PRO-AV PROFESSIONALS</p>
+    <p class="kicker">TOOLS FOR AV PEOPLE</p>
     <div class="readout">
       <p class="l1" data-es="El punto de encuentro de las herramientas Pro-AV" data-en="The meeting point for Pro-AV tools">El punto de encuentro de las herramientas Pro-AV</p>
       <p class="l2" data-es="Pantallas LED<i>·</i>Proyección<i>·</i>Hardware" data-en="LED screens<i>·</i>Projection<i>·</i>Hardware">Pantallas LED<i>·</i>Proyección<i>·</i>Hardware</p>
@@ -608,8 +610,12 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
   let userOff = false, actx = null, audioOn = false;
   const setUI = on => { audioOn = on; btn.classList.toggle('playing', on); btn.setAttribute('aria-pressed', on); lbl.textContent = on ? 'AUDIO ON' : 'AUDIO OFF'; };
   const fadeIn = () => { music.volume = 0; let v = 0; const f = setInterval(() => { v += .02; music.volume = Math.min(v, .35); if (v >= .35) clearInterval(f); }, 80); };
-  const play = () => music.play().then(() => { fadeIn(); setUI(true); try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); actx.resume(); } catch (e) {} return true; }).catch(() => { setUI(false); return false; });
+  const play = () => music.play().then(() => { fadeIn(); try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); actx.resume(); } catch (e) {} return true; }).catch(() => { setUI(false); return false; });
   music.volume = 0; play();
+  // «AUDIO ON» solo cuando la música avanza de verdad (se comprueba cada 0,5 s)
+  let lastT = -1;
+  setInterval(() => { const t = music.currentTime, avanza = !music.paused && music.readyState >= 3 && t !== lastT; lastT = t; if (avanza !== audioOn) setUI(avanza); }, 500);
+  ['pause', 'ended', 'emptied', 'error'].forEach(ev => music.addEventListener(ev, () => setUI(false)));
   const evs = ['pointerdown', 'touchstart', 'keydown', 'click'];
   const off = () => evs.forEach(ev => removeEventListener(ev, unlock, true));
   function unlock(e) { if (userOff || !music.paused) return off(); if (e && e.target && e.target.closest && e.target.closest('#audio-toggle')) return; play().then(ok => { if (ok) off(); }); }
