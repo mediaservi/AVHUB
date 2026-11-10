@@ -20,5 +20,6 @@ Cada sección de AVHUB tiene su isotipo, su color y su nombre en la misma letra.
 - **Isotipo:** trazo redondeado sobre fondo oscuro; sirve de icono de pestaña y de avatar.
 - Los nombres van convertidos a trazados, así que los SVG no dependen de ninguna fuente. Están pensados para fondo oscuro.
 - En la landing, cada equipo del rack lleva su logo grabado en el frontal con los colores serigrafiados, y a su lado el LCD con la explicación.
+- El botón de encendido de cada equipo lo apaga del todo (pantallas, LCD y testigos) y lo vuelve a encender; solo afecta a ese equipo y no abre su web. La flecha sigue llevando a la app.
 
 Eslogan: **TOOLS FOR AV PEOPLE**.
