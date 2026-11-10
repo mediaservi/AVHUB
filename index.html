@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#07060b">
 <title>AVHUB · Muy pronto · Tools for AV people</title>
-<meta name="description" content="AVHUB: el punto de encuentro de las herramientas Pro-AV. Cálculo de pantallas LED y proyección, hardware, novedades, visuales VJ y juegos interactivos. Muy pronto.">
+<meta name="description" content="AVHUB: el punto de encuentro de las herramientas Pro-AV. Cálculo de pantallas LED y proyección, sistemas de audio y vídeo, novedades, visuales VJ y juegos interactivos. Muy pronto.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://avhub.mediaservi.com/">
 <meta property="og:title" content="AVHUB · Muy pronto">
@@ -114,7 +114,10 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 .ear.l .handle{left:30px}.ear.r .handle{right:30px}
 
 /* LCD con nombre fijo y descripción en scroll */
-.lcd{flex:none;width:310px;height:40px;display:flex;align-items:center;gap:10px;padding:0 12px;border-radius:4px;background:#030a03;border:1px solid #000;
+/* nombre de cada equipo: su logo grabado en el frontal (rebajado, como a láser) con los colores serigrafiados; a su lado, el LCD con la explicación */
+.grab{flex:none;width:132px;height:40px;display:flex;align-items:center}
+.grab img{display:block;height:34px;width:auto;max-width:100%;filter:saturate(.9) brightness(.9) drop-shadow(0 -1px 0 rgba(0,0,0,.95)) drop-shadow(0 1px 0 rgba(255,255,255,.16))}
+.lcd{flex:none;width:164px;height:40px;display:flex;align-items:center;gap:10px;padding:0 12px;border-radius:4px;background:#030a03;border:1px solid #000;
   box-shadow:inset 0 0 12px #000,0 1px 0 rgba(255,255,255,.06);overflow:hidden;
   background-image:radial-gradient(circle,rgba(0,255,4,.06) 0 1px,transparent 1.4px);background-size:4px 4px}
 .lcd strong,.lcd em,.lcd .sc span{font:800 19px/1 'Doto',monospace;letter-spacing:.12em;color:var(--green);text-shadow:0 0 8px rgba(0,255,4,.6);font-style:normal;white-space:nowrap}
@@ -199,7 +202,7 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
     <p class="kicker">TOOLS FOR AV PEOPLE</p>
     <div class="readout">
       <p class="l1" data-es="El punto de encuentro de las herramientas Pro-AV" data-en="The meeting point for Pro-AV tools">El punto de encuentro de las herramientas Pro-AV</p>
-      <p class="l2" data-es="Pantallas LED<i>·</i>Proyección<i>·</i>Hardware" data-en="LED screens<i>·</i>Projection<i>·</i>Hardware">Pantallas LED<i>·</i>Proyección<i>·</i>Hardware</p>
+      <p class="l2" data-es="Pantallas LED<i>·</i>Proyección<i>·</i>Sistemas" data-en="LED screens<i>·</i>Projection<i>·</i>Systems">Pantallas LED<i>·</i>Proyección<i>·</i>Sistemas</p>
       <p class="l2" data-es="Novedades<i>·</i>Visuales<i>·</i>Juego interactivo" data-en="News<i>·</i>Visuals<i>·</i>Interactive gaming">Novedades<i>·</i>Visuales<i>·</i>Juego interactivo</p>
       <p class="l3"><b></b><span data-es="Todo en una sola app" data-en="All in one app">Todo en una sola app</span><b></b></p>
     </div>
@@ -218,7 +221,7 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 
       <a class="unit" href="https://screens.mediaservi.com" target="_blank" rel="noopener noreferrer">
         <span class="ear l"><i></i><span class="handle"></span><i></i></span>
-        <span class="lcd"><strong>SCREENS</strong><em>:</em><span class="sc"><span style="--d:18s">Calculador de pantallas LED y proyección, de una pantalla a una sala inmersiva</span></span></span>
+        <span class="grab"><img src="assets/logos/screens-logo.svg" alt="SCREENS"></span><span class="lcd"><span class="sc"><span style="--d:18s">Calculador de pantallas LED y proyección, de una pantalla a una sala inmersiva</span></span></span>
         <img class="go" src="assets/logos/avhub-play.svg" alt="">
         <span class="panel">
           <span class="monitor m-sm"><canvas id="mon-a" width="256" height="144"></canvas></span>
@@ -230,7 +233,7 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 
       <a class="unit" href="https://screens.mediaservi.com" target="_blank" rel="noopener noreferrer">
         <span class="ear l"><i></i><span class="handle"></span><i></i></span>
-        <span class="lcd"><strong>HARDWARE</strong><em>:</em><span class="sc"><span style="--d:18s">Configura montajes interconectados con los equipos de tu próximo proyecto</span></span></span>
+        <span class="grab"><img src="assets/logos/systems-logo.svg" alt="SYSTEMS"></span><span class="lcd"><span class="sc"><span style="--d:18s">Configura montajes interconectados con los equipos de tu próximo proyecto</span></span></span>
         <img class="go" src="assets/logos/avhub-play.svg" alt="">
         <span class="panel">
           <span class="matrix" id="matrix"></span>
@@ -242,7 +245,7 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 
       <a class="unit" href="https://charmex.net/productos/esp/promociones" target="_blank" rel="noopener noreferrer">
         <span class="ear l"><i></i><span class="handle"></span><i></i></span>
-        <span class="lcd"><strong>NEWS</strong><em>:</em><span class="sc"><span style="--d:12s">Novedades, próximos cursos de formación y ofertas</span></span></span>
+        <span class="grab"><img src="assets/logos/news-logo.svg" alt="NEWS"></span><span class="lcd"><span class="sc"><span style="--d:12s">Novedades, próximos cursos de formación y ofertas</span></span></span>
         <img class="go" src="assets/logos/avhub-play.svg" alt="">
         <span class="panel">
           <span class="marquee"><span>NOVEDADES · PRÓXIMOS CURSOS · OFERTAS · LANZAMIENTOS · EVENTOS PRO-AV · </span></span>
@@ -254,7 +257,7 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 
       <a class="unit" href="https://vjshow.mediaservi.com" target="_blank" rel="noopener noreferrer">
         <span class="ear l"><i></i><span class="handle"></span><i></i></span>
-        <span class="lcd"><strong>VJSHOW</strong><em>:</em><span class="sc"><span style="--d:16s">Visuales reactivos al audio para sesiones de VJ y salas inmersivas</span></span></span>
+        <span class="grab"><img src="assets/logos/vjshow-logo.svg" alt="VJSHOW"></span><span class="lcd"><span class="sc"><span style="--d:16s">Visuales reactivos al audio para sesiones de VJ y salas inmersivas</span></span></span>
         <img class="go" src="assets/logos/avhub-play.svg" alt="">
         <span class="panel al">
           <span class="monitor m-md"><canvas id="mon-vj" width="288" height="162"></canvas></span>
@@ -266,7 +269,7 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 
       <a class="unit" href="https://msgame.mediaservi.com" target="_blank" rel="noopener noreferrer">
         <span class="ear l"><i></i><span class="handle"></span><i></i></span>
-        <span class="lcd"><strong>MSGAME</strong><em>:</em><span class="sc"><span style="--d:16s">Juegos para salas inmersivas con tu móvil como mando</span></span></span>
+        <span class="grab"><img src="assets/logos/msgame-logo.svg" alt="MSGAME"></span><span class="lcd"><span class="sc"><span style="--d:16s">Juegos para salas inmersivas con tu móvil como mando</span></span></span>
         <img class="go" src="assets/logos/avhub-play.svg" alt="">
         <span class="panel al">
           <span class="monitor m-md"><canvas id="mon-game" width="288" height="162"></canvas></span>
@@ -509,7 +512,7 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
   setInterval(() => nextMode(monA, monB), 4600);
   setTimeout(() => setInterval(() => nextMode(monB, monA), 4600), 2300);
 
-  /* ---------- HARDWARE: LCD de puntos con marcas (PIXELHUE · PURELINK · NOVASTAR) ---------- */
+  /* ---------- SYSTEMS (antes HARDWARE): LCD de puntos con marcas (PIXELHUE · PURELINK · NOVASTAR) ---------- */
   const brands = ['PIXELHUE', 'PURELINK', 'NOVASTAR'];
   const bImgs = {}; brands.forEach(b => { const i = new Image(); i.onload = () => bImgs[b] = i; i.src = `assets/brands/${b.toLowerCase()}.png`; });
   const BW = 132, BH = 34, bc = document.getElementById('brands').getContext('2d'), bOff = document.createElement('canvas'); bOff.width = BW; bOff.height = BH;
