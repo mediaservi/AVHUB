@@ -131,15 +131,17 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 /* anillo de LED: una copia de la flecha, en negro, cuyo contorno de 2-3 px se pinta con el color del equipo y respira */
 .go .ring{position:absolute;left:0;top:0;opacity:.75;filter:brightness(0) drop-shadow(2px 0 0 var(--uc,#fff)) drop-shadow(-2px 0 0 var(--uc,#fff)) drop-shadow(0 2px 0 var(--uc,#fff)) drop-shadow(0 -2px 0 var(--uc,#fff)) drop-shadow(0 0 5px var(--uc,#fff));animation:anillo 3.4s ease-in-out infinite}
 @keyframes anillo{0%,100%{opacity:.22}50%{opacity:1}}
+.go .pl{position:relative;display:block;width:100%;filter:saturate(.85) brightness(.88);transition:filter .25s;aspect-ratio:443/531;background:linear-gradient(155deg,rgba(255,255,255,.42),rgba(255,255,255,0) 46%,rgba(0,0,0,.3)),var(--uc,#fff);-webkit-mask:url(assets/logos/avhub-play.svg) center/contain no-repeat;mask:url(assets/logos/avhub-play.svg) center/contain no-repeat}   /* la flecha, del color del logo de su equipo */
 .unit:hover .go,.unit.live .go{transform:scale(1.08)}
-.unit:hover .go img:not(.ring),.unit.live .go img:not(.ring){filter:grayscale(1) brightness(1.25)}
-.panel{flex:1;min-width:0;display:flex;align-items:center;justify-content:flex-end;gap:14px}
-.panel.al{justify-content:flex-start;gap:16px}
+.unit:hover .go .pl,.unit.live .go .pl{filter:none}
+/* panel de cada equipo: la pantalla siempre en el mismo sitio, separada de la tecla de play; después, testigos y conectores propios, y a la derecha el pulsador de encendido */
+.panel{flex:1;min-width:0;display:flex;align-items:center;justify-content:flex-start;gap:12px;padding-left:12px}
+.panel .push{margin-left:auto}
 
 .monitor{position:relative;flex:none;border-radius:4px;background:#000;border:2px solid #2a2930;box-shadow:inset 0 0 0 1px #000,0 0 0 1px rgba(255,255,255,.06),0 0 16px rgba(0,180,255,.12);overflow:hidden}
 .monitor canvas{width:100%;height:100%;display:block}
 .monitor::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 40%);pointer-events:none}
-.m-sm{width:112px;height:63px}.m-md{width:128px;height:72px}
+.m-sm{width:112px;height:63px}
 .knob{width:32px;height:32px;border-radius:50%;flex:none;background:radial-gradient(circle at 35% 30%,#4a4950,#121116 70%);border:2px solid #050407;box-shadow:0 3px 6px rgba(0,0,0,.7),inset 0 -2px 4px rgba(0,0,0,.6);position:relative}
 .knob::before{content:'';position:absolute;left:50%;top:4px;width:3px;height:8px;margin-left:-1.5px;border-radius:2px;background:#ff8a00;box-shadow:0 0 5px #ff8a00;transform-origin:50% 12px;transform:rotate(var(--r,-30deg))}
 .knob.sm{width:24px;height:24px}.knob.sm::before{height:6px;transform-origin:50% 8px}
@@ -153,6 +155,23 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 .col{display:flex;flex-direction:column;gap:6px;align-items:center}
 .row{display:flex;gap:6px;align-items:center}
 .ports{display:flex;gap:8px;align-items:flex-end}
+.stat{display:flex;flex-direction:column;gap:9px;flex:none}
+.st{display:flex;align-items:center;gap:5px;font:400 7px/1 'Share Tech Mono',monospace;letter-spacing:.08em;color:#8d8a9c}
+.led{width:6px;height:6px;border-radius:50%;flex:none;background:#1b1c20;box-shadow:inset 0 1px 1px #000,0 1px 0 rgba(255,255,255,.06);transition:background .08s,box-shadow .08s}
+.led.on{background:rgb(var(--lc,0,255,4));box-shadow:0 0 7px rgb(var(--lc,0,255,4)),inset 0 -1px 1px rgba(0,0,0,.3)}
+.c-rj{width:20px;height:17px;background:#050506;border:2px solid #a9adb4;border-radius:2px;position:relative;box-shadow:inset 0 3px 4px #000}
+.c-rj::before{content:'';position:absolute;left:5px;right:5px;bottom:0;height:4px;background:#17181c;border-top:1px solid #33353b}
+.c-rj i{position:absolute;top:1px;width:4px;height:3px;border-radius:1px;background:#1b1c20}
+.c-rj i:first-child{left:2px;--lc:0,255,4}.c-rj i:last-child{right:2px;--lc:255,176,0}
+.c-rj i.on{background:rgb(var(--lc));box-shadow:0 0 5px rgb(var(--lc))}
+.c-xlr{width:24px;height:24px;border-radius:50%;position:relative;border:1px solid #000;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 1px 2px #000;
+  background:radial-gradient(circle at 34% 42%,#d5d8de 0 1.7px,transparent 2.1px),radial-gradient(circle at 66% 42%,#d5d8de 0 1.7px,transparent 2.1px),radial-gradient(circle at 50% 68%,#d5d8de 0 1.7px,transparent 2.1px),radial-gradient(circle,#060607 0 56%,#8a8e95 58% 70%,#4a4d53 72% 100%)}
+.c-xlr::after{content:'';position:absolute;left:8px;top:-3px;width:6px;height:5px;border-radius:1px;background:linear-gradient(#c9ccd2,#7a7e86);border:1px solid #000}
+.c-jack{width:18px;height:18px;border-radius:50%;border:1px solid #000;box-shadow:0 1px 2px #000;background:radial-gradient(circle,#000 0 26%,#2a2b30 28% 40%,#b9bcc2 42% 62%,#6c7078 64% 100%)}
+/* pulsador de encendido, común a todos los equipos: anillo de luz fijo en el color del equipo */
+.push{position:relative;width:26px;height:26px;border-radius:50%;flex:none;background:radial-gradient(circle at 35% 30%,#5a5b62,#1a1a1f 70%);border:1px solid #000;box-shadow:0 2px 3px #000,0 0 0 2px #09090c,inset 0 1px 0 rgba(255,255,255,.18)}
+.push::before{content:"";position:absolute;left:50%;top:50%;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;box-sizing:border-box;border:2px solid #ff2a1f;border-top-color:transparent;border-radius:50%;filter:drop-shadow(0 0 2px #ff2a1f) drop-shadow(0 0 5px rgba(255,42,31,.7))}
+.push::after{content:"";position:absolute;left:50%;top:50%;width:2px;height:7px;margin:-8px 0 0 -1px;border-radius:1px;background:#ff5a4d;box-shadow:0 0 3px #ff2a1f,0 0 6px rgba(255,42,31,.8)}
 .port{display:flex;flex-direction:column;align-items:center;gap:4px;font:600 7px/1 'Share Tech Mono',monospace;letter-spacing:.06em;color:#8d8a9c;white-space:nowrap}
 .hdmi{width:28px;height:11px;background:#000;border:2px solid #a9adb4;clip-path:polygon(0 0,100% 0,100% 55%,86% 100%,14% 100%,0 55%);position:relative}
 .hdmi::after{content:'';position:absolute;left:4px;right:4px;top:3px;height:2px;background:#c9a227}
@@ -224,11 +243,9 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
       <a class="unit" style="--uc:#d4ff00;--ug:212,255,0" href="https://screens.mediaservi.com" target="_blank" rel="noopener noreferrer">
         <span class="ear l"><i></i><span class="handle"></span><i></i></span>
         <span class="grab"><img src="assets/logos/screens-logo.svg" alt="SCREENS"></span><span class="lcd"><span class="sc"><span>Calculador de pantallas LED y proyección, de una pantalla a una sala inmersiva</span></span></span>
-        <span class="go"><img class="ring" src="assets/logos/avhub-play.svg" alt=""><img src="assets/logos/avhub-play.svg" alt=""></span>
+        <span class="go"><img class="ring" src="assets/logos/avhub-play.svg" alt=""><i class="pl"></i></span>
         <span class="panel">
-          <span class="monitor m-sm"><canvas id="mon-a" width="256" height="144"></canvas></span>
-          <span class="monitor m-sm"><canvas id="mon-b" width="256" height="144"></canvas></span>
-          <span class="col"><span class="btn g"></span><span class="btn"></span><span class="btn o"></span></span>
+          <span class="monitor m-sm"><canvas id="mon-a" width="256" height="144"></canvas></span><span class="monitor m-sm"><canvas id="mon-b" width="256" height="144"></canvas></span><span class="push" title="POWER"></span>
         </span>
         <span class="ear r"><i></i><span class="handle"></span><i></i></span>
       </a>
@@ -236,10 +253,9 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
       <a class="unit" style="--uc:#00b4ff;--ug:0,180,255" href="https://systems.mediaservi.com" target="_blank" rel="noopener noreferrer">
         <span class="ear l"><i></i><span class="handle"></span><i></i></span>
         <span class="grab"><img src="assets/logos/systems-logo.svg" alt="SYSTEMS"></span><span class="lcd"><span class="sc"><span>Configura montajes interconectados con los equipos de tu próximo proyecto</span></span></span>
-        <span class="go"><img class="ring" src="assets/logos/avhub-play.svg" alt=""><img src="assets/logos/avhub-play.svg" alt=""></span>
+        <span class="go"><img class="ring" src="assets/logos/avhub-play.svg" alt=""><i class="pl"></i></span>
         <span class="panel">
-          <span class="matrix" id="matrix"></span>
-          <span class="dotlcd"><canvas id="brands" width="344" height="92"></canvas></span>
+          <span class="monitor m-sm"><canvas id="mon-sys" width="256" height="144"></canvas></span><span class="stat"><span class="st"><i class="led" data-blink="on" style="--lc:0,255,4"></i>PWR</span><span class="st"><i class="led" data-blink="slow" style="--lc:0,180,255"></i>SYNC</span><span class="st"><i class="led" data-blink="rare" style="--lc:255,48,64"></i>CLIP</span></span><span class="ports"><span class="port"><span class="c-xlr"></span>XLR</span><span class="port"><span class="c-rj"><i data-blink="net"></i><i data-blink="net"></i></span>LAN</span></span><span class="push" title="POWER"></span>
         </span>
         <span class="ear r"><i></i><span class="handle"></span><i></i></span>
       </a>
@@ -247,11 +263,9 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
       <a class="unit" style="--uc:#ffb000;--ug:255,176,0" href="https://charmex.net/productos/esp/promociones" target="_blank" rel="noopener noreferrer">
         <span class="ear l"><i></i><span class="handle"></span><i></i></span>
         <span class="grab"><img src="assets/logos/news-logo.svg" alt="NEWS"></span><span class="lcd"><span class="sc"><span>Novedades, próximos cursos de formación, ofertas, lanzamientos y eventos Pro-AV</span></span></span>
-        <span class="go"><img class="ring" src="assets/logos/avhub-play.svg" alt=""><img src="assets/logos/avhub-play.svg" alt=""></span>
+        <span class="go"><img class="ring" src="assets/logos/avhub-play.svg" alt=""><i class="pl"></i></span>
         <span class="panel">
-          <span class="ports"><span class="port"><span class="rj"></span>LAN</span><span class="port"><span class="usbc"></span>USB-C</span><span class="port"><span class="hdmi"></span>HDMI 2.1</span></span>
-          <span class="col"><span class="btn r"></span><span class="btn"></span></span>
-          <span class="knob sm" style="--r:-60deg"></span>
+          <span class="monitor m-sm"><canvas id="mon-news" width="256" height="144"></canvas></span><span class="stat"><span class="st"><i class="led" data-blink="on" style="--lc:0,255,4"></i>PWR</span><span class="st"><i class="led" data-blink="fast" style="--lc:255,176,0"></i>NET</span><span class="st"><i class="led" data-blink="slow" style="--lc:255,48,64"></i>NEW</span></span><span class="ports"><span class="port"><span class="c-rj"><i data-blink="net"></i><i data-blink="net"></i></span>LAN</span><span class="port"><span class="usbc"></span>USB-C</span></span><span class="push" title="POWER"></span>
         </span>
         <span class="ear r"><i></i><span class="handle"></span><i></i></span>
       </a>
@@ -259,11 +273,9 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
       <a class="unit" style="--uc:#00ff04;--ug:0,255,4" href="https://vjshow.mediaservi.com" target="_blank" rel="noopener noreferrer">
         <span class="ear l"><i></i><span class="handle"></span><i></i></span>
         <span class="grab"><img src="assets/logos/vjshow-logo.svg" alt="VJSHOW"></span><span class="lcd"><span class="sc"><span>Visuales reactivos al audio para sesiones de VJ y salas inmersivas</span></span></span>
-        <span class="go"><img class="ring" src="assets/logos/avhub-play.svg" alt=""><img src="assets/logos/avhub-play.svg" alt=""></span>
-        <span class="panel al">
-          <span class="monitor m-md"><canvas id="mon-vj" width="288" height="162"></canvas></span>
-          <span class="col"><span class="pads" id="pads"></span><span class="fader" id="fader"><i></i></span></span>
-          <span class="meter" id="meter"><b></b><b></b><b></b><b></b><b></b></span>
+        <span class="go"><img class="ring" src="assets/logos/avhub-play.svg" alt=""><i class="pl"></i></span>
+        <span class="panel">
+          <span class="monitor m-sm"><canvas id="mon-vj" width="288" height="162"></canvas></span><span class="stat"><span class="st"><i class="led" data-blink="on" style="--lc:0,255,4"></i>PWR</span><span class="st"><i class="led" data-blink="beat" style="--lc:0,255,4"></i>BEAT</span><span class="st"><i class="led" data-blink="slow" style="--lc:0,180,255"></i>OUT</span></span><span class="ports"><span class="port"><span class="hdmi"></span>HDMI</span><span class="port"><span class="c-jack"></span>AUDIO</span></span><span class="push" title="POWER"></span>
         </span>
         <span class="ear r"><i></i><span class="handle"></span><i></i></span>
       </a>
@@ -271,12 +283,9 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
       <a class="unit" style="--uc:#e100ff;--ug:225,0,255" href="https://msgame.mediaservi.com" target="_blank" rel="noopener noreferrer">
         <span class="ear l"><i></i><span class="handle"></span><i></i></span>
         <span class="grab"><img src="assets/logos/msgame-logo.svg" alt="MSGAME"></span><span class="lcd"><span class="sc"><span>Juegos para salas inmersivas con tu móvil como mando</span></span></span>
-        <span class="go"><img class="ring" src="assets/logos/avhub-play.svg" alt=""><img src="assets/logos/avhub-play.svg" alt=""></span>
-        <span class="panel al">
-          <span class="monitor m-md"><canvas id="mon-game" width="288" height="162"></canvas></span>
-          <span class="col"><span class="slot"></span></span>
-          <span class="dpad"></span>
-          <span class="col"><span class="btn m"></span><span class="btn b"></span></span>
+        <span class="go"><img class="ring" src="assets/logos/avhub-play.svg" alt=""><i class="pl"></i></span>
+        <span class="panel">
+          <span class="monitor m-sm"><canvas id="mon-game" width="288" height="162"></canvas></span><span class="stat"><span class="st"><i class="led" data-blink="on" style="--lc:0,255,4"></i>PWR</span><span class="st"><i class="led" data-blink="slow" style="--lc:225,0,255"></i>P1</span><span class="st"><i class="led" data-blink="slow" style="--lc:0,180,255"></i>P2</span></span><span class="ports"><span class="port"><span class="usb3"></span>USB</span><span class="port"><span class="hdmi"></span>HDMI</span></span><span class="push" title="POWER"></span>
         </span>
         <span class="ear r"><i></i><span class="handle"></span><i></i></span>
       </a>
@@ -456,87 +465,133 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
   const units = [...document.querySelectorAll('.unit')];
   if (!reduce) setInterval(() => { units.forEach(u => u.classList.remove('live')); pick(units).classList.add('live'); }, 3000);
 
-  // Matriz de ruteo
-  const mx = document.getElementById('matrix'); for (let i = 0; i < 16; i++) { const b = document.createElement('span'); b.className = 'btn off'; mx.appendChild(b); }
-  const mb = [...mx.children]; const route = () => { mb.forEach(b => b.className = 'btn off'); mb[Math.floor(Math.random() * 8)].className = 'btn g'; mb[8 + Math.floor(Math.random() * 8)].className = 'btn o'; };
-  route(); if (!reduce) setInterval(route, 1500);
-  // Pads, crossfader y vúmetro
-  const pads = document.getElementById('pads'), pc = ['m', 'b', 'g', 'o', 'm', 'b', 'g', 'r'];
-  for (let i = 0; i < 8; i++) { const b = document.createElement('span'); b.className = 'btn off'; b.dataset.c = pc[i]; pads.appendChild(b); }
-  const pb = [...pads.children], fader = document.getElementById('fader'), meter = [...document.querySelectorAll('#meter b')];
+  // testigos y actividad de red: cada uno con su propio reloj, para que nada parpadee a la vez
   let beat = 0;
-  if (!reduce) {
-    setInterval(() => { pb.forEach(b => b.className = 'btn off'); const k = Math.floor(Math.random() * 8); pb[k].className = 'btn ' + pb[k].dataset.c; beat = 1; }, 500);
-    setInterval(() => fader.style.setProperty('--x', rnd(10, 90) + '%'), 2600);
-    setInterval(() => meter.forEach(m => m.style.setProperty('--v', rnd(25, 95) + '%')), 140);
-  }
+  const cada = (fn, a, b) => { if (reduce) { fn(); return; } (function v() { fn(); setTimeout(v, rnd(a, b)); })(); };
+  document.querySelectorAll('[data-blink]').forEach(e => { const m = e.dataset.blink;
+    if (m === 'on') e.classList.add('on');
+    else if (m === 'net') cada(() => e.classList.toggle('on', Math.random() < .55), 50, 380);
+    else if (m === 'fast') cada(() => e.classList.toggle('on', Math.random() < .7), 90, 520);
+    else if (m === 'beat') { if (!reduce) setInterval(() => { beat = 1; e.classList.add('on'); setTimeout(() => e.classList.remove('on'), 110); }, 500); }
+    else if (m === 'rare') cada(() => { if (Math.random() < .25) { e.classList.add('on'); setTimeout(() => e.classList.remove('on'), 260); } }, 900, 2600);
+    else cada(() => e.classList.toggle('on', Math.random() < .8), 800, 2800); });
 
-  /* ---------- SCREEN: dos monitores con contenidos distintos ---------- */
+  /* ---------- SCREENS: dos monitores que enseñan lo que hace la app (muro LED, sala inmersiva con proyección, carta de ajuste…) ----------
+     Cada monitor cambia de contenido por su cuenta, a intervalos al azar, con una transición de vídeo distinta cada vez y algún fallo de señal. */
   const scChart = img('assets/rack/screencalc-chart.webp');
   const vjF = [...Array(10).keys()].map(i => img(`assets/rack/vj-fondo${i}.webp`));
-  const MODES = ['niebla', 'carta', 'calibrado', 'nosignal', 'live'];
-  const monA = { g: document.getElementById('mon-a').getContext('2d'), mode: 'carta', t0: 0, res: true, live: 2 };
-  const monB = { g: document.getElementById('mon-b').getContext('2d'), mode: 'calibrado', t0: 0, res: false, live: 5 };
+  const MW = 256, MH = 144, MODES = ['carta', 'sala', 'muro', 'barras', 'calibrado', 'sala', 'carta', 'live', 'muro'];
+  const lienzo = (w = MW, h = MH) => { const c = document.createElement('canvas'); c.width = w; c.height = h; return c.getContext('2d'); };
+  const mkMon = (id, mode, res) => ({ out: document.getElementById(id).getContext('2d'), g: lienzo(), old: lienzo(), mode, t0: 0, res, live: Math.floor(rnd(0, 10)), tr: null, trT: 1, next: rnd(3.5, 6.5), gl: 0 });
+  const monA = mkMon('mon-a', 'carta', true), monB = mkMon('mon-b', 'sala', false);
+  const listo = im => im.complete && im.naturalWidth > 0;
   function nextMode(m, other) {
-    let nm;
-    if (m.mode === 'niebla') nm = 'simulador';                                 // después de la niebla, el fondo del simulador
-    else { do nm = pick(MODES); while (nm === m.mode || nm === other.mode); }
-    if (nm === other.mode) nm = 'carta' === other.mode ? 'calibrado' : 'carta';
-    m.mode = nm; m.t0 = 0; m.live = Math.floor(Math.random() * 10);
+    let nm; do nm = pick(MODES); while (nm === m.mode || nm === other.mode);
+    m.old.drawImage(m.out.canvas, 0, 0); m.mode = nm; m.t0 = 0; m.live = Math.floor(rnd(0, 10));
+    m.tr = pick(['fundido', 'cortina', 'glitch', 'nieve', 'empuje', 'glitch']); m.trT = 0; m.next = rnd(3.8, 7.5);
   }
-  function drawMon(m, dt) {
-    const g = m.g, w = 256, h = 144; m.t0 += dt;
+  function pintaModo(m) {
+    const g = m.g, w = MW, h = MH, t = m.t0; g.globalAlpha = 1; g.textBaseline = 'middle';
     switch (m.mode) {
-      case 'niebla': {
-        const id = g.createImageData(w / 2, h / 2), d = id.data;
-        for (let i = 0; i < d.length; i += 4) { const v = Math.random() * 255; d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 255; }
-        g.putImageData(id, 0, 0); g.drawImage(g.canvas, 0, 0, w / 2, h / 2, 0, 0, w, h); break; }
-      case 'simulador': if (scChart.complete) { g.globalAlpha = Math.min(1, m.t0 * 1.5); g.drawImage(scChart, 0, 0, w, h); g.globalAlpha = 1; } break;
-      case 'carta': {
+      case 'carta': if (listo(scChart)) { g.drawImage(scChart, 0, 0, w, h); break; }   // la carta de ajuste del simulador; si aún no ha cargado, barras
+      case 'barras': {
         const c = ['#c0c0c0', '#c0c000', '#00c0c0', '#00c000', '#c000c0', '#c00000', '#0000c0'];
         c.forEach((k, i) => { g.fillStyle = k; g.fillRect(i * w / 7, 0, w / 7 + 1, h * .68); });
         ['#0000c0', '#111', '#c000c0', '#111', '#00c0c0', '#111', '#c0c0c0'].forEach((k, i) => { g.fillStyle = k; g.fillRect(i * w / 7, h * .68, w / 7 + 1, h * .08); });
         const gr = g.createLinearGradient(0, 0, w, 0); gr.addColorStop(0, '#000'); gr.addColorStop(1, '#fff'); g.fillStyle = gr; g.fillRect(0, h * .76, w, h * .24); break; }
       case 'calibrado': {
         g.fillStyle = '#000'; g.fillRect(0, 0, w, h);
-        for (let y = 0; y < h; y += 6) for (let x = 0; x < w; x += 6) { const on = ((x / 6 + y / 6 + Math.floor(m.t0 * 3)) % 4) !== 0; g.fillStyle = on ? '#00e000' : '#003300'; g.fillRect(x + 1, y + 1, 4, 4); }
-        const sx = (m.t0 * 90) % w; g.fillStyle = 'rgba(255,255,255,.75)'; g.fillRect(sx, 0, 3, h); break; }
-      case 'nosignal': {
-        g.fillStyle = '#05050a'; g.fillRect(0, 0, w, h);
-        const bxp = 70 + Math.sin(m.t0 * .9) * 60, byp = 60 + Math.cos(m.t0 * .7) * 40;
-        g.fillStyle = '#1b3aa8'; g.fillRect(bxp - 50, byp - 14, 100, 28);
-        g.fillStyle = '#fff'; g.font = '800 15px Doto, monospace'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('SIN SEÑAL', bxp, byp + 1); break; }
+        for (let y = 0; y < h; y += 6) for (let x = 0; x < w; x += 6) { const on = ((x / 6 + y / 6 + Math.floor(t * 3)) % 4) !== 0; g.fillStyle = on ? '#00e000' : '#003300'; g.fillRect(x + 1, y + 1, 4, 4); }
+        const sx = (t * 90) % w; g.fillStyle = 'rgba(255,255,255,.75)'; g.fillRect(sx, 0, 3, h); break; }
       case 'live': {
-        const im = vjF[m.live]; if (im.complete) { const z = 1 + m.t0 * .015; g.drawImage(im, -(z - 1) * w / 2, -(z - 1) * h / 2, w * z, h * z); }
-        if (Math.floor(m.t0 * 1.6) % 2 === 0) { g.fillStyle = '#ff2020'; g.beginPath(); g.arc(14, 14, 5, 0, 6.3); g.fill(); }
-        g.fillStyle = '#fff'; g.font = '800 13px Doto, monospace'; g.textAlign = 'left'; g.textBaseline = 'middle'; g.fillText('LIVE', 24, 15); break; }
+        const im = vjF[m.live]; g.fillStyle = '#000'; g.fillRect(0, 0, w, h); if (listo(im)) { const z = 1 + t * .015; g.drawImage(im, -(z - 1) * w / 2, -(z - 1) * h / 2, w * z, h * z); }
+        if (Math.floor(t * 1.6) % 2 === 0) { g.fillStyle = '#ff2020'; g.beginPath(); g.arc(14, 14, 5, 0, 6.3); g.fill(); }
+        g.fillStyle = '#fff'; g.font = '800 13px Doto, monospace'; g.textAlign = 'left'; g.fillText('LIVE', 24, 15); break; }
+      case 'muro': {   // un muro LED que se monta cabinet a cabinet, con su escala humana y sus medidas
+        const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, '#0a0f14'); gr.addColorStop(1, '#030405'); g.fillStyle = gr; g.fillRect(0, 0, w, h);
+        const cols = 8, rows = 4, ww = 168, wh = 88, x0 = 60, y0 = 16, cw = ww / cols, ch = wh / rows, n = Math.floor(t * 9) % (cols * rows + 40), im = vjF[m.live], ok = listo(im);
+        for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) { const k = (rows - 1 - j) * cols + i, x = x0 + i * cw, y = y0 + j * ch;
+          if (k < n) { if (ok) g.drawImage(im, im.naturalWidth * i / cols, im.naturalHeight * j / rows, im.naturalWidth / cols, im.naturalHeight / rows, x + .5, y + .5, cw - 1, ch - 1); else { g.fillStyle = `hsl(${(i * 26 + j * 34) % 360} 85% 50%)`; g.fillRect(x + .5, y + .5, cw - 1, ch - 1); } }
+          else { g.strokeStyle = 'rgba(212,255,0,.4)'; g.lineWidth = 1; g.strokeRect(x + 1, y + 1, cw - 2, ch - 2); } }
+        g.fillStyle = 'rgba(255,255,255,.8)'; const px = x0 - 18, py = y0 + wh; g.beginPath(); g.arc(px, py - 31, 4.4, 0, 6.3); g.fill(); g.fillRect(px - 3.6, py - 25, 7.2, 25);
+        g.fillStyle = '#d4ff00'; g.font = '700 13px Doto, monospace'; g.textAlign = 'center'; g.fillText('5,0 × 3,0 m · P2.6 · 1920×1152', w / 2 + 8, h - 15); break; }
+      case 'sala': {   // sala inmersiva: tres paredes proyectadas en perspectiva, proyectores en el techo y dos personas dentro
+        const im = vjF[m.live], ok = listo(im), bx = 72, by = 30, bw = w - 144, bh = 62, N = 36;
+        g.fillStyle = '#030305'; g.fillRect(0, 0, w, h);
+        if (ok) { const iw = im.naturalWidth, ih = im.naturalHeight, pan = (Math.sin(t * .3) * .5 + .5) * iw * .06, sw = iw * .3 / N;
+          for (let i = 0; i < N; i++) { const u = i / N, x = u * bx, top = by * u, bot = h - (h - by - bh) * u;
+            g.drawImage(im, pan + u * iw * .3, 0, sw, ih, x, top, bx / N + .7, bot - top);
+            g.drawImage(im, pan + iw * (.94 - .3 * (1 - u)) - sw + iw * .0, 0, sw, ih, w - x - bx / N - .7, top, bx / N + .7, bot - top); }
+          g.fillStyle = 'rgba(0,0,0,.30)'; g.beginPath(); g.moveTo(0, 0); g.lineTo(bx, by); g.lineTo(bx, by + bh); g.lineTo(0, h); g.fill(); g.beginPath(); g.moveTo(w, 0); g.lineTo(w - bx, by); g.lineTo(w - bx, by + bh); g.lineTo(w, h); g.fill();
+          g.drawImage(im, pan + iw * .3, 0, iw * .34, ih, bx, by, bw, bh); }
+        else { g.fillStyle = '#12203a'; g.fillRect(bx, by, bw, bh); }
+        g.fillStyle = '#07070b'; g.beginPath(); g.moveTo(0, 0); g.lineTo(w, 0); g.lineTo(w - bx, by); g.lineTo(bx, by); g.fill();                         // techo
+        const sg = g.createLinearGradient(0, by + bh, 0, h); sg.addColorStop(0, '#1b1c26'); sg.addColorStop(1, '#07070b'); g.fillStyle = sg;
+        g.beginPath(); g.moveTo(bx, by + bh); g.lineTo(w - bx, by + bh); g.lineTo(w, h); g.lineTo(0, h); g.fill();                                          // suelo
+        g.fillStyle = 'rgba(140,190,255,.10)'; g.beginPath(); g.moveTo(bx + 16, by + bh); g.lineTo(w - bx - 16, by + bh); g.lineTo(w - 44, h); g.lineTo(44, h); g.fill();
+        [[w * .30, 9, 26, h * .52, 18], [w * .5, 14, w / 2, by + bh / 2, 34], [w * .70, 9, w - 26, h * .52, 18]].forEach(([px, py, tx, ty, r], i) => {   // proyectores y sus haces
+          g.fillStyle = `rgba(190,215,255,${.07 + .03 * Math.sin(t * 2 + i * 2)})`; g.beginPath(); g.moveTo(px, py); g.lineTo(tx - (i === 1 ? r : 0), ty - (i === 1 ? 0 : r)); g.lineTo(tx + (i === 1 ? r : 0), ty + (i === 1 ? 0 : r)); g.fill();
+          g.fillStyle = '#c9ccd2'; g.fillRect(px - 6, py - 3, 12, 6); g.fillStyle = '#7fd8ff'; g.fillRect(px - 2, py + 2, 4, 2); });
+        g.strokeStyle = 'rgba(255,255,255,.28)'; g.lineWidth = 1; g.beginPath(); g.moveTo(bx, by); g.lineTo(bx, by + bh); g.moveTo(w - bx, by); g.lineTo(w - bx, by + bh); g.moveTo(0, 0); g.lineTo(bx, by); g.lineTo(w - bx, by); g.lineTo(w, 0); g.moveTo(0, h); g.lineTo(bx, by + bh); g.lineTo(w - bx, by + bh); g.lineTo(w, h); g.stroke();
+        g.fillStyle = '#000'; [[112, 122, 1], [150, 128, 1.15]].forEach(([x, y, k]) => { g.beginPath(); g.arc(x, y - 20 * k, 3.6 * k, 0, 6.3); g.fill(); g.fillRect(x - 3 * k, y - 16 * k, 6 * k, 16 * k); });
+        g.fillStyle = 'rgba(0,0,0,.55)'; g.fillRect(4, 4, 150, 15); g.fillStyle = '#fff'; g.font = '700 11px Doto, monospace'; g.textAlign = 'left'; g.fillText('SALA INMERSIVA · 3 PROY.', 8, 12); break; }
     }
-    if (m.res) { g.fillStyle = 'rgba(0,0,0,.55)'; g.fillRect(w - 102, h - 20, 98, 16); g.fillStyle = '#00ff04'; g.font = '700 11px Doto, monospace'; g.textAlign = 'right'; g.textBaseline = 'middle'; g.fillText('3840×2160 60Hz', w - 8, h - 12); }
+    if (m.res) { g.fillStyle = 'rgba(0,0,0,.55)'; g.fillRect(w - 102, h - 20, 98, 16); g.fillStyle = '#00ff04'; g.font = '700 11px Doto, monospace'; g.textAlign = 'right'; g.fillText('3840×2160 60Hz', w - 8, h - 12); }
   }
-  setInterval(() => nextMode(monA, monB), 4600);
-  setTimeout(() => setInterval(() => nextMode(monB, monA), 4600), 2300);
+  const nz = lienzo(64, 36);
+  function nieve(o, a) { const id = nz.createImageData(64, 36), d = id.data; for (let i = 0; i < d.length; i += 4) { const v = Math.random() * 255; d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 255; } nz.putImageData(id, 0, 0); o.globalAlpha = Math.max(0, Math.min(1, a)); o.drawImage(nz.canvas, 0, 0, MW, MH); o.globalAlpha = 1; }
+  function glitch(o, A, B, k) {   // franjas desplazadas, separación de color y una línea de barrido
+    const n = 3 + Math.floor(k * 6);
+    for (let i = 0; i < n; i++) { const y = rnd(0, MH - 16), hh = rnd(3, 16), dx = rnd(-28, 28) * k; o.drawImage(Math.random() < .5 ? A : B, 0, y, MW, hh, dx, y, MW, hh); }
+    o.globalCompositeOperation = 'screen'; o.globalAlpha = .4 * k; o.fillStyle = '#f0f'; o.fillRect(0, rnd(0, MH), MW, rnd(2, 10)); o.fillStyle = '#0ff'; o.fillRect(0, rnd(0, MH), MW, rnd(2, 8));
+    o.globalAlpha = 1; o.globalCompositeOperation = 'source-over'; o.fillStyle = 'rgba(0,0,0,.55)'; o.fillRect(0, rnd(0, MH), MW, 2);
+  }
+  function drawMon(m, other, dt) {
+    m.t0 += dt; m.next -= dt; if (m.next <= 0 && !reduce) nextMode(m, other);
+    pintaModo(m); const o = m.out, w = MW, h = MH, src = m.g.canvas, old = m.old.canvas;
+    o.globalAlpha = 1; o.globalCompositeOperation = 'source-over';
+    if (m.tr && m.trT < 1) {
+      m.trT = Math.min(1, m.trT + dt / .75); const p = m.trT, e = p * p * (3 - 2 * p);
+      switch (m.tr) {
+        case 'fundido': o.drawImage(old, 0, 0); o.globalAlpha = e; o.drawImage(src, 0, 0); o.globalAlpha = 1; break;
+        case 'cortina': o.drawImage(old, 0, 0); if (e > 0) o.drawImage(src, 0, 0, Math.max(1, w * e), h, 0, 0, Math.max(1, w * e), h); o.fillStyle = '#fff'; o.fillRect(w * e - 1, 0, 2, h); break;
+        case 'empuje': o.drawImage(old, -w * e, 0); o.drawImage(src, w - w * e, 0); break;
+        case 'nieve': o.drawImage(p < .5 ? old : src, 0, 0); nieve(o, 1.5 * (1 - Math.abs(p - .5) * 2)); break;
+        default: o.drawImage(p < .45 ? old : src, 0, 0); glitch(o, old, src, 1 - Math.abs(p - .5) * 1.6);
+      }
+      if (m.trT >= 1) m.tr = null;
+    } else { o.drawImage(src, 0, 0); if (!reduce && Math.random() < dt * .2) m.gl = rnd(.1, .28); }
+    if (m.gl > 0) { m.gl -= dt; glitch(o, src, src, .6); }
+  }
 
-  /* ---------- SYSTEMS (antes HARDWARE): LCD de puntos con marcas (PIXELHUE · PURELINK · NOVASTAR) ---------- */
-  const brands = ['PIXELHUE', 'PURELINK', 'NOVASTAR'];
-  const bImgs = {}; brands.forEach(b => { const i = new Image(); i.onload = () => bImgs[b] = i; i.src = `assets/brands/${b.toLowerCase()}.png`; });
-  const BW = 132, BH = 34, bc = document.getElementById('brands').getContext('2d'), bOff = document.createElement('canvas'); bOff.width = BW; bOff.height = BH;
-  const og = bOff.getContext('2d', { willReadFrequently: true });
-  let bIdx = 0, bT = 0;
-  function drawBrands(dt) {
-    bT += dt; if (bT > 3.4) { bT = 0; bIdx = (bIdx + 1) % brands.length; }
-    const name = brands[bIdx]; og.clearRect(0, 0, BW, BH);
-    if (bImgs[name]) { const i = bImgs[name], s = Math.min((BW - 6) / i.width, (BH - 4) / i.height); og.drawImage(i, (BW - i.width * s) / 2, (BH - i.height * s) / 2, i.width * s, i.height * s); }
-    else { og.fillStyle = '#fff'; og.font = '800 18px Inter, sans-serif'; og.textAlign = 'center'; og.textBaseline = 'middle'; og.fillText(name, BW / 2, BH / 2 + 1); }
-    const d = og.getImageData(0, 0, BW, BH).data, w = 344, h = 92, px = w / BW, py = h / BH;
-    bc.fillStyle = '#01030a'; bc.fillRect(0, 0, w, h);
-    const k = Math.min(1, bT * 3, (3.4 - bT) * 3);
-    for (let y = 0; y < BH; y++) for (let x = 0; x < BW; x++) {
-      const a = d[(y * BW + x) * 4 + 3] / 255;
-      if (a > .22) { bc.fillStyle = `rgba(40,150,255,${(.3 + .7 * Math.min(1, a * 1.4)) * k + .06})`; bc.shadowColor = 'rgba(30,140,255,.9)'; bc.shadowBlur = 3 * k; }
-      else { bc.fillStyle = 'rgba(40,150,255,.07)'; bc.shadowBlur = 0; }
-      bc.fillRect(x * px + .4, y * py + .4, px - .8, py - .8);
-    }
-    bc.shadowBlur = 0;
+  /* ---------- SYSTEMS: el camino de la señal (micro, cámara y PC → procesador → altavoces, pantalla y videoconferencia) ---------- */
+  const TM = (g, px) => { g.font = `${px}px "Share Tech Mono", monospace`; };
+  const rr = (c, x, y, w, h, r) => { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); };
+  const sg = document.getElementById('mon-sys').getContext('2d'), ng = document.getElementById('mon-news').getContext('2d');
+  function drawSys(t) {
+    const c = sg, w = 128, h = 72; c.setTransform(2, 0, 0, 2, 0, 0); c.textBaseline = 'alphabetic'; c.fillStyle = '#04070c'; c.fillRect(0, 0, w, h);
+    const L = ['MIC', 'CAM', 'PC'], R = ['SPK', 'LED', 'VC'], bw = 22, bh = 12, xm = w / 2, ym = h / 2, y = i => 9 + i * ((h - 18 - bh) / 2);
+    c.lineWidth = 1; TM(c, 6.5); c.textAlign = 'center';
+    for (let i = 0; i < 3; i++) for (const s of [0, 1]) { const x = s ? w - 5 - bw : 5, xa = s ? x : x + bw, ya = y(i) + bh / 2, hx = Math.abs(xm - xa) - 12, len = hx + Math.abs(ya - ym);
+      c.strokeStyle = 'rgba(0,180,255,.35)'; c.beginPath(); c.moveTo(xa, ya); c.lineTo(xm + (s ? 12 : -12), ya); c.lineTo(xm + (s ? 12 : -12), ym); c.stroke();
+      const ph = (t * (.35 + i * .17 + s * .11) + i * .37 + s * .5) % 1, q = (s ? 1 - ph : ph) * len;   // cada línea lleva su paquete a su velocidad
+      const dx = q < hx ? xa + (s ? -q : q) : xm + (s ? 12 : -12), dy = q < hx ? ya : ya + (ym - ya) * ((q - hx) / Math.max(1, len - hx));
+      c.fillStyle = i === 1 ? '#00ff04' : '#7fd8ff'; c.beginPath(); c.arc(dx, dy, 1.7, 0, 7); c.fill();
+      c.fillStyle = '#0b1622'; rr(c, x, y(i), bw, bh, 2); c.fill(); c.strokeStyle = '#00b4ff'; c.stroke(); c.fillStyle = '#cfefff'; c.fillText((s ? R : L)[i], x + bw / 2, y(i) + 8.6); }
+    c.fillStyle = '#00b4ff'; rr(c, xm - 13, ym - 10, 26, 20, 3); c.fill(); c.fillStyle = '#04070c'; TM(c, 8); c.fillText('DSP', xm, ym + 3);
+    c.setTransform(1, 0, 0, 1, 0, 0);
+  }
+  /* ---------- NEWS: tarjetas de ofertas, cursos, novedades y eventos que van pasando ---------- */
+  function drawNews(t) {
+    const c = ng, w = 128, h = 72; c.setTransform(2, 0, 0, 2, 0, 0); c.textBaseline = 'alphabetic'; c.fillStyle = '#0a0703'; c.fillRect(0, 0, w, h);
+    const T = [['OFERTA', '#ffb000'], ['CURSO', '#00b4ff'], ['NOVEDAD', '#00ff04'], ['EVENTO', '#e100ff']], cw = w - 26, paso = cw + 8;
+    const f = t * .28, i0 = Math.floor(f), fr = f - i0, e = fr < .78 ? 0 : (fr - .78) / .22, des = (e * e * (3 - 2 * e)) * paso;
+    for (let k = -1; k < 2; k++) { const [tx, col] = T[((i0 + k) % 4 + 4) % 4], x = 13 + k * paso - des, y = 8, ch = h - 16;
+      c.fillStyle = '#17120a'; rr(c, x, y, cw, ch, 4); c.fill(); c.strokeStyle = 'rgba(255,255,255,.1)'; c.lineWidth = .6; c.stroke();
+      c.fillStyle = col; rr(c, x + 5, y + 5, tx.length * 4.6 + 8, 10, 2); c.fill(); c.fillStyle = '#0a0703'; TM(c, 7); c.textAlign = 'left'; c.fillText(tx, x + 9, y + 12.6);
+      c.fillStyle = 'rgba(255,255,255,.72)'; c.fillRect(x + 5, y + 21, cw * .72, 3.2); c.fillStyle = 'rgba(255,255,255,.3)'; c.fillRect(x + 5, y + 28, cw * .56, 2.4); c.fillRect(x + 5, y + 33.5, cw * .64, 2.4);
+      c.fillStyle = col; rr(c, x + 5, y + ch - 13, 26, 8, 2); c.fill(); }
+    c.setTransform(1, 0, 0, 1, 0, 0);
   }
 
   /* ---------- VJSHOW: recreación de una mezcla (fondo + figuras + objetos + capa de estilo) ---------- */
@@ -601,10 +656,10 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
     gg.fillText('SCORE ' + String(Math.floor(gm.score)).padStart(5, '0'), 6, 9); gg.textAlign = 'right'; gg.fillText('P1', w - 6, 9);
   }
 
-  let lt = performance.now();
+  let lt = performance.now(), tt = 0;
   (function loop(now) {
     const dt = Math.min(.05, (now - lt) / 1000); lt = now;
-    drawMon(monA, dt); drawMon(monB, dt); drawBrands(dt); drawVJ(dt); drawGame(dt);
+    tt += dt; drawMon(monA, monB, dt); drawMon(monB, monA, dt); drawSys(tt); drawNews(tt); drawVJ(dt); drawGame(dt);
     if (!reduce) requestAnimationFrame(loop);
   })(lt);
 
