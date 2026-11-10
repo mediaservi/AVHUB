@@ -172,6 +172,14 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 .push{position:relative;width:26px;height:26px;border-radius:50%;flex:none;background:radial-gradient(circle at 35% 30%,#5a5b62,#1a1a1f 70%);border:1px solid #000;box-shadow:0 2px 3px #000,0 0 0 2px #09090c,inset 0 1px 0 rgba(255,255,255,.18)}
 .push::before{content:"";position:absolute;left:50%;top:50%;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;box-sizing:border-box;border:2px solid #ff2a1f;border-top-color:transparent;border-radius:50%;filter:drop-shadow(0 0 2px #ff2a1f) drop-shadow(0 0 5px rgba(255,42,31,.7))}
 .push::after{content:"";position:absolute;left:50%;top:50%;width:2px;height:7px;margin:-8px 0 0 -1px;border-radius:1px;background:#ff5a4d;box-shadow:0 0 3px #ff2a1f,0 0 6px rgba(255,42,31,.8)}
+/* botón de encendido: apaga del todo ese equipo (y solo ese); no abre su web */
+.push{cursor:pointer}.push:focus-visible{outline:2px solid #9900ff;outline-offset:3px}.push:active{transform:translateY(1px)}
+.unit.off{cursor:default;filter:brightness(.6)!important;box-shadow:0 2px 0 #000!important}
+.unit.off .lcd .sc,.unit.off .monitor canvas{visibility:hidden}
+.unit.off .monitor{box-shadow:inset 0 0 0 1px #000,0 0 0 1px rgba(255,255,255,.06)}
+.unit.off [data-blink]{background:#15161a!important;box-shadow:inset 0 1px 1px #000!important}
+.unit.off .go{opacity:.3;transform:none!important}.unit.off .go .ring{animation:none!important}.unit.off .go .pl{filter:grayscale(1) brightness(.5)!important}
+.unit.off .push::before{border-color:#4a110d;border-top-color:transparent;filter:none}.unit.off .push::after{background:#4a110d;box-shadow:none}
 .port{display:flex;flex-direction:column;align-items:center;gap:4px;font:600 7px/1 'Share Tech Mono',monospace;letter-spacing:.06em;color:#8d8a9c;white-space:nowrap}
 .hdmi{width:28px;height:11px;background:#000;border:2px solid #a9adb4;clip-path:polygon(0 0,100% 0,100% 55%,86% 100%,14% 100%,0 55%);position:relative}
 .hdmi::after{content:'';position:absolute;left:4px;right:4px;top:3px;height:2px;background:#c9a227}
@@ -463,7 +471,12 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
   lcdRitmo(); document.fonts && document.fonts.ready.then(lcdRitmo);
 
   const units = [...document.querySelectorAll('.unit')];
-  if (!reduce) setInterval(() => { units.forEach(u => u.classList.remove('live')); pick(units).classList.add('live'); }, 3000);
+  if (!reduce) setInterval(() => { units.forEach(u => u.classList.remove('live')); const on = units.filter(u => !u.classList.contains('off')); if (on.length) pick(on).classList.add('live'); }, 3000);
+  // botón de encendido de cada equipo: lo apaga o lo enciende; apagado, el equipo no abre su web
+  document.querySelectorAll('.push').forEach(p => { const u = p.closest('.unit'); p.setAttribute('role', 'button'); p.tabIndex = 0; p.setAttribute('aria-label', 'POWER'); p.setAttribute('aria-pressed', 'true');
+    const tog = e => { e.preventDefault(); e.stopPropagation(); const off = u.classList.toggle('off'); u.classList.remove('live'); p.setAttribute('aria-pressed', String(!off)); };
+    p.addEventListener('click', tog); p.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') tog(e); }); });
+  units.forEach(u => u.addEventListener('click', e => { if (u.classList.contains('off')) e.preventDefault(); }));
 
   // testigos y actividad de red: cada uno con su propio reloj, para que nada parpadee a la vez
   let beat = 0;
