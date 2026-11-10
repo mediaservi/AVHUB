@@ -114,12 +114,14 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 .ear.l .handle{left:30px}.ear.r .handle{right:30px}
 
 /* LCD con nombre fijo y descripción en scroll */
-.lcd{flex:none;width:310px;height:40px;display:flex;align-items:center;gap:10px;padding:0 12px;border-radius:4px;background:#030a03;border:1px solid #000;
+/* nombre de cada equipo: su logo grabado en el frontal (rebajado, como a láser) con los colores serigrafiados; a su lado, el LCD con la explicación */
+.grab{flex:none;width:132px;height:40px;display:flex;align-items:center}
+.grab img{display:block;height:34px;width:auto;max-width:100%;filter:saturate(.9) brightness(.9) drop-shadow(0 -1px 0 rgba(0,0,0,.95)) drop-shadow(0 1px 0 rgba(255,255,255,.16))}
+.lcd{flex:none;width:164px;height:40px;display:flex;align-items:center;gap:10px;padding:0 12px;border-radius:4px;background:#030a03;border:1px solid #000;
   box-shadow:inset 0 0 12px #000,0 1px 0 rgba(255,255,255,.06);overflow:hidden;
   background-image:radial-gradient(circle,rgba(0,255,4,.06) 0 1px,transparent 1.4px);background-size:4px 4px}
 .lcd strong,.lcd em,.lcd .sc span{font:800 19px/1 'Doto',monospace;letter-spacing:.12em;color:var(--green);text-shadow:0 0 8px rgba(0,255,4,.6);font-style:normal;white-space:nowrap}
 .lcd em{padding:0 2px}
-.lcd .iso{flex:none;width:24px;height:24px;margin-right:-2px}   /* isotipo de cada app, en su color */
 .lcd .sc{position:relative;flex:1;min-width:0;height:100%;overflow:hidden;-webkit-mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
 .lcd .sc span{position:absolute;top:50%;left:0;transform:translate(0,-50%);padding-left:100%;animation:scroll var(--d,16s) linear infinite}
 @keyframes scroll{to{transform:translate(-100%,-50%)}}
@@ -219,7 +221,7 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 
       <a class="unit" href="https://screens.mediaservi.com" target="_blank" rel="noopener noreferrer">
         <span class="ear l"><i></i><span class="handle"></span><i></i></span>
-        <span class="lcd"><img class="iso" src="assets/logos/screens-icono.svg" alt="" width="24" height="24"><strong>SCREENS</strong><em>:</em><span class="sc"><span style="--d:18s">Calculador de pantallas LED y proyección, de una pantalla a una sala inmersiva</span></span></span>
+        <span class="grab"><img src="assets/logos/screens-logo.svg" alt="SCREENS"></span><span class="lcd"><span class="sc"><span style="--d:18s">Calculador de pantallas LED y proyección, de una pantalla a una sala inmersiva</span></span></span>
         <img class="go" src="assets/logos/avhub-play.svg" alt="">
         <span class="panel">
           <span class="monitor m-sm"><canvas id="mon-a" width="256" height="144"></canvas></span>
@@ -231,7 +233,7 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 
       <a class="unit" href="https://screens.mediaservi.com" target="_blank" rel="noopener noreferrer">
         <span class="ear l"><i></i><span class="handle"></span><i></i></span>
-        <span class="lcd"><img class="iso" src="assets/logos/systems-icono.svg" alt="" width="24" height="24"><strong>SYSTEMS</strong><em>:</em><span class="sc"><span style="--d:18s">Configura montajes interconectados con los equipos de tu próximo proyecto</span></span></span>
+        <span class="grab"><img src="assets/logos/systems-logo.svg" alt="SYSTEMS"></span><span class="lcd"><span class="sc"><span style="--d:18s">Configura montajes interconectados con los equipos de tu próximo proyecto</span></span></span>
         <img class="go" src="assets/logos/avhub-play.svg" alt="">
         <span class="panel">
           <span class="matrix" id="matrix"></span>
@@ -243,7 +245,7 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 
       <a class="unit" href="https://charmex.net/productos/esp/promociones" target="_blank" rel="noopener noreferrer">
         <span class="ear l"><i></i><span class="handle"></span><i></i></span>
-        <span class="lcd"><img class="iso" src="assets/logos/news-icono.svg" alt="" width="24" height="24"><strong>NEWS</strong><em>:</em><span class="sc"><span style="--d:12s">Novedades, próximos cursos de formación y ofertas</span></span></span>
+        <span class="grab"><img src="assets/logos/news-logo.svg" alt="NEWS"></span><span class="lcd"><span class="sc"><span style="--d:12s">Novedades, próximos cursos de formación y ofertas</span></span></span>
         <img class="go" src="assets/logos/avhub-play.svg" alt="">
         <span class="panel">
           <span class="marquee"><span>NOVEDADES · PRÓXIMOS CURSOS · OFERTAS · LANZAMIENTOS · EVENTOS PRO-AV · </span></span>
@@ -255,7 +257,7 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 
       <a class="unit" href="https://vjshow.mediaservi.com" target="_blank" rel="noopener noreferrer">
         <span class="ear l"><i></i><span class="handle"></span><i></i></span>
-        <span class="lcd"><img class="iso" src="assets/logos/vjshow-icono.svg" alt="" width="24" height="24"><strong>VJSHOW</strong><em>:</em><span class="sc"><span style="--d:16s">Visuales reactivos al audio para sesiones de VJ y salas inmersivas</span></span></span>
+        <span class="grab"><img src="assets/logos/vjshow-logo.svg" alt="VJSHOW"></span><span class="lcd"><span class="sc"><span style="--d:16s">Visuales reactivos al audio para sesiones de VJ y salas inmersivas</span></span></span>
         <img class="go" src="assets/logos/avhub-play.svg" alt="">
         <span class="panel al">
           <span class="monitor m-md"><canvas id="mon-vj" width="288" height="162"></canvas></span>
@@ -267,7 +269,7 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 
       <a class="unit" href="https://msgame.mediaservi.com" target="_blank" rel="noopener noreferrer">
         <span class="ear l"><i></i><span class="handle"></span><i></i></span>
-        <span class="lcd"><img class="iso" src="assets/logos/msgame-icono.svg" alt="" width="24" height="24"><strong>MSGAME</strong><em>:</em><span class="sc"><span style="--d:16s">Juegos para salas inmersivas con tu móvil como mando</span></span></span>
+        <span class="grab"><img src="assets/logos/msgame-logo.svg" alt="MSGAME"></span><span class="lcd"><span class="sc"><span style="--d:16s">Juegos para salas inmersivas con tu móvil como mando</span></span></span>
         <img class="go" src="assets/logos/avhub-play.svg" alt="">
         <span class="panel al">
           <span class="monitor m-md"><canvas id="mon-game" width="288" height="162"></canvas></span>
