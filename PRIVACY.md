@@ -31,7 +31,6 @@ Como cualquier web, al abrirla tu navegador se conecta a los servicios que la ha
 |---|---|---|
 | GitHub Pages (GitHub, Inc.) | alojamiento de la web | dirección IP y datos técnicos de la conexión, que GitHub registra por seguridad |
 | Google Apps Script y Gmail (Google) | leer textos y datos comunes de la familia y recibir los avisos de fallo | dirección IP; en un aviso de fallo, lo que tú escribas, el correo que indiques (opcional), las capturas que adjuntes, la dirección de la página, el tamaño de pantalla y el tipo de navegador |
-| Google Fonts (Google) | tipos de letra | dirección IP |
 
 Esos proveedores aplican sus propias políticas de privacidad y el autor no tiene acceso a sus registros.
 
