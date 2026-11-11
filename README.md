@@ -22,6 +22,7 @@ Cada sección de AVHUB tiene su isotipo, su color y su nombre en la misma letra.
 - En la landing, cada equipo del rack lleva su logo grabado en el frontal con los colores serigrafiados, y a su lado el LCD con la explicación.
 - **ADPOSTER sustituye a NEWS** en el rack: cartelería digital, con su logo, su enlace y tres displays en vertical en su monitor.
 - Al abrir una app desde el rack, la música de la landing se detiene para no pisar la de la app, y vuelve sola al regresar.
+- Los rótulos en dos idiomas se quedan 8 s cada uno y cambian con un fundido suave, escalonado y distinto en cada párrafo.
 - En el pie: enlace «Aviso legal» (software gratuito hecho por afición, sin garantías; es/en/ca) y la seta roja para avisar de un fallo.
 - El botón de encendido de cada equipo lo apaga (pantallas, visor, testigos y botón de entrar) y lo vuelve a encender; solo afecta a ese equipo y, apagado, no abre su web. Suena un clic de interruptor cada vez. Ni el apagado ni el encendido son de golpe: al apagar, las pantallas se cierran en una línea y los testigos caen uno a uno; al encender, se ve la barra de arranque en el visor, los testigos vuelven en fila y al final abren las pantallas. La luz ambiente sobre el metal del frontal no cambia: el equipo apagado se ve igual de iluminado.
 
@@ -30,3 +31,5 @@ Eslogan: **TOOLS FOR AV PEOPLE**.
 ## Aviso
 
 Software gratuito y de código abierto, hecho con pasión por un aficionado en su tiempo libre. No es un producto profesional. Se ofrece «tal cual», sin garantías de ningún tipo; los resultados son orientativos y hay que comprobarlos siempre; se usa bajo la responsabilidad de cada cual, hasta donde lo permita la ley aplicable. El aviso completo (es/en/ca) está en la propia app, en el enlace «Aviso legal» que acompaña a la línea de crédito. Licencia GPL-3.0.
+
+Documentos legales del repositorio: [`LEGAL.md`](LEGAL.md) (aviso legal), [`DISCLAIMER.md`](DISCLAIMER.md) (garantías y responsabilidad), [`PRIVACY.md`](PRIVACY.md) (privacidad), [`COOKIES.md`](COOKIES.md) (cookies y almacenamiento local) y [`LICENSE`](LICENSE) (GPL-3.0). Sin publicidad, afiliación ni ingresos de ningún tipo.

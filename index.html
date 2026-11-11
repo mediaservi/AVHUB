@@ -66,7 +66,10 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 .kicker{margin-top:clamp(18px,3vh,28px);font:600 clamp(11px,1.6vw,13px)/1 'Share Tech Mono',monospace;letter-spacing:.42em;padding-left:.42em;color:#b3afc4}
 
 /* Lectura técnica: líneas centradas y separadas */
-.hero [data-es]{transition:opacity .5s ease,filter .5s ease}.lang-out [data-es]{opacity:0;filter:blur(10px) brightness(0)}
+/* textos en dos idiomas: cada uno se queda 8 s y el relevo es un fundido suave, escalonado y distinto en cada párrafo */
+[data-es]{transition:opacity .9s ease,filter .9s ease,transform .9s ease}[data-es].lo{opacity:0}
+[data-es].lo.fx0{filter:blur(8px);transform:translateY(7px)}[data-es].lo.fx1{filter:blur(3px);transform:scale(.965)}[data-es].lo.fx2{transform:translateY(-7px)}[data-es].lo.fx3{filter:blur(6px) brightness(1.5)}
+@media (prefers-reduced-motion:reduce){[data-es]{transition:opacity .4s ease}[data-es].lo{filter:none!important;transform:none!important}}
 .readout{margin-top:clamp(16px,2.6vh,24px);display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
 .readout .l1{font:800 clamp(15px,2.3vw,22px)/1.2 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#fff;text-shadow:0 0 18px rgba(225,0,255,.35)}
 .readout .l2{font:600 clamp(12px,1.8vw,15px)/1.2 'Share Tech Mono',monospace;letter-spacing:.24em;color:#c9c5d8;text-transform:uppercase}
@@ -749,13 +752,11 @@ try { if (window.AVFALLO) { var bf = AVFALLO.boton({ app: 'AVHUB', version: '', 
     src.connect(bp).connect(gn).connect(actx.destination); src.start(t0);
   }
 
-  /* ---------- Textos: alternan español / inglés cada 3 s ---------- */
-  const hero = document.querySelector('.hero'), bil = [...document.querySelectorAll('[data-es]')];
-  let lang = 'es';
-  setInterval(() => {
-    hero.classList.add('lang-out');
-    setTimeout(() => { lang = lang === 'es' ? 'en' : 'es'; bil.forEach(el => el.innerHTML = el.dataset[lang]); hero.classList.remove('lang-out'); }, 550);
-  }, 3000);
+  /* ---------- Textos: alternan español / inglés; cada idioma se ve 8 s y cambia con un fundido suave, párrafo a párrafo ---------- */
+  const bil = [...document.querySelectorAll('[data-es]')], VER = 8000, FUNDE = 900;
+  let lang = 'es'; bil.forEach((el, i) => el.classList.add('fx' + (i % 4)));
+  setInterval(() => { lang = lang === 'es' ? 'en' : 'es'; const L = lang;
+    bil.forEach((el, i) => setTimeout(() => { el.classList.add('lo'); setTimeout(() => { el.innerHTML = el.dataset[L]; el.classList.remove('lo'); }, FUNDE + 60); }, i * 170)); }, VER + FUNDE * 2);
 
   /* ===================================================================
      CUENTA ATRÁS
