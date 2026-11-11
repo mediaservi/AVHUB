@@ -28,6 +28,10 @@ Cada sección de AVHUB tiene su isotipo, su color y su nombre en la misma letra.
 
 Eslogan: **TOOLS FOR AV PEOPLE**.
 
+## Sin servidores de terceros para los tipos de letra
+
+La portada lleva sus tipos de letra (Doto, Inter, Share Tech Mono y VT323, todos con licencia OFL) en `assets/fonts/`, así que al abrirla no se pide nada a Google Fonts ni a ninguna otra red de distribución. Licencias en `assets/fonts/LICENCIAS.md`.
+
 ## Aviso
 
 Software gratuito y de código abierto, hecho con pasión por un aficionado en su tiempo libre. No es un producto profesional. Se ofrece «tal cual», sin garantías de ningún tipo; los resultados son orientativos y hay que comprobarlos siempre; se usa bajo la responsabilidad de cada cual, hasta donde lo permita la ley aplicable. El aviso completo (es/en/ca) está en la propia app, en el enlace «Aviso legal» que acompaña a la línea de crédito. Licencia GPL-3.0.
