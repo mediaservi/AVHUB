@@ -32,6 +32,10 @@ Eslogan: **TOOLS FOR AV PEOPLE**.
 
 La portada lleva sus tipos de letra (Doto, Inter, Share Tech Mono y VT323, todos con licencia OFL) en `assets/fonts/`, así que al abrirla no se pide nada a Google Fonts ni a ninguna otra red de distribución. Licencias en `assets/fonts/LICENCIAS.md`.
 
+## Instalable y sin conexión
+
+La portada es una app web instalable: el botón «Instalar» del pie (junto a la seta) la deja como una app más del móvil, la tableta o el ordenador, y se abre aunque no haya internet con la última copia descargada. Archivos: `manifest.json`, `sw.js` (red primero para la página; copia guardada si no hay conexión; la música de fondo va siempre por la red), `instalar.js` (el botón, común a las apps de AVHUB) e iconos en `assets/iconos/`. Cada app de la familia (SCREENS, SYSTEMS, ADPOSTER, VJSHOW y MSGAME) se instala por separado desde su propio botón.
+
 ## Aviso
 
 Software gratuito y de código abierto, hecho con pasión por un aficionado en su tiempo libre. No es un producto profesional. Se ofrece «tal cual», sin garantías de ningún tipo; los resultados son orientativos y hay que comprobarlos siempre; se usa bajo la responsabilidad de cada cual, hasta donde lo permita la ley aplicable. El aviso completo (es/en/ca) está en la propia app, en el enlace «Aviso legal» que acompaña a la línea de crédito. Licencia GPL-3.0.
