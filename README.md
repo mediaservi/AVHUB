@@ -22,6 +22,6 @@ Cada sección de AVHUB tiene su isotipo, su color y su nombre en la misma letra.
 - En la landing, cada equipo del rack lleva su logo grabado en el frontal con los colores serigrafiados, y a su lado el LCD con la explicación.
 - **ADPOSTER sustituye a NEWS** en el rack: cartelería digital, con su logo, su enlace y tres displays en vertical en su monitor.
 - Al abrir una app desde el rack, la música de la landing se detiene para no pisar la de la app, y vuelve sola al regresar.
-- El botón de encendido de cada equipo lo apaga del todo (pantallas, LCD y testigos) y lo vuelve a encender; solo afecta a ese equipo y no abre su web. La flecha sigue llevando a la app.
+- El botón de encendido de cada equipo lo apaga (pantallas, visor, testigos y botón de entrar) y lo vuelve a encender; solo afecta a ese equipo y, apagado, no abre su web. Suena un clic de interruptor cada vez. Ni el apagado ni el encendido son de golpe: al apagar, las pantallas se cierran en una línea y los testigos caen uno a uno; al encender, se ve la barra de arranque en el visor, los testigos vuelven en fila y al final abren las pantallas. La luz ambiente sobre el metal del frontal no cambia: el equipo apagado se ve igual de iluminado.
 
 Eslogan: **TOOLS FOR AV PEOPLE**.

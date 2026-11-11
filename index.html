@@ -105,7 +105,7 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 .unit{position:relative;z-index:1;display:flex;align-items:center;height:104px;margin:0 6px 6px;padding:0 64px;gap:18px;text-decoration:none;color:inherit;border-radius:3px;
   background:linear-gradient(180deg,rgba(255,255,255,.07),transparent 16%,transparent 84%,rgba(0,0,0,.5)),repeating-linear-gradient(90deg,rgba(255,255,255,.012) 0 1px,transparent 1px 3px),#18171c;
   border-top:1px solid rgba(255,255,255,.1);border-bottom:2px solid #000;box-shadow:0 2px 0 #000;transition:filter .25s,box-shadow .25s}
-.unit:hover,.unit:focus-visible,.unit.live{outline:none;filter:brightness(1.12);box-shadow:0 2px 0 #000,0 0 0 1px rgba(153,0,255,.5),0 0 26px rgba(153,0,255,.25)}
+.unit:not(.off):hover,.unit:not(.off):focus-visible,.unit.live{outline:none;filter:brightness(1.12);box-shadow:0 2px 0 #000,0 0 0 1px rgba(153,0,255,.5),0 0 26px rgba(153,0,255,.25)}
 .ear{position:absolute;top:0;bottom:0;width:44px;display:flex;flex-direction:column;justify-content:space-evenly;align-items:center}
 .ear.l{left:0}.ear.r{right:0}
 .ear i{width:13px;height:9px;border-radius:5px;background:#050407;box-shadow:inset 0 1px 2px #000,0 1px 0 rgba(255,255,255,.08)}
@@ -174,12 +174,25 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 .push::after{content:"";position:absolute;left:50%;top:50%;width:2px;height:7px;margin:-8px 0 0 -1px;border-radius:1px;background:#ff5a4d;box-shadow:0 0 3px #ff2a1f,0 0 6px rgba(255,42,31,.8)}
 /* botón de encendido: apaga del todo ese equipo (y solo ese); no abre su web */
 .push{cursor:pointer}.push:focus-visible{outline:2px solid #9900ff;outline-offset:3px}.push:active{transform:translateY(1px)}
-.unit.off{cursor:default;filter:brightness(.6)!important;box-shadow:0 2px 0 #000!important}
-.unit.off .lcd .sc,.unit.off .monitor canvas{visibility:hidden}
+/* equipo apagado: la luz ambiente sobre el metal no cambia (el frontal se ve igual); solo se apagan las pantallas, los testigos y el botón de entrar.
+   Ni el apagado ni el encendido son de golpe: las pantallas se cierran en una línea y los testigos caen uno a uno; al encender, arranque con barra de carga. */
+.unit.off{cursor:default}.unit.off:focus-visible{outline:none}
+.lcd .sc,.monitor canvas{transition:opacity .25s}.monitor{transition:box-shadow .6s}.go{transition:transform .25s,opacity .7s}.push::before,.push::after{transition:border-color .35s,background .35s,box-shadow .35s,filter .35s}
+.unit.off .lcd .sc,.unit.off .monitor canvas{opacity:0}
 .unit.off .monitor{box-shadow:inset 0 0 0 1px #000,0 0 0 1px rgba(255,255,255,.06)}
-.unit.off [data-blink]{background:#15161a!important;box-shadow:inset 0 1px 1px #000!important}
-.unit.off .go{opacity:.3;transform:none!important}.unit.off .go .ring{animation:none!important}.unit.off .go .pl{filter:grayscale(1) brightness(.5)!important}
+.led.dark{background:#1b1c20!important;box-shadow:inset 0 1px 1px #000,0 1px 0 rgba(255,255,255,.06)!important;transition:background .3s,box-shadow .3s}
+.unit.off .go{opacity:.3;transform:none!important}.unit.off .go .ring{animation:none!important;opacity:0}.unit.off .go .pl{filter:grayscale(1) brightness(.5)!important}.go .ring{transition:opacity .6s}.go .pl{transition:filter .6s}
 .unit.off .push::before{border-color:#4a110d;border-top-color:transparent;filter:none}.unit.off .push::after{background:#4a110d;box-shadow:none}
+.unit.bye .monitor canvas{animation:crtOff .62s cubic-bezier(.5,0,.8,.4) both}.unit.bye .lcd .sc{animation:lcdOff .75s linear both}
+.unit.boot .monitor canvas{animation:crtOn .7s cubic-bezier(.2,.7,.3,1) .95s both}.unit.boot .lcd .sc{animation:lcdOn .5s steps(1) 1.15s both}.unit.boot .go{animation:goOn .6s ease 1.3s both}
+.lcd .bootmsg{position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;font:400 25px/1 'VT323',monospace;letter-spacing:.05em;white-space:nowrap;color:var(--uc,var(--green));text-shadow:0 0 9px rgba(var(--ug,0,255,4),.8),0 0 2px rgba(var(--ug,0,255,4),.6);pointer-events:none}
+.lcd{position:relative}
+@keyframes crtOff{0%{transform:none;filter:brightness(1);opacity:1}38%{transform:scale(1,.035);filter:brightness(3.2);opacity:1}72%{transform:scale(.03,.03);filter:brightness(6);opacity:1}100%{transform:scale(0,0);filter:brightness(6);opacity:0}}
+@keyframes crtOn{0%{transform:scale(.02,.03);filter:brightness(6);opacity:0}6%{transform:scale(.02,.03);filter:brightness(6);opacity:1}30%{transform:scale(1,.035);filter:brightness(3.5);opacity:1}62%{transform:none;filter:brightness(2.1);opacity:1}100%{transform:none;filter:brightness(1);opacity:1}}
+@keyframes lcdOff{0%{opacity:1}14%{opacity:.35}22%{opacity:.95}40%{opacity:.5}100%{opacity:0}}
+@keyframes lcdOn{0%{opacity:0}20%{opacity:.8}40%{opacity:.15}60%,100%{opacity:1}}
+@keyframes goOn{0%{opacity:.3}100%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.unit.bye .monitor canvas,.unit.bye .lcd .sc,.unit.boot .monitor canvas,.unit.boot .lcd .sc,.unit.boot .go{animation:none}}
 .port{display:flex;flex-direction:column;align-items:center;gap:4px;font:600 7px/1 'Share Tech Mono',monospace;letter-spacing:.06em;color:#8d8a9c;white-space:nowrap}
 .hdmi{width:28px;height:11px;background:#000;border:2px solid #a9adb4;clip-path:polygon(0 0,100% 0,100% 55%,86% 100%,14% 100%,0 55%);position:relative}
 .hdmi::after{content:'';position:absolute;left:4px;right:4px;top:3px;height:2px;background:#c9a227}
@@ -472,9 +485,25 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 
   const units = [...document.querySelectorAll('.unit')];
   if (!reduce) setInterval(() => { units.forEach(u => u.classList.remove('live')); const on = units.filter(u => !u.classList.contains('off')); if (on.length) pick(on).classList.add('live'); }, 3000);
+  // clic del pulsador (sintetizado): chasquido del interruptor más un golpe grave; al encender, un segundo clic de relé y un tono que sube; al apagar, un tono que cae
+  let pctx = null;
+  const clicPower = on => { try { pctx = pctx || new (window.AudioContext || window.webkitAudioContext)(); pctx.resume(); const t = pctx.currentTime + .005, sr = pctx.sampleRate;
+    const chas = (t0, f, v) => { const n = Math.floor(sr * .035), bf = pctx.createBuffer(1, n, sr), d = bf.getChannelData(0); for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, 7); const sc = pctx.createBufferSource(), bp = pctx.createBiquadFilter(), g = pctx.createGain(); sc.buffer = bf; bp.type = 'bandpass'; bp.frequency.value = f; bp.Q.value = 1.1; g.gain.value = v; sc.connect(bp); bp.connect(g); g.connect(pctx.destination); sc.start(t0); };
+    const tono = (t0, f1, f2, dur, v, tipo) => { const o = pctx.createOscillator(), g = pctx.createGain(); o.type = tipo || 'sine'; o.frequency.setValueAtTime(f1, t0); o.frequency.exponentialRampToValueAtTime(f2, t0 + dur); g.gain.setValueAtTime(.0001, t0); g.gain.exponentialRampToValueAtTime(v, t0 + .012); g.gain.exponentialRampToValueAtTime(.0001, t0 + dur); o.connect(g); g.connect(pctx.destination); o.start(t0); o.stop(t0 + dur + .02); };
+    chas(t, on ? 2700 : 1900, .55); tono(t, on ? 150 : 115, 48, .09, .4);
+    if (on) { chas(t + .2, 3400, .22); tono(t + .22, 90, 420, .75, .035, 'triangle'); } else tono(t + .03, 520, 60, .55, .04, 'triangle'); } catch (e) {} };
   // botón de encendido de cada equipo: lo apaga o lo enciende; apagado, el equipo no abre su web
   document.querySelectorAll('.push').forEach(p => { const u = p.closest('.unit'); p.setAttribute('role', 'button'); p.tabIndex = 0; p.setAttribute('aria-label', 'POWER'); p.setAttribute('aria-pressed', 'true');
-    const tog = e => { e.preventDefault(); e.stopPropagation(); const off = u.classList.toggle('off'); u.classList.remove('live'); p.setAttribute('aria-pressed', String(!off)); };
+    const leds = [...u.querySelectorAll('.led')], lcd = u.querySelector('.lcd'); let ts = [];
+    const luego = (f, ms) => ts.push(setTimeout(f, reduce ? 0 : ms)), limpia = () => { ts.forEach(clearTimeout); ts = []; u.classList.remove('bye', 'boot'); const m = lcd && lcd.querySelector('.bootmsg'); if (m) m.remove(); };
+    const tog = e => { e.preventDefault(); e.stopPropagation(); const off = !u.classList.contains('off'); limpia(); clicPower(!off); u.classList.remove('live'); p.setAttribute('aria-pressed', String(!off));
+      if (off) {   // apagar: las pantallas se cierran en una línea, los testigos caen uno a uno y el botón de entrar se va quedando sin luz
+        u.classList.add('off', 'bye'); leds.forEach((l, i) => luego(() => l.classList.add('dark'), 90 + i * 70)); luego(() => u.classList.remove('bye'), 900);
+      } else {     // encender: primero el piloto, luego los testigos en fila, la barra de carga en el visor y, al final, las pantallas
+        u.classList.remove('off'); u.classList.add('boot'); leds.forEach(l => l.classList.add('dark')); leds.forEach((l, i) => luego(() => l.classList.remove('dark'), 260 + i * 110));
+        if (lcd && !reduce) { const m = document.createElement('i'); m.className = 'bootmsg'; lcd.appendChild(m); for (let k = 0; k <= 8; k++) luego(() => { m.textContent = 'BOOT [' + '#'.repeat(k) + '-'.repeat(8 - k) + ']'; }, 120 + k * 115); luego(() => m.remove(), 1150); }
+        luego(() => u.classList.remove('boot'), 2000);
+      } };
     p.addEventListener('click', tog); p.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') tog(e); }); });
   units.forEach(u => u.addEventListener('click', e => { if (u.classList.contains('off')) e.preventDefault(); }));
 
