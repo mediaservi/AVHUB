@@ -16,6 +16,7 @@ Cada sección de AVHUB tiene su isotipo, su color y su nombre en la misma letra.
 | MSGAME | Calavera que guiña con una cruceta | Magenta `#e100ff` | `msgame-icono.svg`, `msgame-logo.svg`, `msgame-logo-lema.svg` |
 
 - **Nombre:** Inter 800 en minúsculas, interletra −0,045 em. El prefijo va en el color de la app («ms», «vj»); el resto, en claro `#f2f4f7`.
+- **MSGAME** lleva logotipo propio: «MS» en dos fichas moradas con la misma letra que GAME y sombra verde.
 - **Lema:** Share Tech Mono en mayúsculas, interletra 0,16 em.
 - **Isotipo:** trazo redondeado sobre fondo oscuro; sirve de icono de pestaña y de avatar.
 - Los nombres van convertidos a trazados, así que los SVG no dependen de ninguna fuente. Están pensados para fondo oscuro.
