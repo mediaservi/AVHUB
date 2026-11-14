@@ -23,7 +23,7 @@ Cada sección de AVHUB tiene su isotipo, su color y su nombre en la misma letra.
 - **ADPOSTER sustituye a NEWS** en el rack: cartelería digital, con su logo, su enlace y tres displays en vertical en su monitor.
 - Al abrir una app desde el rack, la música de la landing se detiene para no pisar la de la app, y vuelve sola al regresar.
 - Los rótulos en dos idiomas se quedan 8 s cada uno y cambian con un fundido suave, escalonado y distinto en cada párrafo.
-- En el pie: enlace «Aviso legal» (software gratuito hecho por afición, sin garantías; es/en/ca) y la seta roja para avisar de un fallo.
+- En el pie: enlace «Aviso legal» (software gratuito hecho por afición, sin garantías; es/en/ca). La portada no lleva botón de instalar ni seta de fallos: cada app se instala por separado desde la suya, y los fallos de la portada los arreglamos nosotros.
 - El botón de encendido de cada equipo lo apaga (pantallas, visor, testigos y botón de entrar) y lo vuelve a encender; solo afecta a ese equipo y, apagado, no abre su web. Suena un clic de interruptor cada vez. Ni el apagado ni el encendido son de golpe: al apagar, las pantallas se cierran en una línea y los testigos caen uno a uno; al encender, se ve la barra de arranque en el visor, los testigos vuelven en fila y al final abren las pantallas. La luz ambiente sobre el metal del frontal no cambia: el equipo apagado se ve igual de iluminado.
 
 Eslogan: **TOOLS FOR AV PEOPLE**.
@@ -34,7 +34,7 @@ La portada lleva sus tipos de letra (Doto, Inter, Share Tech Mono y VT323, todos
 
 ## Instalable y sin conexión
 
-La portada es una app web instalable: el botón «Instalar» del pie (junto a la seta) la deja como una app más del móvil, la tableta o el ordenador, y se abre aunque no haya internet con la última copia descargada. Archivos: `manifest.json`, `sw.js` (red primero para la página; copia guardada si no hay conexión; la música de fondo va siempre por la red), `instalar.js` (el botón, común a las apps de AVHUB) e iconos en `assets/iconos/`. Cada app de la familia (SCREENS, SYSTEMS, ADPOSTER, VJSHOW y MSGAME) se instala por separado desde su propio botón.
+Desde el 14-11-2026 la portada no tiene botón «Instalar» ni seta de fallos: cada app de la familia (SCREENS, SYSTEMS, ADPOSTER, VJSHOW y MSGAME) se instala por separado desde su propio botón. Quedan `manifest.json` y `sw.js` (red primero para la página; copia guardada si no hay conexión) para quien ya la tenía instalada; `instalar.js` y `fallo.js` siguen en el repositorio como copia de referencia para las apps.
 
 ## Aviso
 
