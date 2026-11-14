@@ -331,18 +331,14 @@ canvas#fx{position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-e
 
   <footer class="site-foot">
     <div id="acc-beta"><span class="wip-led"></span>WORK IN PROGRESS</div>
-    <div class="foot-r"><span id="acc-admin">BY</span> <a href="https://mediaservi.com" target="_blank" rel="noopener">MEDIASERVI.COM</a> · <a href="#aviso" data-aviso="AVHUB" data-es="AVISO LEGAL" data-en="LEGAL NOTICE">AVISO LEGAL</a><span id="foot-fallo"></span></div>
+    <div class="foot-r"><span id="acc-admin">BY</span> <a href="https://mediaservi.com" target="_blank" rel="noopener">MEDIASERVI.COM</a> · <a href="#aviso" data-aviso="AVHUB" data-es="AVISO LEGAL" data-en="LEGAL NOTICE">AVISO LEGAL</a></div>
   </footer>
 </main>
 
 <script src="credito.js"></script>
-<script src="fallo.js"></script>
-<script src="instalar.js"></script>
-<script>/* aviso legal, botón de instalar y seta de aviso de fallos, comunes a toda la familia */
+<script>/* aviso legal, común a toda la familia (la portada no lleva botón de instalar ni seta de fallos: cada app se instala por separado y los fallos de la portada los arreglamos nosotros) */
 var avLang = function () { return String(navigator.language || 'es').slice(0, 2).toLowerCase(); };   // la portada alterna los rótulos en dos idiomas: el aviso y la seta van en el del navegador
 try { document.querySelector('[data-aviso]').setAttribute('data-idioma', avLang()); } catch (e) {}
-try { if (window.AVFALLO) { var bf = AVFALLO.boton({ app: 'AVHUB', version: '', idioma: avLang }); bf.style.setProperty('--avf', '28px'); document.getElementById('foot-fallo').appendChild(bf); } } catch (e) {}
-try { if (window.AVINSTALA) { var bn = AVINSTALA.boton({ app: 'AVHUB', idioma: avLang, sw: 'sw.js' }); bn.style.setProperty('--avi', '28px'); var ff = document.getElementById('foot-fallo'); ff.insertBefore(bn, ff.firstChild); } } catch (e) {}   // instala la portada como una app y la deja lista sin conexión
 </script>
 <audio id="bg-music" src="assets/audio/music-digital-technology.mp3" loop preload="auto" autoplay></audio>
 
