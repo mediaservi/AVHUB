@@ -13,7 +13,7 @@ Cada sección de AVHUB tiene su isotipo, su color y su nombre en la misma letra.
 | SYSTEMS | Conector de tres pines | Azul `#00b4ff` | `systems-icono.svg`, `systems-logo.svg`, `systems-logo-lema.svg` |
 | ADPOSTER | Caballete con cartel | Ámbar `#ffb000` | `adposter-icono.svg`, `adposter-logo.svg`, `adposter-logo-lema.svg` |
 | VJSHOW | Sala inmersiva | Verde `#00ff04` | `vjshow-icono.svg`, `vjshow-logo.svg`, `vjshow-logo-lema.svg` |
-| MSGAME | Cartucho calavera | Magenta `#e100ff` | `msgame-icono.svg`, `msgame-logo.svg`, `msgame-logo-lema.svg` |
+| MSGAME | Calavera que guiña con una cruceta | Magenta `#e100ff` | `msgame-icono.svg`, `msgame-logo.svg`, `msgame-logo-lema.svg` |
 
 - **Nombre:** Inter 800 en minúsculas, interletra −0,045 em. El prefijo va en el color de la app («ms», «vj»); el resto, en claro `#f2f4f7`.
 - **Lema:** Share Tech Mono en mayúsculas, interletra 0,16 em.
