@@ -1,0 +1,16 @@
+Frontal+posterior|Front+rear|Frontal+posterior|Frontal+posterior|Aurrealdea+atzealdea|Frontal+posterior
+Frontal|Front|Frontal|Frontal|Aurrealdea|Frontal
+Posterior|Rear|Posterior|Posterior|Atzealdea|Posterior
+Trasero|Rear|Posterior|Traseiro|Atzealdea|Traseiro
+Chasis|Chassis|Xassís|Chasis|Xasia|Chassis
+(proyecto|(project|(projecte|(proxecto|(proiektua|(projeto
+cab/puerto|cab/port|cab/port|cab/porto|kab/ataka|cab/porta
+de alto|high|d'alt|de alto|altu|de altura
+de ancho|wide|d'ample|de ancho|zabal|de largura
+salidas HDMI 2.0|HDMI 2.0 outputs|sortides HDMI 2.0|saídas HDMI 2.0|HDMI 2.0 irteerak|saídas HDMI 2.0
+salidas HDMI|HDMI outputs|sortides HDMI|saídas HDMI|HDMI irteerak|saídas HDMI
+salidas fibra 10G|10G fiber outputs|sortides fibra 10G|saídas fibra 10G|10G zuntz irteerak|saídas fibra 10G
+capas 4K60|4K60 layers|capes 4K60|capas 4K60|4K60 geruza|camadas 4K60
+verificar entradas en ficha|check inputs in the datasheet|verificar entrades a la fitxa|verificar entradas na ficha|egiaztatu sarrerak fitxan|verificar entradas na ficha
+switcher 4K60|4K60 switcher|switcher 4K60|switcher 4K60|4K60 switcher-a|switcher 4K60
+entradas|inputs|entrades|entradas|sarrera|entradas
