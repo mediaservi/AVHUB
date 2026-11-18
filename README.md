@@ -37,6 +37,9 @@ La portada lleva sus tipos de letra (Doto, Inter, Share Tech Mono y VT323, todos
 
 Desde el 14-11-2026 la portada no tiene botón «Instalar» ni seta de fallos: cada app de la familia (SCREENS, SYSTEMS, ADPOSTER, VJSHOW y MSGAME) se instala por separado desde su propio botón. Quedan `manifest.json` y `sw.js` (red primero para la página; copia guardada si no hay conexión) para quien ya la tenía instalada; `instalar.js` y `fallo.js` siguen en el repositorio como copia de referencia para las apps.
 
+## Sin caché
+Desde el 18-11-2026, las páginas llevan las etiquetas equivalentes a `Cache-Control: no-cache, no-store, must-revalidate` y el service worker pide siempre al servidor, revalidando, sin pasar por la copia del navegador. Sin conexión sigue funcionando con la copia guardada.
+
 ## Aviso
 
 Software gratuito y de código abierto, hecho con pasión por un aficionado en su tiempo libre. No es un producto profesional. Se ofrece «tal cual», sin garantías de ningún tipo; los resultados son orientativos y hay que comprobarlos siempre; se usa bajo la responsabilidad de cada cual, hasta donde lo permita la ley aplicable. El aviso completo (es/en/ca) está en la propia app, en el enlace «Aviso legal» que acompaña a la línea de crédito. Licencia GPL-3.0.
