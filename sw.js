@@ -4,22 +4,24 @@
    · Lo que no es de este sitio (avisos, crédito, directo) y los vídeos y audios a trozos van siempre por la red.
    Para forzar una copia nueva en todos los dispositivos, sube el número de CACHE.
    Licencia GPL-3.0 · mediaservi.com */
-const PREFIJO = 'avhub-', CACHE = PREFIJO + 'v9';
+const PREFIJO = 'avhub-', CACHE = PREFIJO + 'v10';
 const BASICO = ['./', 'index.html', 'credito.js', 'manifest.json', 'assets/iconos/avhub-192.png', 'assets/fonts/doto-latin-600-normal.woff2', 'assets/fonts/doto-latin-800-normal.woff2', 'assets/fonts/doto-latin-900-normal.woff2', 'assets/fonts/inter-latin-400-normal.woff2', 'assets/fonts/inter-latin-600-normal.woff2', 'assets/fonts/inter-latin-800-normal.woff2', 'assets/fonts/inter-latin-900-normal.woff2', 'assets/fonts/share-tech-mono-latin-400-normal.woff2', 'assets/fonts/vt323-latin-400-normal.woff2', 'assets/logos/adposter-logo.svg', 'assets/logos/avhub-apple-touch.png', 'assets/logos/avhub-isotipo.svg', 'assets/logos/avhub-logo.svg', 'assets/logos/avhub-og.jpg', 'assets/logos/avhub-play.svg', 'assets/logos/msgame-logo.svg?v=5', 'assets/logos/screens-logo.svg', 'assets/logos/systems-logo.svg', 'assets/logos/vjshow-logo.svg', 'assets/rack/screencalc-chart.webp'];   // lo mínimo para arrancar sin conexión desde la primera visita
 const FRESCO = /(\/|\.html?|\.json|\.js|\.css|\.webmanifest)$/i, TOPE = 6000;
 const clave = u => { const x = new URL(u, self.registration.scope); x.search = ''; x.hash = ''; return x.href; };
 const vale = r => r && r.status === 200 && r.type !== 'opaque';
+/* sin caché (18-11-2026): lo de la propia app se pide siempre al servidor revalidando, sin pasar por la copia del navegador (GitHub Pages sirve con 10 minutos de caducidad y no admite cabeceras propias) */
+const pide = req => (new URL(req.url).origin === self.location.origin ? fetch(req.url, { cache: 'no-cache', credentials: 'same-origin' }) : fetch(req));
 
 self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then(c => Promise.all(BASICO.map(u => fetch(new Request(u, { cache: 'reload' })).then(r => vale(r) ? c.put(clave(u), r) : 0).catch(() => 0))))); });
 self.addEventListener('activate', e => e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k.indexOf(PREFIJO) === 0 && k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())));
 
 async function fresco(req) { const c = await caches.open(CACHE), k = clave(req.url), ya = await c.match(k);
-  const red = fetch(req).then(r => { if (vale(r)) c.put(k, r.clone()).catch(() => {}); return r; });
+  const red = pide(req).then(r => { if (vale(r)) c.put(k, r.clone()).catch(() => {}); return r; });
   if (!ya) return red;                                                    // nunca se ha guardado: no queda otra que esperar a la red
   red.catch(() => {});
   return Promise.race([red, new Promise((_, no) => setTimeout(no, TOPE))]).catch(() => ya); }   // sin red o red lenta: la copia guardada
 async function guardado(req) { const c = await caches.open(CACHE), ya = await c.match(req.url);
-  const red = fetch(req).then(async r => { if (vale(r)) { const viejas = await c.keys(clave(req.url), { ignoreSearch: true }); await Promise.all(viejas.filter(q => q.url !== req.url && clave(q.url) === clave(req.url)).map(q => c.delete(q))); await c.put(req.url, r.clone()); } return r; });
+  const red = pide(req).then(async r => { if (vale(r)) { const viejas = await c.keys(clave(req.url), { ignoreSearch: true }); await Promise.all(viejas.filter(q => q.url !== req.url && clave(q.url) === clave(req.url)).map(q => c.delete(q))); await c.put(req.url, r.clone()); } return r; });
   if (ya) { red.catch(() => {}); return ya; }
   return red.catch(async () => (await c.match(clave(req.url), { ignoreSearch: true })) || Response.error()); }
 
