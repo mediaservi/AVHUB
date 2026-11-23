@@ -1,6 +1,10 @@
 # AVHUB
 AVHUB is your assessor for AV projects in an easy, helpful, and handy APP.
 
+## Icono
+
+Icono de pestaña y de app (noviembre 2026) en el estilo de placa de la familia: placa con degradado negro a morado, filete negro y sombra verde, con la A del play. Ficheros: `assets/logos/avhub-icono.svg`, `assets/logos/avhub-icono-180.png` y `assets/iconos/avhub-192/512/maskable-512.png`.
+
 ## Logos de la familia
 
 ![Hoja de logos de AVHUB](assets/logos/hoja-logos.png)
