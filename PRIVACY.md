@@ -36,7 +36,7 @@ Y **no** envía ni guarda: cookies, identificadores, huellas del navegador, dire
 - **Para qué:** contar visitas y saber qué enlaces funcionan. Nada más.
 - **Base jurídica:** interés legítimo en conocer, de forma agregada y anónima, el uso de la portada de AVHUB (art. 6.1.f del RGPD). Al no usar cookies ni acceder a tu dispositivo, no requiere aviso de consentimiento.
 - **Conservación:** los recuentos se guardan un máximo de 24 meses.
-- **Si no quieres contar:** activa «Do Not Track» o «Global Privacy Control» en tu navegador y el contador no envía nada. Mientras el autor no lo configure, está apagado.
+- **Si no quieres contar:** activa «Do Not Track» o «Global Privacy Control» en tu navegador y el contador no envía nada. Activo desde el 24-11-2026; en el panel solo quedan recuentos por día.
 
 ## Servicios externos que intervienen
 
