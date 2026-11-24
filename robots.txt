@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /mockup/
+Disallow: /docs/
+
+Sitemap: https://avhub.mediaservi.com/sitemap.xml
