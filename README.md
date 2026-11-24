@@ -48,7 +48,7 @@ Desde el 18-11-2026, las páginas llevan las etiquetas equivalentes a `Cache-Con
 Arreglado el QR impreso: `avhub.mediaservi.com/qr` daba ERR_FAILED en móviles con la app ya visitada, porque el service worker entregaba la respuesta redirigida a `/qr/`. Ahora devuelve una redirección limpia y no la guarda; caché renovada (`avhub-v12`).
 
 ## Contador y vigilante (24-11-2026)
-Contador de visitas activo, anónimo y sin cookies: la portada y el QR mandan al panel AVHUB ADMIN la página, las etiquetas utm y el dominio de procedencia; el panel solo guarda recuentos por día (24 meses). Los escaneos del QR cuentan con fuente «qr». El panel comprueba el QR cada hora y avisa por correo si falla; estado y cifras en su pestaña ANALÍTICA.
+Contador de visitas activo, anónimo y sin cookies: la portada y el QR mandan al panel AVHUB ADMIN la página, las etiquetas utm y el dominio de procedencia; el panel solo guarda recuentos por día (24 meses). Los escaneos del QR cuentan con fuente «qr». El panel comprueba el QR cada hora y avisa por correo si falla; estado y cifras en su pestaña ANALÍTICA. Además, la tarea «Vigilante del QR» (`.github/workflows/vigia-qr.yml`) abre cada hora el QR en un Chrome real, recién llegado y con la app ya instalada, y manda el resultado al panel; si falla, sale en rojo y GitHub avisa por correo.
 
 ## Aviso
 
