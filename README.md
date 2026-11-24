@@ -47,6 +47,9 @@ Desde el 18-11-2026, las páginas llevan las etiquetas equivalentes a `Cache-Con
 ## QR (24-11-2026)
 Arreglado el QR impreso: `avhub.mediaservi.com/qr` daba ERR_FAILED en móviles con la app ya visitada, porque el service worker entregaba la respuesta redirigida a `/qr/`. Ahora devuelve una redirección limpia y no la guarda; caché renovada (`avhub-v12`).
 
+## Contador y vigilante (24-11-2026)
+Contador de visitas activo, anónimo y sin cookies: la portada y el QR mandan al panel AVHUB ADMIN la página, las etiquetas utm y el dominio de procedencia; el panel solo guarda recuentos por día (24 meses). Los escaneos del QR cuentan con fuente «qr». El panel comprueba el QR cada hora y avisa por correo si falla; estado y cifras en su pestaña ANALÍTICA.
+
 ## Aviso
 
 Software gratuito y de código abierto, hecho con pasión por un aficionado en su tiempo libre. No es un producto profesional. Se ofrece «tal cual», sin garantías de ningún tipo; los resultados son orientativos y hay que comprobarlos siempre; se usa bajo la responsabilidad de cada cual, hasta donde lo permita la ley aplicable. El aviso completo (es/en/ca) está en la propia app, en el enlace «Aviso legal» que acompaña a la línea de crédito. Licencia GPL-3.0.

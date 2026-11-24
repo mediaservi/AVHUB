@@ -29,6 +29,10 @@
     if (!/^https:\/\//i.test(u || '')) u = DEFECTO;
     location.replace(u);
   }
+  /* 24-11-2026 · cuenta el escaneo (anónimo y sin cookies: solo suma 1 al día en el panel; respeta Do Not Track y GPC; ?vigia=1 no cuenta) */
+  try { if (!/[?&]vigia=1/.test(location.search) && !navigator.globalPrivacyControl && navigator.doNotTrack !== '1' && navigator.sendBeacon) {
+    var q = new URLSearchParams(location.search), g = function (k) { return (q.get(k) || '').slice(0, 80); };
+    navigator.sendBeacon(ADMIN_URL, new Blob([JSON.stringify({ t: 'stats', s: location.hostname, p: '/qr/', us: g('utm_source') || 'qr', uc: g('utm_campaign'), ut: g('utm_content'), r: '' })], { type: 'text/plain;charset=utf-8' })); } } catch (e) {}
   setTimeout(function () { ir(DEFECTO); }, 3500);
   fetch(ADMIN_URL + '?accion=qr', { cache: 'no-store' })
     .then(function (r) { return r.json(); })

@@ -830,7 +830,7 @@ try { document.querySelector('[data-aviso]').setAttribute('data-idioma', avLang(
 <script>/* contador de visitas anónimo y sin cookies (campañas): manda la página, utm_source/utm_campaign/utm_content y el dominio de procedencia
    al /exec del panel AVHUB ADMIN. Sin identificadores, sin cookies (credentials: 'omit') y sin guardar nada en el navegador.
    Desactivado mientras MS_STATS_URL esté vacío; respeta «Do Not Track» y «Global Privacy Control». Detalle en PRIVACY.md */
-window.MS_STATS_URL = window.MS_STATS_URL || '';
+window.MS_STATS_URL = window.MS_STATS_URL || 'https://script.google.com/macros/s/AKfycbwkc12y4LODbFe-kQidnR2MbbA6cbW1WbhU3UiqmDmshx-ncAdGYrFRy8PNjm9Wg6Mx3w/exec';   // 24-11-2026 · activo: el panel AVHUB ADMIN guarda solo recuentos por día
 (function () { var u = window.MS_STATS_URL; if (!u || navigator.globalPrivacyControl || navigator.doNotTrack === '1') return;
   try { var q = new URLSearchParams(location.search), g = function (k) { return (q.get(k) || '').slice(0, 80); }, r = '';
     try { r = document.referrer ? new URL(document.referrer).hostname : ''; } catch (e) {} if (r === location.hostname) r = '';
