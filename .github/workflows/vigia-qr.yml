@@ -1,0 +1,22 @@
+# Vigilante del QR: cada hora abre avhub.mediaservi.com/qr en un Chrome real (recién llegado y con la app ya instalada)
+# y manda el resultado a la pestaña ANALÍTICA del panel AVHUB ADMIN. Si falla, la tarea sale en rojo y GitHub avisa por correo.
+name: Vigilante del QR
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  qr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/vigia
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm i --no-save --no-audit --no-fund playwright@1.48.2 && npx playwright install --with-deps chromium
+      - run: node .github/vigia/vigia.mjs
