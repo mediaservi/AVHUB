@@ -44,6 +44,9 @@ Desde el 14-11-2026 la portada no tiene botón «Instalar» ni seta de fallos: c
 ## Sin caché
 Desde el 18-11-2026, las páginas llevan las etiquetas equivalentes a `Cache-Control: no-cache, no-store, must-revalidate` y el service worker pide siempre al servidor, revalidando, sin pasar por la copia del navegador. Sin conexión sigue funcionando con la copia guardada.
 
+## QR (24-11-2026)
+Arreglado el QR impreso: `avhub.mediaservi.com/qr` daba ERR_FAILED en móviles con la app ya visitada, porque el service worker entregaba la respuesta redirigida a `/qr/`. Ahora devuelve una redirección limpia y no la guarda; caché renovada (`avhub-v12`).
+
 ## Aviso
 
 Software gratuito y de código abierto, hecho con pasión por un aficionado en su tiempo libre. No es un producto profesional. Se ofrece «tal cual», sin garantías de ningún tipo; los resultados son orientativos y hay que comprobarlos siempre; se usa bajo la responsabilidad de cada cual, hasta donde lo permita la ley aplicable. El aviso completo (es/en/ca) está en la propia app, en el enlace «Aviso legal» que acompaña a la línea de crédito. Licencia GPL-3.0.
