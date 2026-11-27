@@ -50,6 +50,12 @@ Arreglado el QR impreso: `avhub.mediaservi.com/qr` daba ERR_FAILED en móviles c
 ## Contador y vigilante (24-11-2026)
 Contador de visitas activo, anónimo y sin cookies: la portada y el QR mandan al panel AVHUB ADMIN la página, las etiquetas utm y el dominio de procedencia; el panel solo guarda recuentos por día (24 meses). Los escaneos del QR cuentan con fuente «qr». El panel comprueba el QR cada hora y avisa por correo si falla; estado y cifras en su pestaña ANALÍTICA. Además, la tarea «Vigilante del QR» (`.github/workflows/vigia-qr.yml`) abre cada hora el QR en un Chrome real, recién llegado y con la app ya instalada, y manda el resultado al panel; si falla, sale en rojo y GitHub avisa por correo.
 
+## Accesos directos (27-11-2026)
+En el pie, junto a «Aviso legal», el enlace **ACCESOS DIRECTOS** abre una ventana con la dirección de la portada (resaltada, «Estás aquí») y la de cada app: SCREENS, SYSTEMS, ADPOSTER, VJSHOW y MSGAME. Cada línea lleva el nombre (abre la app), la dirección entera para leerla o dictarla y un botón COPIAR. En español, inglés o catalán según el navegador; `avhub.mediaservi.com/#accesos` la abre directamente. Probada en TV, ordenador, tablet y móvil vertical y horizontal.
+
+## BRIAN (27-11-2026)
+Iconos de BRIAN, el cerebro de cálculo del panel AVHUB ADMIN: `assets/iconos/brian-512/192/180/64.png`, `brian-cab-96.png` (cabecera) y `assets/brian/brian-logo.png`.
+
 ## Aviso
 
 Software gratuito y de código abierto, hecho con pasión por un aficionado en su tiempo libre. No es un producto profesional. Se ofrece «tal cual», sin garantías de ningún tipo; los resultados son orientativos y hay que comprobarlos siempre; se usa bajo la responsabilidad de cada cual, hasta donde lo permita la ley aplicable. El aviso completo (es/en/ca) está en la propia app, en el enlace «Aviso legal» que acompaña a la línea de crédito. Licencia GPL-3.0.
